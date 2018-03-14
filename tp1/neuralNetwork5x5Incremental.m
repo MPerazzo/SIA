@@ -36,13 +36,18 @@ auxOne2 = ones(5,1);
 S = A.data(:, 3)';
 
 epochs = 3000;
-eta = 0.2;
+eta = 0.005;
 
-Err = zeros(epochs*cantEntries,1);
+Err = 0;
 
-ErrT = zeros(epochs*cantEntries,1);
+ErrT = 0;
 
 k = 0;
+
+hold on
+ylim([0 0.001])
+xlabel('Epochs')
+ylabel('Errors')
 
 for i = 1:epochs
     for j = 1:cantEntries
@@ -57,29 +62,34 @@ for i = 1:epochs
         w2 = w2 + eta * delta2 * V1(:,j)';
         delta1 = (auxOne2 - V1(2:6, j).^2).*(w2(:,2:6)' * delta2);
         w1 = w1 + eta * delta1 * in(:,j)';
-        
-        %learning error
-        Err((i-1)*cantEntries + j) = 0.5*(S(j) - V3(j))^2;
-        
-        %aux = mod(k,cantEntries-total) + 1;
-        %testing value
-        V1T(2:6,:) = tanh(w1 * inT);
-        V2T(2:6,:) = tanh(w2 * V1T);
-        V3T = tanh(w3 * V2T);
-        
-        %testing error
-        ErrT((i-1)*cantEntries + j) = sum(0.5*(S((cantEntries+1):total) - V3T).^2)/(total-cantEntries);
     end
     in(:,randperm(cantEntries));
+    
+            
+    %learning error
+    Err = 0.5*sum((S(1:cantEntries) - V3).^2)/cantEntries;
+
+    %testing value
+    V1T(2:6,:) = tanh(w1 * inT);
+    V2T(2:6,:) = tanh(w2 * V1T);
+    V3T = tanh(w3 * V2T);
+
+    %testing error
+    ErrT = 0.5*sum((S((cantEntries+1):total) - V3T).^2)/(total-cantEntries);
+
+    plot(i, Err,'.r')
+    plot(i, ErrT,'.b')
+    
+    pause(0.00000001)
+    %legend('Error de aprendizaje','Error de testeo')
+
 end
 
-%plot(1:epochs*cantEntries, Err)
-%hold on
-plot(1:epochs*cantEntries, Err, 1:epochs*cantEntries, ErrT);
-Err(end)
-ErrT(end)
+hold off
+Err
+ErrT
 
 %figure
 %scatter3(A.data(:, 1), A.data(:, 2), A.data(:, 3),'RED','filled')
 %hold on
-%scatter3(A.data(:, 1), A.data(:, 2), V3)
+%scatter3(A.data(:, 1), A.data(:, 2), [V3 V3T],'BLUE','filled')
