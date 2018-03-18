@@ -17,15 +17,22 @@ terrainSize = size(file_data.data(:,1), 1);
 trainingSize = 300;
 testingSize = terrainSize - trainingSize;
 
+%normalization of input
+x1 = file_data.data(:, X1_POS);
+file_data.data(:, X1_POS) = x1 / norm(x1);
+
+x2 = file_data.data(:, X2_POS);
+file_data.data(:, X2_POS) = x2 / norm(x2);
+
+y = file_data.data(:, Y_POS);
+file_data.data(:, Y_POS) = y / norm(y);
+
+%training and testing domains
 training_input_domain = [-1*ones(trainingSize, 1) file_data.data(1:trainingSize, X1_POS) file_data.data(1:trainingSize, X2_POS)]';
 testing_input_domain = [-1*ones(testingSize, 1) file_data.data((trainingSize+1):terrainSize, X1_POS) file_data.data((trainingSize+1):terrainSize, X2_POS)]';
 expected_output = file_data.data(:, Y_POS)';
 
-%normalization of input
-training_input_domain = training_input_domain / norm(training_input_domain);
-testing_input_domain = testing_input_domain / norm(testing_input_domain);
-expected_output = expected_output / norm(expected_output);
-
+%generic cells
 weights_cell = cell(layers - 1);
 weighted_sum_cell = cell(layers - 1);
 ones_cell = cell(layers - 2);
