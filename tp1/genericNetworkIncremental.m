@@ -21,7 +21,6 @@ terrainSize = size(y, 1);
 trainingSize = readParam('training_size');
 testingSize = terrainSize - trainingSize;
 
-
 %normalization of input
 %{
 x1 = x1 / norm(x1);
@@ -37,11 +36,11 @@ testing_input_domain = [-1*ones(testingSize, 1) x1((trainingSize+1):terrainSize)
 expected_output = y';
 
 %generic cells
-weights_cell = cell(layers - 1);
-weighted_sum_cell = cell(layers - 1);
-ones_cell = cell(layers - 2);
+weights_cell = cell(layers - 1, 1);
+weighted_sum_cell = cell(layers - 1, 1);
+ones_cell = cell(layers - 2, 1);
 training_delta_cell = cell(layers - 1);
-testing_weighted_sum_cell = cell(layers - 1);
+testing_weighted_sum_cell = cell(layers - 1, 1);
 
 
 for k = 1:(layers-1)
@@ -59,7 +58,7 @@ for k = 1:(layers-1)
 end
 
 hold on
-%ylim([0 0.001])
+ylim([0 0.001])
 xlabel('epochs')
 ylabel('errors')
 %ylabel('porcentage of success')
@@ -93,64 +92,72 @@ for i = 1:epochs
             weights_cell{k} = weights_cell{k} + eta * training_delta_cell{k} * backward_previous;
         end
     end
-    %shuffling training input
-    training_input_domain(:,randperm(trainingSize));
             
     %training error
+    training_error_prev = training_error;
     training_error = 0.5*sum((expected_output(1:trainingSize) - weighted_sum_cell{layers-1}).^2)/trainingSize;
     %training_error = abs((expected_output(1:trainingSize) - weighted_sum_cell{layers-1}));
     
     %{
     counter = 0;
     for k = 1:trainingSize
-        if training_error(k) < epsilon
+        if (training_error(k) < epsilon)
             counter = counter + 1;
         end
     end
     training_success_rate = (counter/trainingSize) * 100.0;
     %}
-    
     %testing error
     testing_forward_previous = testing_input_domain;
-        for k = 1:(layers - 1)
-            if k == layers - 1
-                testing_weighted_sum_cell{k} = weights_cell{k} * testing_forward_previous;
-            else
-                testing_weighted_sum_cell{k}(2:neurons(k+1) + 1, :) = tanh(weights_cell{k} * testing_forward_previous);
-            end
-            testing_forward_previous = testing_weighted_sum_cell{k};
+
+    for k = 1:(layers - 1)
+        if k == layers - 1
+            testing_weighted_sum_cell{k} = weights_cell{k} * testing_forward_previous;
+        else
+            testing_weighted_sum_cell{k}(2:neurons(k+1) + 1, :) = tanh(weights_cell{k} * testing_forward_previous);
         end
+        testing_forward_previous = testing_weighted_sum_cell{k};
+    end
         
+    testing_error_prev = testing_error;
     testing_error = 0.5*sum((expected_output((trainingSize+1):terrainSize) - testing_weighted_sum_cell{layers-1}).^2)/(testingSize);
     %testing_error = abs((expected_output((trainingSize+1):terrainSize) - testing_weighted_sum_cell{layers-1}));
     
     %{
     counter = 0;
     for k = 1:testingSize
-        if testing_error(k) < epsilon
+        if (testing_error(k) < epsilon)
             counter = counter + 1;
         end
     end
     testing_success_rate = (counter/testingSize) * 100.0;
     %}
+    %shuffling input and output
+    %aux = [training_input_domain;expected_output(1:trainingSize)];
+    %aux = aux(:, randperm(trainingSize));
+    %training_input_domain = aux(1:3, :);
+    %expected_output = [aux(4, :) expected_output(trainingSize + 1:terrainSize)];
     
     training_error
     testing_error
-    plot(i, training_error,'.r')
-    plot(i, testing_error,'.b')
     
+    if (i == 1)
+        training_error_prev = training_error;
+        testing_error_prev = testing_error;
+    end
+    
+    plot((i-1):i, [ training_error_prev training_error ], 'r')
+    plot((i-1):i, [ testing_error_prev testing_error ],'b')
+    %plot(i, training_success_rate, '.r')
+    %plot(i, testing_success_rate,'.b')
     pause(pause_gamma)
     %legend('Error de aprendizaje','Error de testeo')
 
 end
 
 hold off
-training_success_rate
-testing_success_rate
-%training_error
-%testing_error
 
-%figure
-%scatter3(A.data(:, 1), A.data(:, 2), A.data(:, 3),'RED','filled')
-%hold on
-%scatter3(A.data(:, 1), A.data(:, 2), [V3 V3T],'BLUE','filled')
+figure
+scatter3(x1, x2, y,'RED','filled')
+hold on
+scatter3(x1, x2, [weighted_sum_cell{layers-1} testing_weighted_sum_cell{layers-1}],'BLUE','filled')
