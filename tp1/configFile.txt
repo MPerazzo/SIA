@@ -1,2 +1,6 @@
-eta=0.05
-epochs=10
+input_file input.txt
+epochs 3000
+training_size 300
+eta 0.005
+epsilon 0.01
+neurons 2,16,10,1

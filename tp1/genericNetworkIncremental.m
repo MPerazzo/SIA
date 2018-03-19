@@ -2,35 +2,39 @@ X1_POS = 1;
 X2_POS = 2;
 Y_POS = 3;
 
-input_file = 'input.txt';
-
-layers = 4;
-neurons = [2 5 5 1];
-epochs = 3000;
-eta = 0.005;
-pause_gamma = 0.00000001;
-epsilon = 0.01;
-
+input_file = readParam('input_file');
 file_data = importdata(input_file);
 
-terrainSize = size(file_data.data(:,1), 1);
-trainingSize = 300;
+x1 = file_data.data(:, X1_POS);
+x2 = file_data.data(:, X2_POS);
+y = file_data.data(:, Y_POS);
+
+neurons = readParam('neurons');
+neurons_size = size(neurons);
+layers = neurons_size(2);
+epochs = readParam('epochs');
+eta = readParam('eta');
+epsilon = readParam('epsilon');
+pause_gamma = 0.00000001;
+
+terrainSize = size(y, 1);
+trainingSize = readParam('training_size');
 testingSize = terrainSize - trainingSize;
 
+
 %normalization of input
-x1 = file_data.data(:, X1_POS);
-file_data.data(:, X1_POS) = x1 / norm(x1);
+%{
+x1 = x1 / norm(x1);
 
-x2 = file_data.data(:, X2_POS);
-file_data.data(:, X2_POS) = x2 / norm(x2);
+x2 = x2 / norm(x2);
 
-y = file_data.data(:, Y_POS);
-file_data.data(:, Y_POS) = y / norm(y);
+y = y / norm(y);
+%}
 
 %training and testing domains
-training_input_domain = [-1*ones(trainingSize, 1) file_data.data(1:trainingSize, X1_POS) file_data.data(1:trainingSize, X2_POS)]';
-testing_input_domain = [-1*ones(testingSize, 1) file_data.data((trainingSize+1):terrainSize, X1_POS) file_data.data((trainingSize+1):terrainSize, X2_POS)]';
-expected_output = file_data.data(:, Y_POS)';
+training_input_domain = [-1*ones(trainingSize, 1) x1(1:trainingSize) x2(1:trainingSize)]';
+testing_input_domain = [-1*ones(testingSize, 1) x1((trainingSize+1):terrainSize) x2((trainingSize+1):terrainSize)]';
+expected_output = y';
 
 %generic cells
 weights_cell = cell(layers - 1);
@@ -56,8 +60,9 @@ end
 
 hold on
 %ylim([0 0.001])
-xlabel('Epochs')
-ylabel('Porcentage of success')
+xlabel('epochs')
+ylabel('errors')
+%ylabel('porcentage of success')
 
 for i = 1:epochs
     for j = 1:trainingSize
@@ -92,9 +97,10 @@ for i = 1:epochs
     training_input_domain(:,randperm(trainingSize));
             
     %training error
-    %training_error = 0.5*sum((expected_output(1:trainingSize) - weighted_sum_cell{layers-1}).^2)/trainingSize;
-    training_error = abs((expected_output(1:trainingSize) - weighted_sum_cell{layers-1}));
+    training_error = 0.5*sum((expected_output(1:trainingSize) - weighted_sum_cell{layers-1}).^2)/trainingSize;
+    %training_error = abs((expected_output(1:trainingSize) - weighted_sum_cell{layers-1}));
     
+    %{
     counter = 0;
     for k = 1:trainingSize
         if training_error(k) < epsilon
@@ -102,6 +108,7 @@ for i = 1:epochs
         end
     end
     training_success_rate = (counter/trainingSize) * 100.0;
+    %}
     
     %testing error
     testing_forward_previous = testing_input_domain;
@@ -114,9 +121,10 @@ for i = 1:epochs
             testing_forward_previous = testing_weighted_sum_cell{k};
         end
         
-    %testing_error = 0.5*sum((expected_output((trainingSize+1):terrainSize) - testing_weighted_sum_cell{layers-1}).^2)/(testingSize);
-    testing_error = abs((expected_output((trainingSize+1):terrainSize) - testing_weighted_sum_cell{layers-1}));
+    testing_error = 0.5*sum((expected_output((trainingSize+1):terrainSize) - testing_weighted_sum_cell{layers-1}).^2)/(testingSize);
+    %testing_error = abs((expected_output((trainingSize+1):terrainSize) - testing_weighted_sum_cell{layers-1}));
     
+    %{
     counter = 0;
     for k = 1:testingSize
         if testing_error(k) < epsilon
@@ -124,9 +132,12 @@ for i = 1:epochs
         end
     end
     testing_success_rate = (counter/testingSize) * 100.0;
-
-    plot(i, training_success_rate,'.r')
-    plot(i, testing_success_rate,'.b')
+    %}
+    
+    training_error
+    testing_error
+    plot(i, training_error,'.r')
+    plot(i, testing_error,'.b')
     
     pause(pause_gamma)
     %legend('Error de aprendizaje','Error de testeo')
