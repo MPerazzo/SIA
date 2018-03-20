@@ -39,9 +39,11 @@ expected_output = y';
 weights_cell = cell(layers - 1, 1);
 weighted_sum_cell = cell(layers - 1, 1);
 ones_cell = cell(layers - 2, 1);
-training_delta_cell = cell(layers - 1);
+training_delta_cell = cell(layers - 1, 1);
 testing_weighted_sum_cell = cell(layers - 1, 1);
 
+testing_error = 0;
+training_error = 0;
 
 for k = 1:(layers-1)
     weights_cell{k} = rand(neurons(k+1), neurons(k)+1);
@@ -107,9 +109,9 @@ for i = 1:epochs
     end
     training_success_rate = (counter/trainingSize) * 100.0;
     %}
+    
     %testing error
-    testing_forward_previous = testing_input_domain;
-
+    testing_forward_previous = testing_input_domain;    
     for k = 1:(layers - 1)
         if k == layers - 1
             testing_weighted_sum_cell{k} = weights_cell{k} * testing_forward_previous;
@@ -132,6 +134,7 @@ for i = 1:epochs
     end
     testing_success_rate = (counter/testingSize) * 100.0;
     %}
+    
     %shuffling input and output
     %aux = [training_input_domain;expected_output(1:trainingSize)];
     %aux = aux(:, randperm(trainingSize));
