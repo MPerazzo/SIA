@@ -38,7 +38,7 @@ expected_output = y';
 %generic cells
 weights_cell = cell(layers - 1, 1);
 weighted_sum_cell = cell(layers - 1, 1);
-ones_cell = cell(layers - 2, 1);
+ones_cell = cell(layers - 1, 1);
 training_delta_cell = cell(layers - 1, 1);
 testing_weighted_sum_cell = cell(layers - 1, 1);
 
@@ -48,11 +48,11 @@ training_error = 0;
 for k = 1:(layers-1)
     weights_cell{k} = rand(neurons(k+1), neurons(k)+1);
     training_delta_cell{k} = zeros(neurons(k+1), 1);
+    ones_cell{k} = ones(neurons(k+1), 1);
     
     if (k ~= layers-1)
         weighted_sum_cell{k} = [-1*ones(trainingSize,1) zeros(trainingSize, neurons(k+1))]';
         testing_weighted_sum_cell{k} = [-1*ones(testingSize,1) zeros(testingSize, neurons(k+1))]';
-        ones_cell{k} = ones(neurons(k+1), 1);
     else
         weighted_sum_cell{k} = zeros(neurons(k+1), trainingSize);
         testing_weighted_sum_cell{k} = zeros(neurons(k+1), testingSize);
@@ -71,7 +71,7 @@ for i = 1:epochs
         forward_previous = training_input_domain;
         for k = 1:(layers - 1)
             if k == layers - 1
-                weighted_sum_cell{k}(j) = weights_cell{k} * forward_previous(:, j);
+                weighted_sum_cell{k}(j) = tanh(weights_cell{k} * forward_previous(:, j));
             else
                 weighted_sum_cell{k}(2:neurons(k+1) + 1, j) = tanh(weights_cell{k} * forward_previous(:, j));
             end
@@ -80,7 +80,7 @@ for i = 1:epochs
         %back propagation
         for k = (layers - 1):-1:1
             if k == layers - 1
-                training_delta_cell{k} = (expected_output(j) - weighted_sum_cell{k}(j));
+                training_delta_cell{k} = (ones_cell{k} - weighted_sum_cell{k}(j).^2).*(expected_output(j) - weighted_sum_cell{k}(j));
             else
                 training_delta_cell{k} = (ones_cell{k} - weighted_sum_cell{k}(2:neurons(k+1) + 1, j).^2).*(weights_cell{k+1}(:, 2:neurons(k+1) + 1)' * training_delta_cell{k+1});
             end
@@ -114,7 +114,7 @@ for i = 1:epochs
     testing_forward_previous = testing_input_domain;    
     for k = 1:(layers - 1)
         if k == layers - 1
-            testing_weighted_sum_cell{k} = weights_cell{k} * testing_forward_previous;
+            testing_weighted_sum_cell{k} = tanh(weights_cell{k} * testing_forward_previous);
         else
             testing_weighted_sum_cell{k}(2:neurons(k+1) + 1, :) = tanh(weights_cell{k} * testing_forward_previous);
         end
