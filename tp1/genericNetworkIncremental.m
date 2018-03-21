@@ -60,10 +60,10 @@ for k = 1:(layers-1)
 end
 
 if readParam('tanh')
-    activation_function = @tanh;
+    activation_function = @(x, k)(tanh(x));
     activation_function_derivate = @(x, k)(ones_cell{k} - x.^2);
 else
-    activation_function = @(x)(exp(-x));
+    activation_function = @(x, k)(ones_cell{k}/(ones_cell{k} + exp(-x)));
     activation_function_derivate = @(x, k)(x'*(ones_cell{k}-x));
 end
 
@@ -81,7 +81,7 @@ for i = 1:epochs
             if k == layers - 1
                 weighted_sum_cell{k}(j) = tanh(weights_cell{k} * forward_previous(:, j));
             else
-                weighted_sum_cell{k}(2:neurons(k+1) + 1, j) = activation_function(weights_cell{k} * forward_previous(:, j));
+                weighted_sum_cell{k}(2:neurons(k+1) + 1, j) = activation_function(weights_cell{k} * forward_previous(:, j), k);
             end
             forward_previous = weighted_sum_cell{k};
         end
@@ -124,7 +124,7 @@ for i = 1:epochs
         if k == layers - 1
             testing_weighted_sum_cell{k} = tanh(weights_cell{k} * testing_forward_previous);
         else
-            testing_weighted_sum_cell{k}(2:neurons(k+1) + 1, :) = activation_function(weights_cell{k} * testing_forward_previous);
+            testing_weighted_sum_cell{k}(2:neurons(k+1) + 1, :) = activation_function(weights_cell{k} * testing_forward_previous, k);
         end
         testing_forward_previous = testing_weighted_sum_cell{k};
     end
