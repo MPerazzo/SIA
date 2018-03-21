@@ -3,4 +3,5 @@ epochs 3000
 training_size 300
 eta 0.005
 epsilon 0.01
+tanh 0
 neurons 2,16,10,1
