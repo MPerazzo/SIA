@@ -22,7 +22,7 @@ if readParam('tanh')
     activation_function_derivate = @(x)(1 - x.^2);
 else
     activation_function = @(x)(1./(1 + exp(-x)));
-    activation_function_derivate = @(x)(x'*(1-x));
+    activation_function_derivate = @(x)(x.*(1-x));
 end
         
 terrainSize = size(y, 1);
@@ -52,6 +52,7 @@ testing_weighted_sum_cell = cell(layers - 1, 1);
 testing_error = 0;
 training_error = 0;
 
+%generic cells initialization
 for k = 1:(layers-1)
     weights_cell{k} = rand(neurons(k+1), neurons(k)+1);
     training_delta_cell{k} = zeros(neurons(k+1), 1);
