@@ -16,6 +16,14 @@ epochs = readParam('epochs');
 eta = readParam('eta');
 epsilon = readParam('epsilon');
 pause_gamma = 0.00000001;
+
+if readParam('tanh')
+    activation_function = @tanh;
+    activation_function_derivate = @(x)(1 - x.^2);
+else
+    activation_function = @(x)(1./(1 + exp(-x)));
+    activation_function_derivate = @(x)(x'*(1-x));
+end
         
 terrainSize = size(y, 1);
 trainingSize = readParam('training_size');
@@ -38,7 +46,6 @@ expected_output = y';
 %generic cells
 weights_cell = cell(layers - 1, 1);
 weighted_sum_cell = cell(layers - 1, 1);
-ones_cell = cell(layers - 1, 1);
 training_delta_cell = cell(layers - 1, 1);
 testing_weighted_sum_cell = cell(layers - 1, 1);
 
@@ -48,7 +55,6 @@ training_error = 0;
 for k = 1:(layers-1)
     weights_cell{k} = rand(neurons(k+1), neurons(k)+1);
     training_delta_cell{k} = zeros(neurons(k+1), 1);
-    ones_cell{k} = ones(neurons(k+1), 1);
     
     if (k ~= layers-1)
         weighted_sum_cell{k} = [-1*ones(trainingSize,1) zeros(trainingSize, neurons(k+1))]';
@@ -57,14 +63,6 @@ for k = 1:(layers-1)
         weighted_sum_cell{k} = zeros(neurons(k+1), trainingSize);
         testing_weighted_sum_cell{k} = zeros(neurons(k+1), testingSize);
     end
-end
-
-if readParam('tanh')
-    activation_function = @(x, k)(tanh(x));
-    activation_function_derivate = @(x, k)(ones_cell{k} - x.^2);
-else
-    activation_function = @(x, k)(ones_cell{k}/(ones_cell{k} + exp(-x)));
-    activation_function_derivate = @(x, k)(x'*(ones_cell{k}-x));
 end
 
 hold on
@@ -81,7 +79,7 @@ for i = 1:epochs
             if k == layers - 1
                 weighted_sum_cell{k}(j) = tanh(weights_cell{k} * forward_previous(:, j));
             else
-                weighted_sum_cell{k}(2:neurons(k+1) + 1, j) = activation_function(weights_cell{k} * forward_previous(:, j), k);
+                weighted_sum_cell{k}(2:neurons(k+1) + 1, j) = activation_function(weights_cell{k} * forward_previous(:, j));
             end
             forward_previous = weighted_sum_cell{k};
         end
@@ -90,7 +88,7 @@ for i = 1:epochs
             if k == layers - 1
                 training_delta_cell{k} = (ones_cell{k} - weighted_sum_cell{k}(j).^2).*(expected_output(j) - weighted_sum_cell{k}(j));
             else
-                training_delta_cell{k} = activation_function_derivate(weighted_sum_cell{k}(2:neurons(k+1) + 1, j), k).*(weights_cell{k+1}(:, 2:neurons(k+1) + 1)' * training_delta_cell{k+1});
+                training_delta_cell{k} = activation_function_derivate(weighted_sum_cell{k}(2:neurons(k+1) + 1, j)).*(weights_cell{k+1}(:, 2:neurons(k+1) + 1)' * training_delta_cell{k+1});
             end
            
             if k == 1
@@ -124,7 +122,7 @@ for i = 1:epochs
         if k == layers - 1
             testing_weighted_sum_cell{k} = tanh(weights_cell{k} * testing_forward_previous);
         else
-            testing_weighted_sum_cell{k}(2:neurons(k+1) + 1, :) = activation_function(weights_cell{k} * testing_forward_previous, k);
+            testing_weighted_sum_cell{k}(2:neurons(k+1) + 1, :) = activation_function(weights_cell{k} * testing_forward_previous);
         end
         testing_forward_previous = testing_weighted_sum_cell{k};
     end
