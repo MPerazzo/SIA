@@ -73,28 +73,30 @@ ylabel('errors')
 
 for i = 1:epochs
     for j = 1:trainingSize
+        %shuffling
+        r = randi([1 trainingSize],1,1);
         %forward
         forward_previous = training_input_domain;
         for k = 1:(layers - 1)
             if k == layers - 1
-                weighted_sum_cell{k}(j) = tanh(weights_cell{k} * forward_previous(:, j));
+                weighted_sum_cell{k}(r) = tanh(weights_cell{k} * forward_previous(:, r));
             else
-                weighted_sum_cell{k}(2:neurons(k+1) + 1, j) = activation_function(weights_cell{k} * forward_previous(:, j));
+                weighted_sum_cell{k}(2:neurons(k+1) + 1, r) = activation_function(weights_cell{k} * forward_previous(:, r));
             end
             forward_previous = weighted_sum_cell{k};
         end
         %back propagation
         for k = (layers - 1):-1:1
             if k == layers - 1
-                training_delta_cell{k} = (ones_cell{k} - weighted_sum_cell{k}(j).^2).*(expected_output(j) - weighted_sum_cell{k}(j));
+                training_delta_cell{k} = (1 - weighted_sum_cell{k}(r).^2).*(expected_output(r) - weighted_sum_cell{k}(r));
             else
-                training_delta_cell{k} = activation_function_derivate(weighted_sum_cell{k}(2:neurons(k+1) + 1, j)).*(weights_cell{k+1}(:, 2:neurons(k+1) + 1)' * training_delta_cell{k+1});
+                training_delta_cell{k} = activation_function_derivate(weighted_sum_cell{k}(2:neurons(k+1) + 1, r)).*(weights_cell{k+1}(:, 2:neurons(k+1) + 1)' * training_delta_cell{k+1});
             end
            
             if k == 1
-                backward_previous = training_input_domain(:, j)';
+                backward_previous = training_input_domain(:, r)';
             else
-                backward_previous = weighted_sum_cell{k-1}(:,j)';
+                backward_previous = weighted_sum_cell{k-1}(:,r)';
             end
             
             weights_cell{k} = weights_cell{k} + eta * training_delta_cell{k} * backward_previous;
@@ -140,13 +142,7 @@ for i = 1:epochs
     end
     testing_success_rate = (counter/testingSize) * 100.0;
     %}
-    
-    %shuffling input and output
-    %aux = [training_input_domain;expected_output(1:trainingSize)];
-    %aux = aux(:, randperm(trainingSize));
-    %training_input_domain = aux(1:3, :);
-    %expected_output = [aux(4, :) expected_output(trainingSize + 1:terrainSize)];
-    
+     
     training_error
     testing_error
     
