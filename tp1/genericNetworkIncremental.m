@@ -53,7 +53,6 @@ testing_weighted_sum_cell = cell(layers - 1, 1);
 testing_error = 0;
 training_error = 0;
 training_old_error = 0;
-steps = 0;
 
 %generic cells initialization
 for k = 1:(layers-1)
@@ -80,8 +79,8 @@ ylabel('errors')
 for i = 1:epochs
     for j = 1:trainingSize
         %shuffling
-        %r = randi([1 trainingSize],1,1);
-        r=j;
+        r = randi([1 trainingSize],1,1);
+        %r=j;
         %forward
         forward_previous = training_input_domain;
         for k = 1:(layers - 1)
@@ -109,31 +108,12 @@ for i = 1:epochs
             weights_cell{k} = weights_cell{k} + eta * training_delta_cell{k} * backward_previous;
         end
     end
-   
-   
     
     %training error
     training_error_prev = training_error;
     training_error = 0.5*sum((expected_output(1:trainingSize) - weighted_sum_cell{layers-1}).^2)/trainingSize;
     %training_error = abs((expected_output(1:trainingSize) - weighted_sum_cell{layers-1}));
     
-    if i==1
-        training_old_error = training_error; 
-    end
-    
-    if(training_error > training_old_error )
-       weights_cell = weights_old_cell;
-       eta = eta*0.9; 
-       steps = 0;
-    elseif(training_error < training_old_error && steps>=10)
-       eta_old = eta;
-       eta = eta + 0.05;
-       weights_old_cell = weights_cell;
-       training_old_error = training_error;
-       steps = 0;
-    end
-    steps = steps + 1; 
-    %}
     %{
     counter = 0;
     for k = 1:trainingSize
@@ -168,6 +148,23 @@ for i = 1:epochs
     end
     testing_success_rate = (counter/testingSize) * 100.0;
     %}
+    
+    
+    if i==1
+        training_old_error = training_error; 
+    end
+    
+    %adaptative eta
+    if (rem(i, 10) == 0)
+       if(training_error > training_old_error)
+           weights_cell = weights_old_cell;
+           eta = eta*0.95; 
+        elseif(training_error < training_old_error)
+           eta = eta + 0.001;
+           weights_old_cell = weights_cell;
+        end
+        training_old_error = training_error;
+    end
      
     training_error
     testing_error
