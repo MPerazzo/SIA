@@ -15,6 +15,7 @@ layers = neurons_size(2);
 epochs = readParam('epochs');
 eta = readParam('eta');
 epsilon = readParam('epsilon');
+shuffle_flag = readParam('shuffle_flag');
 adaptative_eta_flag = readParam('adaptative_eta_flag');
 eta_check_steps = readParam('eta_check_steps');
 eta_increase_value = readParam('eta_increase_value');
@@ -88,7 +89,7 @@ ylabel('errors')
 for i = 1:epochs
     for j = 1:trainingSize
         %shuffling
-        r = randi([1 trainingSize],1,1);
+        r = shuffle_flag * randi([1 trainingSize],1,1) + (1 - shuffle_flag) * j;
         %r=j;
         %forward
         forward_previous = training_input_domain;
