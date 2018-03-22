@@ -15,8 +15,15 @@ layers = neurons_size(2);
 epochs = readParam('epochs');
 eta = readParam('eta');
 epsilon = readParam('epsilon');
+adaptative_eta_flag = readParam('adaptative_eta_flag');
+eta_check_steps = readParam('eta_check_steps');
+eta_increase_value = readParam('eta_increase_value');
+eta_decrease_factor = readParam('eta_decrease_factor');
+momentum_flag = readParam('momentum_flag');
+alpha_momentum_init = readParam('alpha_momentum');
+alpha_momentum = alpha_momentum_init;
 pause_gamma = 0.00000001;
-eta_old = eta;
+
 
 if readParam('tanh')
     activation_function = @tanh;
@@ -46,6 +53,7 @@ expected_output = y';
 
 %generic cells
 weights_cell = cell(layers - 1, 1);
+previous_weights_variation_cell = cell(layers - 1, 1);
 weighted_sum_cell = cell(layers - 1, 1);
 training_delta_cell = cell(layers - 1, 1);
 testing_weighted_sum_cell = cell(layers - 1, 1);
@@ -57,6 +65,7 @@ training_old_error = 0;
 %generic cells initialization
 for k = 1:(layers-1)
     weights_cell{k} = rand(neurons(k+1), neurons(k)+1);
+    previous_weights_variation_cell{k} = zeros(neurons(k+1), neurons(k)+1);
     training_delta_cell{k} = zeros(neurons(k+1), 1);
     
     if (k ~= layers-1)
@@ -104,8 +113,9 @@ for i = 1:epochs
             else
                 backward_previous = weighted_sum_cell{k-1}(:,r)';
             end
-            
-            weights_cell{k} = weights_cell{k} + eta * training_delta_cell{k} * backward_previous;
+            weight_variation =  eta * training_delta_cell{k} * backward_previous;
+            weights_cell{k} = weights_cell{k} + weight_variation + momentum_flag * alpha_momentum * previous_weights_variation_cell{k};
+            previous_weight_variation_cell{k} = weight_variation;
         end
     end
     
@@ -155,13 +165,15 @@ for i = 1:epochs
     end
     
     %adaptative eta
-    if (rem(i, 10) == 0)
+    if (rem(i, eta_check_steps) == 0 && adaptative_eta_flag)
        if(training_error > training_old_error)
            weights_cell = weights_old_cell;
-           eta = eta*0.95; 
+           eta = eta*eta_decrease_factor;
+           alpha_momentum = 0;
         elseif(training_error < training_old_error)
-           eta = eta + 0.001;
+           eta = eta + eta_increase_value;
            weights_old_cell = weights_cell;
+           alpha_momentum = alpha_momentum_init;
         end
         training_old_error = training_error;
     end

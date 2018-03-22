@@ -1,7 +1,15 @@
 input_file input.txt
+neurons 2,15,10,1
 epochs 3000
 training_size 300
-eta 0.005
+eta 0.01
+momentum_flag 1
+adaptative_eta_flag 1
+eta_check_steps 10
+eta_increase_value 0.001
+eta_decrease_factor 0.95
+alpha_momentum 0.5
 epsilon 0.01
 tanh 0
-neurons 2,16,10,1
+
+
