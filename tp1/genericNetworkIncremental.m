@@ -97,11 +97,21 @@ end
 
 weights_old_cell = weights_cell; 
 
+figure('units', 'normalized', 'outerposition', [0 0 1 1])
 hold on
-%ylim([0 0.001])
 xlabel('epochs')
 ylabel('errors')
-%ylabel('porcentage of success')
+plot(0, 0, '.r')
+plot(0, 0, '.b')
+[h, icons, plots, legend_text] = legend('Error de aprendizaje', 'Error de testeo');
+%legend marker sizes, font size, and box size
+h.Position(4) = h.Position(4) + 0.01;
+h.Position(3) = h.Position(3) + 0.09;
+h.Position(1) = h.Position(1) - 0.1;
+icons(1).FontSize = 16;
+icons(2).FontSize = 16;
+icons(4).MarkerSize = 24;
+icons(6).MarkerSize = 24;
 
 for i = 1:epochs
     for j = 1:trainingSize
