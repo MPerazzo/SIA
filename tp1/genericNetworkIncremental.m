@@ -14,7 +14,7 @@ neurons_size = size(neurons);
 layers = neurons_size(2);
 epochs = readParam('epochs');
 eta = readParam('eta');
-epsilon = readParam('epsilon');
+epsilon = readParam('epsilon_error');
 error_treshold_value = readParam('error_treshold_value');
 error_treshold_flag = readParam('error_treshold_flag');
 shuffle_flag = readParam('shuffle_flag');
@@ -76,9 +76,9 @@ weighted_sum_cell = cell(layers - 1, 1);
 training_delta_cell = cell(layers - 1, 1);
 testing_weighted_sum_cell = cell(layers - 1, 1);
 
-testing_error = 0;
-training_error = 0;
-training_old_error = 0;
+testing_cuadratic_error = 0;
+training_cuadratic_error = 0;
+training_cuadratic_old_error = 0;
 
 %generic cells initialization
 for k = 1:(layers-1)
@@ -148,19 +148,18 @@ for i = 1:epochs
     end
     
     %training error
-    training_error_prev = training_error;
-    training_error = 0.5*sum((expected_output(1:trainingSize) - weighted_sum_cell{layers-1}).^2)/trainingSize;
-    %training_error = abs((expected_output(1:trainingSize) - weighted_sum_cell{layers-1}));
+    training_cuadratic_error_prev = training_cuadratic_error;
+    training_cuadratic_error = 0.5*sum((expected_output(1:trainingSize) - weighted_sum_cell{layers-1}).^2)/trainingSize;
+    training_abs_error = abs((expected_output(1:trainingSize) - weighted_sum_cell{layers-1}));
     
-    %{
+    
     counter = 0;
     for k = 1:trainingSize
-        if (training_error(k) < epsilon)
+        if (training_abs_error(k) < epsilon)
             counter = counter + 1;
         end
     end
     training_success_rate = (counter/trainingSize) * 100.0;
-    %}
     
     %testing error
     testing_forward_previous = testing_input_domain;    
@@ -173,56 +172,55 @@ for i = 1:epochs
         testing_forward_previous = testing_weighted_sum_cell{k};
     end
         
-    testing_error_prev = testing_error;
-    testing_error = 0.5*sum((expected_output((trainingSize+1):terrainSize) - testing_weighted_sum_cell{layers-1}).^2)/(testingSize);
-    %testing_error = abs((expected_output((trainingSize+1):terrainSize) - testing_weighted_sum_cell{layers-1}));
+    testing_cuadratic_error_prev = testing_cuadratic_error;
+    testing_cuadratic_error = 0.5*sum((expected_output((trainingSize+1):terrainSize) - testing_weighted_sum_cell{layers-1}).^2)/(testingSize);
+    testing_abs_error = abs((expected_output((trainingSize+1):terrainSize) - testing_weighted_sum_cell{layers-1}));
     
-    %{
     counter = 0;
     for k = 1:testingSize
-        if (testing_error(k) < epsilon)
+        if (testing_abs_error(k) < epsilon)
             counter = counter + 1;
         end
     end
     testing_success_rate = (counter/testingSize) * 100.0;
-    %}
-    
-    
+       
     if i==1
-        training_old_error = training_error; 
+        training_cuadratic_old_error = training_cuadratic_error; 
     end
     
     %adaptative eta
     if (rem(i, eta_check_steps) == 0 && adaptative_eta_flag)
-       if(training_error > training_old_error)
+       if(training_cuadratic_error > training_cuadratic_old_error)
            weights_cell = weights_old_cell;
            eta = eta*eta_decrease_factor;
            alpha_momentum = 0;
-        elseif(training_error < training_old_error)
+        elseif(training_cuadratic_error < training_cuadratic_old_error)
            eta = eta + eta_increase_value;
            weights_old_cell = weights_cell;
            alpha_momentum = alpha_momentum_init;
         end
-        training_old_error = training_error;
+        training_cuadratic_old_error = training_cuadratic_error;
     end
      
-    training_error
-    testing_error
+    training_cuadratic_error
+    testing_cuadratic_error
+    training_success_rate
+    testing_success_rate
     
     if (i == 1)
-        training_error_prev = training_error;
-        testing_error_prev = testing_error;
+        training_cuadratic_error_prev = training_cuadratic_error;
+        testing_cuadratic_error_prev = testing_cuadratic_error;
     end
     
-    plot((i-1):i, [ training_error_prev training_error ], 'r')
-    plot((i-1):i, [ testing_error_prev testing_error ],'b')
+    plot((i-1):i, [ training_cuadratic_error_prev training_cuadratic_error ], 'r')
+    plot((i-1):i, [ testing_cuadratic_error_prev testing_cuadratic_error ],'b')
     %plot(i, training_success_rate, '.r')
     %plot(i, testing_success_rate,'.b')
     pause(pause_gamma)
     %legend('Error de aprendizaje','Error de testeo')
     
     if (error_treshold_flag)
-        if (training_error <= error_treshold_value)
+        if (training_cuadratic_error <= error_treshold_value)
             break
         end
     end
