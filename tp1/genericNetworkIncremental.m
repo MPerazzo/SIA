@@ -36,16 +36,14 @@ else
     activation_function_derivate = @(x)(x.*(1-x));
 end
 
-if readParam('save_seed_flag') || readParam('load_seed_flag')
-    current_seed = rng;
+current_seed = rng;    
+
+if readParam('load_seed_flag')
     current_profile = getenv('USERPROFILE');
     splitted = strsplit(current_profile, '\');
     splitted_size = size(splitted);
     profile_name = splitted{splitted_size(2)};
-end
-
-if readParam('load_seed_flag')
-    path = strcat('\\opc-w-fs04\ctxusers$\', profile_name, '\Desktop\', readParam('seed_id'));
+    path = strcat('\\opc-w-fs04\ctxusers$\', profile_name, '\Desktop\', readParam('seed_id'))
     load(path, 'seed_state');
     current_seed.State = seed_state;
     rng(current_seed);
@@ -79,6 +77,9 @@ testing_weighted_sum_cell = cell(layers - 1, 1);
 testing_cuadratic_error = 0;
 training_cuadratic_error = 0;
 training_cuadratic_old_error = 0;
+
+training_success_rate_best = 0;
+testing_success_rate_best = 0;
 
 %generic cells initialization
 for k = 1:(layers-1)
@@ -212,12 +213,15 @@ for i = 1:epochs
         testing_cuadratic_error_prev = testing_cuadratic_error;
     end
     
+    if(training_success_rate > training_success_rate_best && testing_success_rate > testing_success_rate_best)
+        weights_cell_best = weights_cell;
+        training_success_rate_best = training_success_rate;
+        testing_success_rate_best = testing_success_rate;
+    end
+        
     plot((i-1):i, [ training_cuadratic_error_prev training_cuadratic_error ], 'r')
     plot((i-1):i, [ testing_cuadratic_error_prev testing_cuadratic_error ],'b')
-    %plot(i, training_success_rate, '.r')
-    %plot(i, testing_success_rate,'.b')
     pause(pause_gamma)
-    %legend('Error de aprendizaje','Error de testeo')
     
     if (error_treshold_flag)
         if (training_cuadratic_error <= error_treshold_value)
@@ -230,6 +234,10 @@ end
 hold off
 
 if (readParam('save_seed_flag'))    
+    current_profile = getenv('USERPROFILE');
+    splitted = strsplit(current_profile, '\');
+    splitted_size = size(splitted);
+    profile_name = splitted{splitted_size(2)};
     neurons_to_string = '';
     for i = 1:layers
         neurons_to_string = strcat(neurons_to_string, num2str(neurons(i)));

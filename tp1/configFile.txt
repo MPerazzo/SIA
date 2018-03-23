@@ -1,6 +1,6 @@
 input_file input.txt
 neurons 2,15,10,1
-epochs 3000
+epochs 200
 training_size 300
 eta 0.01 
 error_treshold_flag 0
@@ -9,13 +9,13 @@ adaptative_eta_flag 1
 shuffle_flag 1
 load_seed_flag 0
 save_seed_flag 0
-seed_id seed_2-15-10-1_March-23-2018-02-20-02
+seed_id seed_2-15-10-1_March-23-2018-13-40-53
 error_treshold_value 0.1
 eta_check_steps 10
 eta_increase_value 0.001
 eta_decrease_factor 0.95
 alpha_momentum 0.5
 epsilon_error 0.01
-tanh 0
+tanh 1
 
 
