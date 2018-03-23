@@ -15,6 +15,8 @@ layers = neurons_size(2);
 epochs = readParam('epochs');
 eta = readParam('eta');
 epsilon = readParam('epsilon');
+error_treshold_value = readParam('error_treshold_value');
+error_treshold_flag = readParam('error_treshold_flag');
 shuffle_flag = readParam('shuffle_flag');
 adaptative_eta_flag = readParam('adaptative_eta_flag');
 eta_check_steps = readParam('eta_check_steps');
@@ -43,7 +45,7 @@ if readParam('save_seed_flag') || readParam('load_seed_flag')
 end
 
 if readParam('load_seed_flag')
-    path = strcat('\\opc-w-fs04\ctxusers$\', profile_name, '\Desktop\', readParam('seed_path'));
+    path = strcat('\\opc-w-fs04\ctxusers$\', profile_name, '\Desktop\', readParam('seed_id'));
     load(path, 'seed_state');
     current_seed.State = seed_state;
     rng(current_seed);
@@ -208,6 +210,12 @@ for i = 1:epochs
     %plot(i, testing_success_rate,'.b')
     pause(pause_gamma)
     %legend('Error de aprendizaje','Error de testeo')
+    
+    if (error_treshold_flag)
+        if (training_error <= error_treshold_value)
+            break
+        end
+    end
 
 end
 
