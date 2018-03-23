@@ -3,6 +3,7 @@ function param = readParam(paramName)
     neurons_separator = ',';
     NEURONS_CASE = 'neurons';
     INPUT_FILE_CASE = 'input_file';
+    SEED_FILE_CASE = 'seed_id';
     
     fileID = fopen(pathName);
     allParams = textscan(fileID,'%s %s');
@@ -23,7 +24,7 @@ function param = readParam(paramName)
                    aux(j) = str2num(splitted{j});
                end
                param = aux;
-           elseif (strcmp(paramName, INPUT_FILE_CASE))
+           elseif (strcmp(paramName, INPUT_FILE_CASE) || strcmp(paramName, SEED_FILE_CASE))
                    param = values{i};
            else
                    param = str2num(values{i});
