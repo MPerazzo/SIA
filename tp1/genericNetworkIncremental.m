@@ -33,6 +33,21 @@ else
     activation_function = @(x)(1./(1 + exp(-x)));
     activation_function_derivate = @(x)(x.*(1-x));
 end
+
+if readParam('save_seed_flag') || readParam('load_seed_flag')
+    current_seed = rng;
+    current_profile = getenv('USERPROFILE');
+    splitted = strsplit(current_profile, '\');
+    splitted_size = size(splitted);
+    profile_name = splitted{splitted_size(2)};
+end
+
+if readParam('load_seed_flag')
+    path = strcat('\\opc-w-fs04\ctxusers$\', profile_name, '\Desktop\', readParam('seed_path'));
+    load(path, 'seed_state');
+    current_seed.State = seed_state;
+    rng(current_seed);
+end
         
 terrainSize = size(y, 1);
 trainingSize = readParam('training_size');
@@ -197,6 +212,12 @@ for i = 1:epochs
 end
 
 hold off
+
+if (readParam('save_seed_flag'))
+    seed_state = current_seed.State;
+    path = strcat('\\opc-w-fs04\ctxusers$\', profile_name, '\Desktop\seed',datestr(datetime,'mmmm-dd-yyyy-HH-MM-SS'));
+    save(path,'seed_state');
+end
 
 figure
 scatter3(x1, x2, y,'RED','filled')

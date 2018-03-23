@@ -3,6 +3,9 @@ neurons 2,15,10,1
 epochs 3000
 training_size 300
 eta 0.01
+load_seed_flag 0
+seed_path seedMarch-23-2018-02-20-02
+save_seed_flag 0
 momentum_flag 1
 adaptative_eta_flag 1
 shuffle_flag 1
