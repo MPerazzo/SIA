@@ -213,9 +213,16 @@ end
 
 hold off
 
-if (readParam('save_seed_flag'))
+if (readParam('save_seed_flag'))    
+    neurons_to_string = '';
+    for i = 1:layers
+        neurons_to_string = strcat(neurons_to_string, num2str(neurons(i)));
+        if (i ~= layers)
+            neurons_to_string = strcat(neurons_to_string, '-');
+        end
+    end
     seed_state = current_seed.State;
-    path = strcat('\\opc-w-fs04\ctxusers$\', profile_name, '\Desktop\seed',datestr(datetime,'mmmm-dd-yyyy-HH-MM-SS'));
+    path = strcat('\\opc-w-fs04\ctxusers$\', profile_name, '\Desktop\seed_', neurons_to_string, '_', datestr(datetime,'mmmm-dd-yyyy-HH-MM-SS'));
     save(path,'seed_state');
 end
 
