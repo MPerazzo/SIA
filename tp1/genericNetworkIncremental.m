@@ -43,7 +43,7 @@ if readParam('load_seed_flag')
     splitted = strsplit(current_profile, '\');
     splitted_size = size(splitted);
     profile_name = splitted{splitted_size(2)};
-    path = strcat('\\opc-w-fs04\ctxusers$\', profile_name, '\Desktop\', readParam('seed_id'))
+    path = strcat('\\opc-w-fs04\ctxusers$\', profile_name, '\Desktop\', readParam('seed_id'));
     load(path, 'seed_state');
     current_seed.State = seed_state;
     rng(current_seed);
@@ -52,15 +52,6 @@ end
 terrainSize = size(y, 1);
 trainingSize = readParam('training_size');
 testingSize = terrainSize - trainingSize;
-
-%normalization of input
-%{
-x1 = x1 / norm(x1);
-
-x2 = x2 / norm(x2);
-
-y = y / norm(y);
-%}
 
 %training and testing domains
 training_input_domain = [-1*ones(trainingSize, 1) x1(1:trainingSize) x2(1:trainingSize)]';
@@ -77,9 +68,6 @@ testing_weighted_sum_cell = cell(layers - 1, 1);
 testing_cuadratic_error = 0;
 training_cuadratic_error = 0;
 training_cuadratic_old_error = 0;
-
-training_success_rate_best = 0;
-testing_success_rate_best = 0;
 
 %generic cells initialization
 for k = 1:(layers-1)
@@ -211,12 +199,14 @@ for i = 1:epochs
     if (i == 1)
         training_cuadratic_error_prev = training_cuadratic_error;
         testing_cuadratic_error_prev = testing_cuadratic_error;
+        training_cuadratic_error_best = training_cuadratic_error;
+        testing_cuadratic_error_best = testing_cuadratic_error;
     end
     
-    if(training_success_rate > training_success_rate_best && testing_success_rate > testing_success_rate_best)
+    %generalization over training
+    if (testing_cuadratic_error < testing_cuadratic_error_best)
         weights_cell_best = weights_cell;
-        training_success_rate_best = training_success_rate;
-        testing_success_rate_best = testing_success_rate;
+        testing_cuadratic_error_best = testing_cuadratic_error;
     end
         
     plot((i-1):i, [ training_cuadratic_error_prev training_cuadratic_error ], 'r')
