@@ -1,3 +1,6 @@
+Al principio se tomaron valores numéricos como semillas y se probaron para cada arquitectura. Luego
+se probaron las arquitecturas y se almacenaron aquellas semillas óptimas en archivos.
+
 "A": archivo
 "C": archivo
 "D": 1
