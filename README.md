@@ -3,9 +3,9 @@
 tener matlab 2016 o superior
 
 ## Procedimientos de ejecución:
-1° descargar los archivos.<br />
-2° descomprimirlos en una carpeta deseada.<br />
-3° abrir matlab.<br />
+1° descargar los archivos.<br />  
+2° descomprimirlos en una carpeta deseada.<br />  
+3° abrir matlab.\n  
 4° abrir el archivo genericNewtonIncremental.m en matlab.<br />
 5° ejecutar el archivo genericNewtonIncremental.m con matlab.<br />
 
@@ -14,7 +14,7 @@ tener matlab 2016 o superior
 En el archivo configFile.txt se encuentra toda la configuración del programa.
 Sus parámetros son los siguientes:
 
-* input_file nombreArchivo.txt<br/>  
+* input_file nombreArchivo.txt<br />  
 El archivo debe contener 3 columnas de igual dimensión las cuales las dos primeras son destinadas a valores de entrada y la tercera a valores de salida.
 
 * neurons 2,num-1,num-2,...,num-n,1<br/>  
