@@ -132,7 +132,7 @@ for i = 1:epochs
             end
             weight_variation =  eta * training_delta_cell{k} * backward_previous;
             weights_cell{k} = weights_cell{k} + weight_variation + momentum_flag * alpha_momentum * previous_weights_variation_cell{k};
-            previous_weight_variation_cell{k} = weight_variation;
+            previous_weights_variation_cell{k} = weight_variation;
         end
     end
     
