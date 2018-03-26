@@ -1,5 +1,5 @@
 # SIA
-## requisitos:
+## Requisitos:
 tener matlab 2016 o superior
 
 ## Procedimientos de ejecución:
@@ -14,17 +14,17 @@ tener matlab 2016 o superior
 En el archivo configFile.txt se encuentra toda la configuración del programa.
 Sus parámetros son los siguientes:
 
-* input_file nombreArchivo.txt<br />
+* input_file nombreArchivo.txt<br/>  
 El archivo debe contener 3 columnas de igual dimensión las cuales las dos primeras son destinadas a valores de entrada y la tercera a valores de salida.
 
-* neurons 2,num-1,num-2,...,num-n,1<br />
+* neurons 2,num-1,num-2,...,num-n,1<br/>  
 Este parámetro permite modificar la arquitectura de la red, cada num-i ingresado corresponde al numero de neuronas por capa oculta, mientras que el 2 inicial corresponde a la capa de entrada y el 1 final corresponde a la capa de salida
 ejemplo: 2,10,20,1. es una arquitectura de red de dos neuronas de entrada, 10 neuronas de la primera capa oculta, 20 neuronas de la segunda capa oculta y una neurona de la capa de salida.
 
-* epochs num<br />
+* epochs num<br/>  
 Es el numero de épocas que se va a ejecutar el algoritmo de entrenamiento.
 
-* training_size num<br />
+* training_size num<br/>  
 Num debe ser menor o igual que el numero de filas del archivo de entrada, training_size es el numero de patrones para entrenamiento y el resto de los patrones de entrada (totalPatrones - num) es destinado a testeo.
 
 * eta num<br />
