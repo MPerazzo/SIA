@@ -1,0 +1,12 @@
+package ar.edu.itba.sia.interfaces;
+
+import java.util.LinkedList;
+import java.util.List;
+
+import ar.com.itba.sia.Problem;
+import ar.edu.itba.sia.core.GenericNode;
+
+public interface SearchAlgorithm<T> {
+    void search(Problem<T> p, List<GenericNode<T>> candidates,
+                LinkedList<GenericNode<T>> borderNodes);
+}
