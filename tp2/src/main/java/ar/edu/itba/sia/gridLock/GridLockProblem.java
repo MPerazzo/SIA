@@ -5,6 +5,7 @@ import java.util.List;
 
 import ar.com.itba.sia.Problem;
 import ar.com.itba.sia.Rule;
+import ar.edu.itba.sia.gridLock.structures.Board;
 
 public class GridLockProblem implements Problem<GridLockState> {
 

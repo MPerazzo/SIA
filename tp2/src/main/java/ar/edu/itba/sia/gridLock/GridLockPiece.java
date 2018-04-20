@@ -1,6 +1,8 @@
 package ar.edu.itba.sia.gridLock;
 
 
+import ar.edu.itba.sia.gridLock.structures.Position2D;
+
 public class GridLockPiece {
 
     private Position2D position;

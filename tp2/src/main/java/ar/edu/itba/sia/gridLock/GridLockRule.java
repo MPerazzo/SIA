@@ -1,6 +1,7 @@
 package ar.edu.itba.sia.gridLock;
 
 import ar.com.itba.sia.Rule;
+import ar.edu.itba.sia.gridLock.structures.Board;
 
 import java.util.LinkedList;
 import java.util.List;

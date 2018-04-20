@@ -1,4 +1,4 @@
-package ar.edu.itba.sia.gridLock;
+package ar.edu.itba.sia.gridLock.structures;
 
 /*
  * Copyright 2007 ZXing authors

@@ -1,5 +1,7 @@
-package ar.edu.itba.sia.gridLock;
+package ar.edu.itba.sia.gridLock.structures;
 
+import ar.edu.itba.sia.gridLock.GridLockPiece;
+import ar.edu.itba.sia.gridLock.GridLockRule;
 import ar.edu.itba.sia.utils.ConfigurationManager;
 
 public class Board {
