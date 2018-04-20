@@ -1,21 +1,18 @@
 package ar.edu.itba.sia.gridLock;
 
-/**
- * Created by matias on 18/04/18.
- */
+import ar.edu.itba.sia.utils.ConfigurationManager;
+
 public class Board {
 
     private final BitMatrix matrix;
-    private final int size;
+    private final int size = ConfigurationManager.getSize();
 
     public Board(Board board) {
         this.matrix = board.getMatrix().clone();
-        this.size = board.getSize();
     }
 
-    public Board(int size) {
+    public Board() {
         matrix = new BitMatrix(size, size);
-        this.size = size;
     }
 
     public void movePiece(GridLockRule r) {
@@ -40,9 +37,7 @@ public class Board {
         return matrix;
     }
 
-    public int getSize() {
-        return size;
-    }
+    public int getSize() { return size;}
 }
 
 
