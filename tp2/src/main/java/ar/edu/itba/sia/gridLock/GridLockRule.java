@@ -40,9 +40,14 @@ public class GridLockRule implements Rule<GridLockState> {
 
         newBoard.movePiece(this);
 
-        newPieces.add(new GridLockPiece(this.piece, (int) this.offset));
+        GridLockPiece newPiece = new GridLockPiece(this.piece, (int) this.offset);
 
         newPieces.remove(this.piece);
+
+        if (currentState.getMainPiece().equals(this.getPiece()))
+            newPieces.add(0, newPiece);
+        else
+            newPieces.add(newPiece);
 
         return new GridLockState(newBoard, newPieces);
 
