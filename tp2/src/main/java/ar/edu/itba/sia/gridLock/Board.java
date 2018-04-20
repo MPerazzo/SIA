@@ -23,13 +23,14 @@ public class Board {
         GridLockPiece p = r.getPiece();
         int size = p.getSize();
         int offset = (int) r.getOffset();
+        int offsetSign = (int) Math.signum(offset);
 
-        for (int i = 0; i < offset; i++) {
+        for (int i = 0; i < offset; i = i + offsetSign) {
             matrix.unset(p.getPosition().getX() + p.getType().isHorizontal() * i,
                     p.getPosition().getY() + p.getType().isVertical() * i);
         }
 
-        for (int i = size; i < size + offset; i++) {
+        for (int i = size; i < size + offset; i = i + offsetSign) {
             matrix.set(p.getPosition().getX() + p.getType().isHorizontal() * i,
                     p.getPosition().getY() + p.getType().isVertical() * i);
         }
