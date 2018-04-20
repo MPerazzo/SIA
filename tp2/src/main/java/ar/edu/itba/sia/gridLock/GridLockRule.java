@@ -36,10 +36,8 @@ public class GridLockRule implements Rule<GridLockState> {
 
         List<GridLockPiece> newPieces = new LinkedList<>(currentState.getPieces());
 
-        Board newBoard = new Board(currentState.getBoard());
-
-        newBoard.movePiece(this);
-
+        Board newBoard = new Board(currentState.getBoard(), this);
+        
         GridLockPiece newPiece = new GridLockPiece(this.piece, (int) this.offset);
 
         newPieces.remove(this.piece);

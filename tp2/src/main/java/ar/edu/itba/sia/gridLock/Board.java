@@ -7,15 +7,16 @@ public class Board {
     private final BitMatrix matrix;
     private final int size = ConfigurationManager.getSize();
 
-    public Board(Board board) {
+    public Board(Board board, GridLockRule r) {
         this.matrix = board.getMatrix().clone();
+        this.movePiece(r);
     }
 
     public Board() {
         matrix = new BitMatrix(size, size);
     }
 
-    public void movePiece(GridLockRule r) {
+    private void movePiece(GridLockRule r) {
 
         GridLockPiece p = r.getPiece();
         int size = p.getSize();
