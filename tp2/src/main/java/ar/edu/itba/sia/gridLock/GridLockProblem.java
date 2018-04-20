@@ -7,22 +7,28 @@ import ar.com.itba.sia.Rule;
 
 public class GridLockProblem implements Problem<GridLockState> {
 
+    private GridLockState initialState;
+
+    public GridLockProblem(GridLockState initialState) {
+        this.initialState = initialState;
+    }
+
     @Override
     public GridLockState getInitialState() {
-        // TODO Auto-generated method stub
-        return null;
+        return initialState;
     }
 
     @Override
-    public List<Rule<GridLockState>> getRules(GridLockState arg0) {
-        // TODO Auto-generated method stub
-        return null;
+    public List<Rule<GridLockState>> getRules(GridLockState state) {
+      return null;
     }
 
     @Override
-    public boolean isResolved(GridLockState arg0) {
-        // TODO Auto-generated method stub
-        return false;
+    public boolean isResolved(GridLockState state) {
+
+        GridLockPiece mainPiece = state.getMainPiece();
+
+        return mainPiece.getPosition().getX() + mainPiece.getSize() == initialState.getBoard().getSize();
     }
 
 

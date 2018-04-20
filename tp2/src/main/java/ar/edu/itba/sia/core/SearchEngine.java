@@ -43,6 +43,7 @@ public class SearchEngine<T> {
             borderNodes.removeFirst();
             expandedNodes.add(currentNode);
 
+            // aplica las reglas
             List<GenericNode<T>> candidates = expand(rulesToApply, currentNode, h);
 
             searchMethod.search(p, candidates, borderNodes);
@@ -60,9 +61,9 @@ public class SearchEngine<T> {
         for (Rule<T> r : toApply) {
             T newState = (T) r.applyToState(currentState);
             GenericNode<T> newNode = new GenericNode<T>(newState,
-                    currentNode.getAccum() + 1, heuristic.getValue(newState),
+                    currentNode.getAccum() + r.getCost(), heuristic.getValue(newState),
                     r, currentNode);
-            candidates.add(newNode);;
+            candidates.add(newNode);
         }
         return candidates;
     }
