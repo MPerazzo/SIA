@@ -35,15 +35,15 @@ public class Board {
 
             case VERTICAL:
 
-                for (int i = pieceStartY ; i <= size ; i++) {
-                    matrix.set(pieceStartX,i);
+                for (int i = 0 ; i < size ; i++) {
+                    matrix.set(pieceStartX, pieceStartY + i);
                 }
                 break;
 
             case HORIZONTAL:
 
-                for (int i = pieceStartX ; i <= size ; i++) {
-                    matrix.set(i, pieceStartY);
+                for (int i = 0 ; i < size ; i++) {
+                    matrix.set(pieceStartX + i, pieceStartY);
                 }
         }
     }
@@ -51,19 +51,30 @@ public class Board {
     private void movePiece(GridLockRule r) {
 
         GridLockPiece p = r.getPiece();
+        int pieceStartX = p.getPosition().getX();
+        int pieceStartY = p.getPosition().getY();
+        int isHorizontal = p.getType().isHorizontal();
+        int isVertical = p.getType().isVertical();
         int size = p.getSize();
-        int offset = (int) r.getOffset();
-        int offsetSign = (int) Math.signum(offset);
+        int offsetModule = (int) Math.abs(r.getOffset());
+        int offsetSign = (int) Math.signum(r.getOffset());
 
-        for (int i = 0; i < offset; i = i + offsetSign) {
-            matrix.unset(p.getPosition().getX() + p.getType().isHorizontal() * i,
-                    p.getPosition().getY() + p.getType().isVertical() * i);
+        for(int i = 0 ; i < offsetModule ; i++) {
+            if(offsetSign > 0) {
+                matrix.unset(pieceStartX + isHorizontal * i,pieceStartY + isVertical * i);
+            } else {
+                matrix.unset(pieceStartX + isHorizontal * ((i * offsetSign) + (size-1))  , pieceStartY + isVertical * ((i * offsetSign) + (size-1)));
+            }
         }
 
-        for (int i = size; i < size + offset; i = i + offsetSign) {
-            matrix.set(p.getPosition().getX() + p.getType().isHorizontal() * i,
-                    p.getPosition().getY() + p.getType().isVertical() * i);
+        for(int i = 0 ; i < offsetModule ; i++) {
+            if(offsetSign > 0) {
+                matrix.set(pieceStartX + isHorizontal * (i + size), pieceStartY + isVertical * (i + size));
+            } else {
+                matrix.set(pieceStartX + isHorizontal * (i * offsetSign - 1), pieceStartY + isVertical * (i * offsetSign -1));
+            }
         }
+
     }
 
     public BitMatrix getMatrix() {
