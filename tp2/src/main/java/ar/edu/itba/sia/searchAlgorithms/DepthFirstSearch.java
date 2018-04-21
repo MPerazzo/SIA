@@ -12,7 +12,7 @@ public class DepthFirstSearch<T> implements SearchAlgorithm<T> {
 
     @Override
     public void search(Problem<T> p, List<GenericNode<T>> candidates,
-                       LinkedList<GenericNode<T>> borderNodes) {
+                       List<GenericNode<T>> borderNodes) {
         borderNodes.addAll(1, candidates);
     }
 

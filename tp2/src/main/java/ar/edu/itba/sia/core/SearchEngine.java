@@ -12,8 +12,8 @@ import ar.edu.itba.sia.interfaces.SearchAlgorithm;
 
 public class SearchEngine<T> {
 
-    private LinkedList<GenericNode<T>> expandedNodes;
-    private LinkedList<GenericNode<T>> borderNodes;
+    private List<GenericNode<T>> expandedNodes;
+    private List<GenericNode<T>> borderNodes;
     private Set<GenericNode<T>> allNodes;
 
     public SearchEngine() {
@@ -40,12 +40,12 @@ public class SearchEngine<T> {
 
         while (!p.isResolved(currentState)) {
 
-            currentNode = borderNodes.getFirst();
+            currentNode = borderNodes.get(0);
             currentState = currentNode.getState();
 
             List<Rule<T>> rulesToApply = p.getRules(currentState);
 
-            borderNodes.removeFirst();
+            borderNodes.remove(0);
             expandedNodes.add(currentNode);
 
             // aplica las reglas

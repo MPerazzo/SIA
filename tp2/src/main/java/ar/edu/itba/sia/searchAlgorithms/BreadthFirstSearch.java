@@ -12,7 +12,7 @@ public class BreadthFirstSearch<T> implements SearchAlgorithm<T> {
 
     @Override
     public void search(Problem<T> p, List<GenericNode<T>> candidates,
-                       LinkedList<GenericNode<T>> borderNodes) {
+                       List<GenericNode<T>> borderNodes) {
         borderNodes.addAll(candidates);
     }
 
