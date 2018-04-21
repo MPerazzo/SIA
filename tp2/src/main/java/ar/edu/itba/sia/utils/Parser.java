@@ -28,7 +28,7 @@ public class Parser {
         this.pieces = new LinkedList<>();
     }
 
-    public void parse(String fileName) throws IOException, NoSuchElementException {
+    public void parse(String fileName) throws IOException {
 
         FileReader fileReader = new FileReader(fileName);
         BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -57,16 +57,14 @@ public class Parser {
 
                         pieces.add(new GridLockPiece(point, size, GridLockPieceType.VERTICAL));
 
-                    } else
-                        throw new NoSuchElementException("Orientation " + pieceArgs[PIECE_ORIENTATION] + " does not exist");
+                    }
                 }
 
             } if(args[HEADER_POSITION].equals(SIZE_HEADER)) {
 
                this.size = Integer.parseInt(args[HEADER_VALUE]);
 
-            } else
-                throw new NoSuchElementException("Header " + args[HEADER_POSITION] + " does not exist");
+            }
         }
         bufferedReader.close();
 

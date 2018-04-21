@@ -23,11 +23,8 @@ public class ConfigurationManager {
             System.out.println("file " + fileName + " not found");
         } catch (IOException e) {
             System.out.println("failed to try to read the file: " + fileName);
-        } catch (NoSuchElementException e) {
-            System.out.println("Invalid file syntax");
         }
 
-        System.out.println(parser.getSize());
         Board board = new Board(parser.getPieces(), parser.getSize());
         initialState = new GridLockState(board, parser.getPieces());
     }
