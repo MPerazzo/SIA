@@ -11,6 +11,7 @@ public class ConfigurationManager {
 
     private final static String fileName = "configFile.txt";
     private final Parser parser;
+    private final GridLockState initialState;
 
     private static ConfigurationManager intance = null;
 
@@ -25,22 +26,19 @@ public class ConfigurationManager {
         } catch (NoSuchElementException e) {
             System.out.println("Invalid file syntax");
         }
+
+        Board board = new Board(parser.getPieces(), parser.getSize());
+        initialState = new GridLockState(board, parser.getPieces());
     }
 
-    public static ConfigurationManager getIntance() {
+    public static ConfigurationManager getInstance() {
         if (intance == null) {
             intance = new ConfigurationManager();
         }
         return intance;
     }
 
-    public Parser getParser() {
-        return parser;
-    }
-
-    public GridLockState initialState() {
-
-        Board board = new Board(parser.getPieces(), parser.getSize());
-        return new GridLockState(board, parser.getPieces());
+    public GridLockState getInitialState() {
+        return this.initialState;
     }
 }
