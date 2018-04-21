@@ -13,7 +13,7 @@ public class ConfigurationManager {
     private final Parser parser;
     private final GridLockState initialState;
 
-    private static ConfigurationManager intance = null;
+    private static ConfigurationManager instance = null;
 
     private ConfigurationManager() {
         this.parser = new Parser();
@@ -27,15 +27,16 @@ public class ConfigurationManager {
             System.out.println("Invalid file syntax");
         }
 
+        System.out.println(parser.getSize());
         Board board = new Board(parser.getPieces(), parser.getSize());
         initialState = new GridLockState(board, parser.getPieces());
     }
 
     public static ConfigurationManager getInstance() {
-        if (intance == null) {
-            intance = new ConfigurationManager();
+        if (instance == null) {
+            instance = new ConfigurationManager();
         }
-        return intance;
+        return instance;
     }
 
     public GridLockState getInitialState() {
