@@ -30,7 +30,7 @@ public class SearchEngine<T> {
     private void genericSearch(SearchAlgorithm<T> searchMethod, Problem<T> p, Heuristic<T> h) {
 
         T currentState = p.getInitialState();
-        GenericNode<T> currentNode = new GenericNode<T>(currentState);
+        GenericNode<T> currentNode = new GenericNode<>(currentState);
         borderNodes.add(currentNode);
 
         while (!p.isResolved(currentState)) {
@@ -63,6 +63,7 @@ public class SearchEngine<T> {
             GenericNode<T> newNode = new GenericNode<T>(newState,
                     currentNode.getAccum() + r.getCost(), heuristic.getValue(newState),
                     r, currentNode);
+            if (!borderNodes.contains(newNode) || !expandedNodes.contains(newNode))
             candidates.add(newNode);
         }
         return candidates;

@@ -31,4 +31,19 @@ public class GridLockState implements State {
     public GridLockPiece getMainPiece() {
         return pieces.get(0);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        GridLockState that = (GridLockState) o;
+
+        return this.getBoard().equals(that.getBoard());
+    }
+
+    @Override
+    public int hashCode() {
+        return this.getBoard().hashCode();
+    }
 }
