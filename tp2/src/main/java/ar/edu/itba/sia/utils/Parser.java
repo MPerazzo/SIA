@@ -9,10 +9,17 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class Parser {
 
-    private final static String BOARD = "board", SIZE = "size";
+    private final static String BOARD_HEADER = "board", SIZE_HEADER = "size";
+    private final static Integer PIECE_X = 0, PIECE_Y = 1, PIECE_SIZE = 2, PIECE_ORIENTATION = 3,
+            HEADER_POSITION = 0, HEADER_VALUE = 1;
+    private final static String VALUE_SEPARATOR = ":", PIECE_SEPARATOR = ";", PIECEARG_SEPARATOR = ",";
+    private final static String HORIZONTAL_ORIENTATION = "h", VERTICAL_ORIENTATION = "v";
+
+
 
     private int size;
     private List<GridLockPiece> pieces;
@@ -27,34 +34,35 @@ public class Parser {
         BufferedReader bufferedReader = new BufferedReader(fileReader);
 
         String line;
-        while((line = bufferedReader.readLine())!=null) {
+        while((line = bufferedReader.readLine()) != null) {
 
-            String [] args = line.split(":");
+            String [] args = line.split(VALUE_SEPARATOR);
 
-            if(args[0].equals(Parser.BOARD)) {
-                String [] piecesArgs = args[1].split(";");
+            if(args[HEADER_POSITION].equals(BOARD_HEADER)) {
+                String [] piecesArgs = args[HEADER_VALUE].split(PIECE_SEPARATOR);
 
                 int lenght = piecesArgs.length;
                 for(int i = 0 ; i < lenght ; i++) {
 
-                    String [] pieceArgs = piecesArgs[i].split(",");
-                    Position2D point = new Position2D(Integer.parseInt(pieceArgs[0]),Integer.parseInt(pieceArgs[1]));
-                    int size = Integer.parseInt(pieceArgs[2]);
+                    String [] pieceArgs = piecesArgs[i].split(PIECEARG_SEPARATOR);
+                    Position2D point = new Position2D(Integer.parseInt(pieceArgs[PIECE_X]),
+                            Integer.parseInt(pieceArgs[PIECE_Y]));
+                    int size = Integer.parseInt(pieceArgs[PIECE_SIZE]);
 
-                    if(pieceArgs[3].equals("h")) {
+                    if(pieceArgs[PIECE_ORIENTATION].equals(HORIZONTAL_ORIENTATION)) {
 
                         pieces.add(new GridLockPiece(point, size, GridLockPieceType.HORIZONTAL));
 
-                    } else if(pieceArgs[3].equals("v")) {
+                    } else if(pieceArgs[PIECE_ORIENTATION].equals(VERTICAL_ORIENTATION)) {
 
                         pieces.add(new GridLockPiece(point, size, GridLockPieceType.VERTICAL));
 
                     }
                 }
 
-            } if(args[0].equals(Parser.SIZE)) {
+            } if(args[HEADER_POSITION].equals(SIZE_HEADER)) {
 
-               this.size = Integer.parseInt(args[1]);
+               this.size = Integer.parseInt(args[HEADER_VALUE]);
 
             }
         }

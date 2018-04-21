@@ -1,7 +1,9 @@
 package ar.edu.itba.sia.core;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import ar.com.itba.sia.Heuristic;
 import ar.com.itba.sia.Problem;
@@ -10,12 +12,12 @@ import ar.edu.itba.sia.interfaces.SearchAlgorithm;
 
 public class SearchEngine<T> {
 
-    private LinkedList<GenericNode<T>> expandedNodes;
-    private LinkedList<GenericNode<T>> borderNodes;
+    private List<GenericNode<T>> borderNodes;
+    private Set<GenericNode<T>> allNodes;
 
     public SearchEngine() {
-        expandedNodes = new LinkedList<>();
         borderNodes = new LinkedList<>();
+        allNodes = new HashSet<>();
     }
 
     public void search(SearchAlgorithm<T> searchMethod, Problem<T> p) {
@@ -30,18 +32,18 @@ public class SearchEngine<T> {
     private void genericSearch(SearchAlgorithm<T> searchMethod, Problem<T> p, Heuristic<T> h) {
 
         T currentState = p.getInitialState();
-        GenericNode<T> currentNode = new GenericNode<T>(currentState);
+        GenericNode<T> currentNode = new GenericNode<>(currentState);
         borderNodes.add(currentNode);
+        allNodes.add(currentNode);
 
         while (!p.isResolved(currentState)) {
 
-            currentNode = borderNodes.getFirst();
+            currentNode = borderNodes.get(0);
             currentState = currentNode.getState();
 
             List<Rule<T>> rulesToApply = p.getRules(currentState);
 
-            borderNodes.removeFirst();
-            expandedNodes.add(currentNode);
+            borderNodes.remove(0);
 
             // aplica las reglas
             List<GenericNode<T>> candidates = expand(rulesToApply, currentNode, h);
@@ -63,7 +65,10 @@ public class SearchEngine<T> {
             GenericNode<T> newNode = new GenericNode<T>(newState,
                     currentNode.getAccum() + r.getCost(), heuristic.getValue(newState),
                     r, currentNode);
-            candidates.add(newNode);
+            if (!allNodes.contains(newNode)) {
+                candidates.add(newNode);
+                allNodes.add(newNode);
+            }
         }
         return candidates;
     }

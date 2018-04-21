@@ -14,7 +14,7 @@ import java.util.List;
 public class GreedySearch<T> implements SearchAlgorithm<T> {
     @Override
     public void search(Problem<T> p, List<GenericNode<T>> candidates,
-                       LinkedList<GenericNode<T>> borderNodes) {
+                       List<GenericNode<T>> borderNodes) {
         //border nodes ya esta ordenado
         Comparator<GenericNode> comparator = (n1, n2) -> ((int) n1.getHeuristicValue()
                 - (int) n2.getHeuristicValue());

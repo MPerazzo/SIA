@@ -39,4 +39,19 @@ public class GenericNode<T> implements Node {
     public double getHeuristicValue() {
         return heuristicValue;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        GenericNode<?> that = (GenericNode<?>) o;
+
+        return this.getState().equals(that.getState());
+    }
+
+    @Override
+    public int hashCode() {
+        return this.getState().hashCode();
+    }
 }
