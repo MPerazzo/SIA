@@ -12,12 +12,10 @@ import ar.edu.itba.sia.interfaces.SearchAlgorithm;
 
 public class SearchEngine<T> {
 
-    private List<GenericNode<T>> expandedNodes;
     private List<GenericNode<T>> borderNodes;
     private Set<GenericNode<T>> allNodes;
 
     public SearchEngine() {
-        expandedNodes = new LinkedList<>();
         borderNodes = new LinkedList<>();
         allNodes = new HashSet<>();
     }
@@ -46,7 +44,6 @@ public class SearchEngine<T> {
             List<Rule<T>> rulesToApply = p.getRules(currentState);
 
             borderNodes.remove(0);
-            expandedNodes.add(currentNode);
 
             // aplica las reglas
             List<GenericNode<T>> candidates = expand(rulesToApply, currentNode, h);
