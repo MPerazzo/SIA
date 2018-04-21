@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public class ConfigurationManager {
 
-    private final static String fileName = "configFile-tp2.txt";
+    private final static String fileName = "configFile.txt";
     private final Parser parser;
 
     private static ConfigurationManager intance = null;
