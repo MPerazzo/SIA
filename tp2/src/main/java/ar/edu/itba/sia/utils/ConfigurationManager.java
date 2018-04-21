@@ -5,7 +5,6 @@ import ar.edu.itba.sia.gridLock.structures.Board;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.NoSuchElementException;
 
 public class ConfigurationManager {
 

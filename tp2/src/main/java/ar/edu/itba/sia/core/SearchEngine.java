@@ -38,9 +38,6 @@ public class SearchEngine<T> {
 
         while (!p.isResolved(currentState)) {
 
-            currentNode = borderNodes.get(0);
-            currentState = currentNode.getState();
-
             List<Rule<T>> rulesToApply = p.getRules(currentState);
 
             borderNodes.remove(0);
@@ -49,6 +46,9 @@ public class SearchEngine<T> {
             List<GenericNode<T>> candidates = expand(rulesToApply, currentNode, h);
 
             searchMethod.search(p, candidates, borderNodes);
+
+            currentNode = borderNodes.get(0);
+            currentState = currentNode.getState();
         }
 
     }

@@ -14,7 +14,7 @@ public class Main {
         SearchEngine<GridLockState> searchEngine = new SearchEngine<>();
 
         BreadthFirstSearch<GridLockState> searchAlgorithm = new BreadthFirstSearch<>();
-        
+
         GridLockProblem p = new GridLockProblem(ConfigurationManager.getInstance().getInitialState());
 
         searchEngine.search(searchAlgorithm, p);
