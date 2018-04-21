@@ -1,7 +1,9 @@
 package ar.edu.itba.sia.core;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import ar.com.itba.sia.Heuristic;
 import ar.com.itba.sia.Problem;
@@ -12,10 +14,12 @@ public class SearchEngine<T> {
 
     private LinkedList<GenericNode<T>> expandedNodes;
     private LinkedList<GenericNode<T>> borderNodes;
+    private Set<GenericNode<T>> allNodes;
 
     public SearchEngine() {
         expandedNodes = new LinkedList<>();
         borderNodes = new LinkedList<>();
+        allNodes = new HashSet<>();
     }
 
     public void search(SearchAlgorithm<T> searchMethod, Problem<T> p) {
@@ -32,6 +36,7 @@ public class SearchEngine<T> {
         T currentState = p.getInitialState();
         GenericNode<T> currentNode = new GenericNode<>(currentState);
         borderNodes.add(currentNode);
+        allNodes.add(currentNode);
 
         while (!p.isResolved(currentState)) {
 
@@ -63,8 +68,10 @@ public class SearchEngine<T> {
             GenericNode<T> newNode = new GenericNode<T>(newState,
                     currentNode.getAccum() + r.getCost(), heuristic.getValue(newState),
                     r, currentNode);
-            if (!borderNodes.contains(newNode) || !expandedNodes.contains(newNode))
-            candidates.add(newNode);
+            if (!allNodes.contains(newNode)) {
+                candidates.add(newNode);
+                allNodes.add(newNode);
+            }
         }
         return candidates;
     }
