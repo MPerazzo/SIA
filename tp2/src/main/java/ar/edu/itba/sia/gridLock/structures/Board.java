@@ -82,6 +82,22 @@ public class Board {
     }
 
     public int getSize() { return size;}
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Board that = (Board) o;
+
+        return this.getMatrix().equals(that.getMatrix());
+
+    }
+
+    @Override
+    public int hashCode() {
+        return this.getMatrix().hashCode();
+    }
 }
 
 
