@@ -4,18 +4,48 @@ import ar.edu.itba.sia.gridLock.GridLockPiece;
 import ar.edu.itba.sia.gridLock.GridLockRule;
 import ar.edu.itba.sia.utils.ConfigurationManager;
 
+import java.util.List;
+
 public class Board {
 
     private final BitMatrix matrix;
-    private final int size = ConfigurationManager.getSize();
+    private final int size;
 
     public Board(Board board, GridLockRule r) {
         this.matrix = board.getMatrix().clone();
+        this.size = board.size;
         this.movePiece(r);
     }
 
-    public Board() {
+    public Board(List<GridLockPiece> pieces, int size) {
         matrix = new BitMatrix(size, size);
+        this.size = size;
+        for(GridLockPiece p : pieces) {
+            setPiece(p);
+        }
+    }
+
+    private void setPiece(GridLockPiece p) {
+
+        int size = p.getSize();
+        int pieceStartY = p.getPosition().getY();
+        int pieceStartX = p.getPosition().getX();
+
+        switch (p.getType()) {
+
+            case VERTICAL:
+
+                for (int i = pieceStartY ; i <= size ; i++) {
+                    matrix.set(pieceStartX,i);
+                }
+                break;
+
+            case HORIZONTAL:
+
+                for (int i = pieceStartX ; i <= size ; i++) {
+                    matrix.set(i, pieceStartY);
+                }
+        }
     }
 
     private void movePiece(GridLockRule r) {

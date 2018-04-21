@@ -52,6 +52,7 @@ public class GridLockProblem implements Problem<GridLockState> {
 
         int pieceStartX = piece.getPosition().getX();
         int pieceStartY = piece.getPosition().getY();
+        int pieceSize = piece.getSize();
 
         for(int offset = -1, i = 0 ; i < pieceStartY ; i++, offset--) {
             if(!board.getMatrix().get(pieceStartX, pieceStartY + offset)) {
@@ -64,8 +65,8 @@ public class GridLockProblem implements Problem<GridLockState> {
 
         int boardHeight = board.getSize() - 1;
 
-        for(int offset = 1, i = pieceStartY + piece.getSize() ; i < boardHeight ; i++, offset ++) {
-            if (!board.getMatrix().get(pieceStartX, pieceStartY + piece.getSize() + offset)) {
+        for(int offset = 1, i = pieceStartY + pieceSize ; i < boardHeight ; i++, offset ++) {
+            if (!board.getMatrix().get(pieceStartX, pieceStartY + pieceSize + offset)) {
                 rules.add(new GridLockRule(piece, offset));
             } else {
                 break;
@@ -78,6 +79,7 @@ public class GridLockProblem implements Problem<GridLockState> {
 
         int pieceStartX = piece.getPosition().getX();
         int pieceStartY = piece.getPosition().getY();
+        int pieceSize = piece.getSize();
 
         for(int offset = -1, i = 0 ; i < pieceStartX ; i++, offset--) {
             if(!board.getMatrix().get(pieceStartX + offset, pieceStartY)) {
@@ -90,8 +92,8 @@ public class GridLockProblem implements Problem<GridLockState> {
 
         int boardWidth = board.getSize() - 1;
 
-        for(int offset = 1, i = pieceStartX + piece.getSize() ; i < boardWidth ; i++, offset ++) {
-            if (!board.getMatrix().get(pieceStartX + piece.getSize() + offset, pieceStartY)) {
+        for(int offset = 1, i = pieceStartX + pieceSize ; i < boardWidth ; i++, offset ++) {
+            if (!board.getMatrix().get(pieceStartX + pieceSize + offset, pieceStartY)) {
                 rules.add(new GridLockRule(piece, offset));
             } else {
                 break;
