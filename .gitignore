@@ -4,7 +4,6 @@
 .project
 .classpath
 .target/
-.target
 
 # IntelliJ
 .idea
