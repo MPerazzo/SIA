@@ -25,7 +25,7 @@ public class GridLockProblem implements Problem<GridLockState> {
 
         GridLockPiece mainPiece = state.getMainPiece();
 
-        return mainPiece.getPosition().getX() + mainPiece.getSize() == initialState.getBoard().getSize();
+        return mainPiece.getPosition().getX() + mainPiece.getSize() == initialState.getBoard().getSize()-1;
     }
 
     @Override
