@@ -5,6 +5,7 @@ import ar.edu.itba.sia.gridLock.structures.Board;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.NoSuchElementException;
 
 public class ConfigurationManager {
 
@@ -18,10 +19,11 @@ public class ConfigurationManager {
         try {
             parser.parse(fileName);
         } catch (FileNotFoundException e) {
-            System.out.print("file " + fileName + " not found");
-        }
-        catch (IOException e) {
+            System.out.println("file " + fileName + " not found");
+        } catch (IOException e) {
             System.out.println("failed to try to read the file: " + fileName);
+        } catch (NoSuchElementException e) {
+            System.out.println("Invalid file syntax");
         }
     }
 

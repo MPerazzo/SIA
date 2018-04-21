@@ -9,6 +9,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class Parser {
 
@@ -16,6 +17,7 @@ public class Parser {
     private final static Integer PIECE_X = 0, PIECE_Y = 1, PIECE_SIZE = 2, PIECE_ORIENTATION = 3,
             HEADER_POSITION = 0, HEADER_VALUE = 1;
     private final static String VALUE_SEPARATOR = ":", PIECE_SEPARATOR = ";", PIECEARG_SEPARATOR = ",";
+    private final static String HORIZONTAL_ORIENTATION = "h", VERTICAL_ORIENTATION = "v";
 
 
 
@@ -26,13 +28,13 @@ public class Parser {
         this.pieces = new LinkedList<>();
     }
 
-    public void parse(String fileName) throws IOException {
+    public void parse(String fileName) throws IOException, NoSuchElementException {
 
         FileReader fileReader = new FileReader(fileName);
         BufferedReader bufferedReader = new BufferedReader(fileReader);
 
         String line;
-        while((line = bufferedReader.readLine())!=null) {
+        while((line = bufferedReader.readLine()) != null) {
 
             String [] args = line.split(VALUE_SEPARATOR);
 
@@ -47,22 +49,24 @@ public class Parser {
                             Integer.parseInt(pieceArgs[PIECE_Y]));
                     int size = Integer.parseInt(pieceArgs[PIECE_SIZE]);
 
-                    if(pieceArgs[PIECE_ORIENTATION].equals("h")) {
+                    if(pieceArgs[PIECE_ORIENTATION].equals(HORIZONTAL_ORIENTATION)) {
 
                         pieces.add(new GridLockPiece(point, size, GridLockPieceType.HORIZONTAL));
 
-                    } else if(pieceArgs[PIECE_ORIENTATION].equals("v")) {
+                    } else if(pieceArgs[PIECE_ORIENTATION].equals(VERTICAL_ORIENTATION)) {
 
                         pieces.add(new GridLockPiece(point, size, GridLockPieceType.VERTICAL));
 
-                    }
+                    } else
+                        throw new NoSuchElementException("Orientation " + pieceArgs[PIECE_ORIENTATION] + " does not exist");
                 }
 
             } if(args[HEADER_POSITION].equals(SIZE_HEADER)) {
 
                this.size = Integer.parseInt(args[HEADER_VALUE]);
 
-            }
+            } else
+                throw new NoSuchElementException("Header " + args[HEADER_POSITION] + " does not exist");
         }
         bufferedReader.close();
 
