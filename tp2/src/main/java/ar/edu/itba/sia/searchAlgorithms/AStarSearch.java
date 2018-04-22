@@ -16,23 +16,9 @@ public class AStarSearch<T> implements SearchAlgorithm<T> {
     @Override
     public void search(Problem<T> p, List<GenericNode<T>> candidates, List<GenericNode<T>> borderNodes) {
 
-        Comparator<GenericNode> comparator = (n1, n2) -> (((int) n1.getHeuristicValue() + (int) n1.getAccum())
+        Comparator<GenericNode<T>> comparator = (n1, n2) -> (((int) n1.getHeuristicValue() + (int) n1.getAccum())
                 - ((int) n2.getHeuristicValue() + (int) n2.getAccum()));
 
-        for (int i=0 ; i < borderNodes.size() ; i++) {
-            for (Iterator<GenericNode<T>> iterator = candidates.iterator(); iterator.hasNext();) {
-                GenericNode<T> candidate = iterator.next();
-                if (comparator.compare(borderNodes.get(i), candidate) >= 0) {
-                    borderNodes.add(i, candidate);
-                    iterator.remove();
-                    i++;
-                }
-            }
-            if (candidates.isEmpty())
-                break;
-        }
-
-        if (!candidates.isEmpty())
-            borderNodes.addAll(candidates);
+        new CriteriaSearch<T>().search(p, candidates, borderNodes, comparator);
     }
 }
