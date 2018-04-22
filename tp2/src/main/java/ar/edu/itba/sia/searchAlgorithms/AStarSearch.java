@@ -16,16 +16,13 @@ public class AStarSearch<T> implements SearchAlgorithm<T> {
     @Override
     public void search(Problem<T> p, List<GenericNode<T>> candidates, List<GenericNode<T>> borderNodes) {
 
-        List<GenericNode<T>> borderNodesAux = new LinkedList<>(borderNodes);
-
         Comparator<GenericNode> comparator = (n1, n2) -> (((int) n1.getHeuristicValue() + (int) n1.getAccum())
                 - ((int) n2.getHeuristicValue() + (int) n2.getAccum()));
 
-        int i = 0;
-        for (GenericNode borderNode : borderNodesAux) {
+        for (int i=0 ; i < borderNodes.size() ; i++) {
             for (Iterator<GenericNode<T>> iterator = candidates.iterator(); iterator.hasNext();) {
                 GenericNode<T> candidate = iterator.next();
-                if (comparator.compare(borderNode, candidate) >= 0) {
+                if (comparator.compare(borderNodes.get(i), candidate) >= 0) {
                     borderNodes.add(i, candidate);
                     iterator.remove();
                     i++;
@@ -33,8 +30,6 @@ public class AStarSearch<T> implements SearchAlgorithm<T> {
             }
             if (candidates.isEmpty())
                 break;
-
-            i++;
         }
 
         if (!candidates.isEmpty())
