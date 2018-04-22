@@ -39,11 +39,12 @@ public class GridLockState implements State {
 
         GridLockState that = (GridLockState) o;
 
-        return this.getBoard().equals(that.getBoard());
+        return pieces.equals(that.pieces);
+
     }
 
     @Override
     public int hashCode() {
-        return this.getBoard().hashCode();
+        return pieces.hashCode();
     }
 }
