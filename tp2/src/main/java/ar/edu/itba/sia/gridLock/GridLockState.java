@@ -46,15 +46,15 @@ public class GridLockState implements State {
             int pieceSize = p.getSize();
 
             for (int j = 0 ; j < pieceSize ; j++)
-                matrix[x_value + p.getType().isHorizontal() * j][y_value + p.getType().isVertical() * j] = i + 1;
+                matrix[y_value + p.getType().isVertical() * j][x_value + p.getType().isHorizontal() * j] = i + 1;
         }
 
-        for (Integer[] array : matrix) {
-            for (Integer value : array) {
-                if (value == null)
+        for (int i = 0 ; i < size ; i++) {
+            for (int j = 0 ; j < size ; j++) {
+                if (matrix[i][j] == null)
                     s.append(" - ");
                 else
-                    s.append(" " + value + " ");
+                    s.append(" " + matrix[i][j] + " ");
             }
             s.append("\n");
         }
