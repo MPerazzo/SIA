@@ -41,13 +41,15 @@ public class GridLockPiece {
 
         GridLockPiece other = (GridLockPiece) o;
 
-        return this.position.equals(other.position);
+        return this.position.equals(other.position) && this.getSize() == other.getSize() &&
+                this.getType() == other.getType();
     }
 
     @Override
     public int hashCode() {
         int result = position != null ? position.hashCode() : 0;
-        result = 31 * result;
+        result = 31 * result + size;
+        result = 31 * result + (type != null ? type.hashCode() : 0);
         return result;
     }
 }
