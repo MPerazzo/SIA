@@ -59,21 +59,31 @@ public class Board {
         int offsetModule = (int) Math.abs(r.getOffset());
         int offsetSign = (int) Math.signum(r.getOffset());
 
-        for(int i = 0 ; i < offsetModule ; i++) {
+        for(int i = 0 ; i < offsetModule && i < size ; i++) {
             if(offsetSign > 0) {
                 matrix.unset(pieceStartX + isHorizontal * i,pieceStartY + isVertical * i);
             } else {
                 matrix.unset(pieceStartX + isHorizontal * ((i * offsetSign) + (size-1))  , pieceStartY + isVertical * ((i * offsetSign) + (size-1)));
             }
         }
-
-        for(int i = 0 ; i < offsetModule ; i++) {
-            if(offsetSign > 0) {
-                matrix.set(pieceStartX + isHorizontal * (i + size), pieceStartY + isVertical * (i + size));
-            } else {
-                matrix.set(pieceStartX + isHorizontal * (i * offsetSign - 1), pieceStartY + isVertical * (i * offsetSign -1));
+        if(offsetModule <= size) {
+            for(int i = 0 ; i < offsetModule ; i++) {
+                if(offsetSign > 0) {
+                    matrix.set(pieceStartX + isHorizontal * (i + size), pieceStartY + isVertical * (i + size));
+                } else {
+                    matrix.set(pieceStartX + isHorizontal * (i * offsetSign - 1), pieceStartY + isVertical * (i * offsetSign -1));
+                }
+            }
+        } else {
+            for(int i = offsetModule-size ; i < size ; i++) {
+                if(offsetSign > 0) {
+                    matrix.set(pieceStartX + isHorizontal * (i + size), pieceStartY + isVertical * (i + size));
+                } else {
+                    matrix.set(pieceStartX + isHorizontal * (i * offsetSign - 1), pieceStartY + isVertical * (i * offsetSign -1));
+                }
             }
         }
+
 
     }
 
