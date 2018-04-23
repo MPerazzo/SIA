@@ -1,5 +1,6 @@
 package ar.edu.itba.sia.core;
 
+import ar.com.itba.sia.Heuristic;
 import ar.com.itba.sia.Rule;
 import ar.edu.itba.sia.interfaces.Node;
 
@@ -10,10 +11,10 @@ public class GenericNode<T> implements Node {
     private Rule<T> rule;
     private GenericNode<T> parent;
 
-    public GenericNode(T initialState) {
+    public GenericNode(T initialState, Heuristic h) {
         state = initialState;
         accum = 0;
-        heuristicValue = 0;
+        heuristicValue = h.getValue(initialState);
     }
 
     public GenericNode(T state, double accum, double heuristic, Rule<T> rule,
