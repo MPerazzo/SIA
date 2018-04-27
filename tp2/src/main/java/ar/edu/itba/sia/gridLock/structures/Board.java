@@ -75,11 +75,11 @@ public class Board {
                 }
             }
         } else {
-            for(int i = offsetModule-size ; i < size ; i++) {
+            for(int i = 0 ; i < size ; i++) {
                 if(offsetSign > 0) {
-                    matrix.set(pieceStartX + isHorizontal * (i + size), pieceStartY + isVertical * (i + size));
+                    matrix.set(pieceStartX + isHorizontal * (i + offsetModule), pieceStartY + isVertical * (i + offsetModule));
                 } else {
-                    matrix.set(pieceStartX + isHorizontal * (i * offsetSign - 1), pieceStartY + isVertical * (i * offsetSign -1));
+                    matrix.set(pieceStartX + isHorizontal * (i * offsetSign - (offsetModule-1)), pieceStartY + isVertical * (i * offsetSign -(offsetModule-1)));
                 }
             }
         }
