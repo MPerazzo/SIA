@@ -32,6 +32,21 @@ public class GridLockState implements State {
         return pieces.get(0);
     }
 
+    public GridLockPiece getPiece(int x, int y) {
+
+        for (GridLockPiece p : pieces) {
+            int pieceX = p.getPosition().getX();
+            int pieceY = p.getPosition().getY();
+            int pieceSize = p.getSize() - 1;
+            GridLockPieceType pieceOrientation = p.getType();
+
+            if (x >= pieceX && x <= pieceX + pieceSize * pieceOrientation.isHorizontal()
+                    && y >= pieceY && y <= pieceY + pieceSize * pieceOrientation.isVertical())
+                return p;
+        }
+        return null;
+    }
+
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder();
