@@ -87,6 +87,10 @@ public class Board {
 
     }
 
+    public boolean isEmpty(int x, int y) {
+        return !this.matrix.get(x, y);
+    }
+
     public BitMatrix getMatrix() {
         return matrix;
     }
@@ -100,13 +104,13 @@ public class Board {
 
         Board that = (Board) o;
 
-        return this.getMatrix().equals(that.getMatrix());
+        return this.matrix.equals(that.getMatrix());
 
     }
 
     @Override
     public int hashCode() {
-        return this.getMatrix().hashCode();
+        return this.matrix.hashCode();
     }
 }
 

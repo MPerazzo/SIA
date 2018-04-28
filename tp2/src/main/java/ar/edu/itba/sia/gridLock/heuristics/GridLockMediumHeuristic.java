@@ -21,11 +21,11 @@ public class GridLockMediumHeuristic implements Heuristic<GridLockState> {
         int mainPieceY = mainPiece.getPosition().getY();
         int mainPieceSize = mainPiece.getSize();
         int mainPieceFinalPositionX = mainPieceX + mainPieceSize;
-        BitMatrix matrix = currentState.getBoard().getMatrix();
+        Board board = currentState.getBoard();
 
         int middlePieces = 0;
         for (int i = mainPieceFinalPositionX ; i < boardSize ; i++) {
-            if(matrix.get(i, mainPieceY))
+            if(!board.isEmpty(i, mainPieceY))
                 middlePieces++;
         }
         return distanceToGoal + middlePieces;
