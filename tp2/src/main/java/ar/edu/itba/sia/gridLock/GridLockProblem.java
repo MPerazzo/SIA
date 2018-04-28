@@ -62,7 +62,6 @@ public class GridLockProblem implements Problem<GridLockState> {
             } else {
                 break;
             }
-
         }
 
         int boardHeight = board.getSize() - 1;
