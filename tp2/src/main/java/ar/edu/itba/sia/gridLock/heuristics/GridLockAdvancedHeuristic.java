@@ -28,7 +28,7 @@ public class GridLockAdvancedHeuristic implements Heuristic<GridLockState> {
                 int pieceStartY = p.getPosition().getY();
                 int pieceFinalY = pieceStartY + p.getSize();
                 //worst case and best case movements
-                double movements = Math.abs(pieceStartY - mainPieceY + 1) + Math.abs(pieceFinalY - mainPieceY + 1);
+                double movements = Math.abs(pieceStartY - mainPieceY) + 1 + Math.abs(pieceFinalY - mainPieceY) + 1;
                 //average case movements
                 verticalMovements += (int) Math.ceil(movements/2);
             }
