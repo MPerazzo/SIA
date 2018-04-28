@@ -32,11 +32,14 @@ public class SearchEngine<T> {
     private void genericSearch(SearchAlgorithm<T> searchMethod, Problem<T> p, Heuristic<T> h) {
 
         T currentState = p.getInitialState();
-        GenericNode<T> currentNode = new GenericNode<>(currentState);
+        GenericNode<T> currentNode = new GenericNode<>(currentState, h);
         borderNodes.add(currentNode);
         allNodes.add(currentNode);
 
+        int i = 0;
         while (!p.isResolved(currentState)) {
+
+            System.out.println(i);
 
             List<Rule<T>> rulesToApply = p.getRules(currentState);
 
@@ -49,6 +52,8 @@ public class SearchEngine<T> {
 
             currentNode = borderNodes.get(0);
             currentState = currentNode.getState();
+
+            i++;
         }
 
     }

@@ -1,6 +1,8 @@
-package ar.edu.itba.sia.gridLock;
+package ar.edu.itba.sia.gridLock.heuristics;
 
 import ar.com.itba.sia.Heuristic;
+import ar.edu.itba.sia.gridLock.GridLockPiece;
+import ar.edu.itba.sia.gridLock.GridLockState;
 
 public class GridLockBasicHeuristic implements Heuristic<GridLockState> {
 
