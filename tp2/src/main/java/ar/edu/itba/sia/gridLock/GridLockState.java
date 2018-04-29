@@ -2,13 +2,12 @@ package ar.edu.itba.sia.gridLock;
 
 
 import ar.edu.itba.sia.gridLock.structures.Board;
-import ar.edu.itba.sia.interfaces.State;
 
 import java.util.LinkedList;
 import java.util.List;
 
 //Immutable
-public class GridLockState implements State {
+public class GridLockState {
 
     private final Board board;
 

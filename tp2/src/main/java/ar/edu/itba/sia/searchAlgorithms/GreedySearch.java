@@ -1,17 +1,11 @@
 package ar.edu.itba.sia.searchAlgorithms;
 
-import ar.com.itba.sia.Problem;
 import ar.edu.itba.sia.core.GenericNode;
 import ar.edu.itba.sia.interfaces.SearchAlgorithm;
 
 import java.util.Comparator;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 
-/**
- * Created by matias on 20/04/18.
- */
 public class GreedySearch<T> implements SearchAlgorithm<T> {
     @Override
     public void search(List<GenericNode<T>> candidates, List<GenericNode<T>> borderNodes) {
