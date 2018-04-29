@@ -13,8 +13,8 @@ import java.util.List;
  */
 public class CriteriaSearch<T> {
 
-    public void search(Problem<T> p, List<GenericNode<T>> candidates,
-                       List<GenericNode<T>> borderNodes, Comparator<GenericNode<T>> criteria) {
+    public void search(List<GenericNode<T>> candidates, List<GenericNode<T>> borderNodes,
+                       Comparator<GenericNode<T>> criteria) {
 
         Collections.sort(candidates, criteria);
 

@@ -14,11 +14,11 @@ import java.util.List;
  */
 public class AStarSearch<T> implements SearchAlgorithm<T> {
     @Override
-    public void search(Problem<T> p, List<GenericNode<T>> candidates, List<GenericNode<T>> borderNodes) {
+    public void search(List<GenericNode<T>> candidates, List<GenericNode<T>> borderNodes) {
 
         Comparator<GenericNode<T>> comparator = (n1, n2) -> (((int) n1.getHeuristicValue() + (int) n1.getAccum())
                 - ((int) n2.getHeuristicValue() + (int) n2.getAccum()));
 
-        new CriteriaSearch<T>().search(p, candidates, borderNodes, comparator);
+        new CriteriaSearch<T>().search(candidates, borderNodes, comparator);
     }
 }

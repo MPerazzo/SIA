@@ -14,8 +14,7 @@ public class IterativeDeepeningSearch<T> implements SearchAlgorithm<T> {
 
     //Profundizacion iterativa mejorada es BFS (sin arrancar de cero)
     @Override
-    public void search(Problem<T> p, List<GenericNode<T>> candidates,
-                       List<GenericNode<T>> borderNodes) {
+    public void search(List<GenericNode<T>> candidates, List<GenericNode<T>> borderNodes) {
         borderNodes.addAll(candidates);
     }
 }

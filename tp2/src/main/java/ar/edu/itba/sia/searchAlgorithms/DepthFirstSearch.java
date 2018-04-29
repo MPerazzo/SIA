@@ -11,8 +11,7 @@ import ar.edu.itba.sia.interfaces.SearchAlgorithm;
 public class DepthFirstSearch<T> implements SearchAlgorithm<T> {
 
     @Override
-    public void search(Problem<T> p, List<GenericNode<T>> candidates,
-                       List<GenericNode<T>> borderNodes) {
+    public void search(List<GenericNode<T>> candidates, List<GenericNode<T>> borderNodes) {
         borderNodes.addAll(0, candidates);
     }
 

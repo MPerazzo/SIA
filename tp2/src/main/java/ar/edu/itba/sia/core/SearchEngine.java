@@ -48,7 +48,7 @@ public class SearchEngine<T> {
             // aplica las reglas
             List<GenericNode<T>> candidates = expand(rulesToApply, currentNode, h);
 
-            searchMethod.search(p, candidates, borderNodes);
+            searchMethod.search(candidates, borderNodes);
 
             currentNode = borderNodes.get(0);
             currentState = currentNode.getState();

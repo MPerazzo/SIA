@@ -7,6 +7,5 @@ import ar.com.itba.sia.Problem;
 import ar.edu.itba.sia.core.GenericNode;
 
 public interface SearchAlgorithm<T> {
-    void search(Problem<T> p, List<GenericNode<T>> candidates,
-                List<GenericNode<T>> borderNodes);
+    void search(List<GenericNode<T>> candidates, List<GenericNode<T>> borderNodes);
 }
