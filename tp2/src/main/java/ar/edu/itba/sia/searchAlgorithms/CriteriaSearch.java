@@ -8,9 +8,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
-/**
- * Created by matias on 21/04/18.
- */
+
 public class CriteriaSearch<T> {
 
     public void search(List<GenericNode<T>> candidates, List<GenericNode<T>> borderNodes,
@@ -22,7 +20,6 @@ public class CriteriaSearch<T> {
             GenericNode<T> candidate =  candidates.get(0);
             if (criteria.compare(borderNodes.get(i), candidate) >= 0) {
                 borderNodes.add(i, candidate);
-                i++;
                 candidates.remove(0);
             }
 
