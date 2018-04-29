@@ -135,8 +135,6 @@ public class GridLockProblem implements Problem<GridLockState> {
     private void verticalMoveGen(final GridLockPiece piece, final GridLockState currentState
             , List<GridLockState> states, final Set<GridLockState> allStates, final int index) {
 
-        //     private Map<Integer, Map<GridLockPiece, Map<Integer, GridLockRule>>> allRules;
-
         Board board = currentState.getBoard();
 
         int pieceStartX = piece.getPosition().getX();
@@ -153,9 +151,15 @@ public class GridLockProblem implements Problem<GridLockState> {
 
         for(int offset = -1, i = 0 ; i < pieceStartY ; i++, offset--) {
             if(board.isEmpty(pieceStartX, pieceStartY + offset)) {
-                GridLockRule newRule = new GridLockRule(piece, offset);
-                rules.put(offset, newRule);
-                GridLockState newState = newRule.applyToState(currentState);
+                GridLockRule r;
+                if (!rules.containsKey(offset)) {
+                    r = new GridLockRule(piece, offset);
+                    rules.put(offset, r);
+                }
+                else
+                    r = rules.get(offset);
+
+                GridLockState newState = r.applyToState(currentState);
                 if (!allStates.contains(newState)) {
                     states.add(newState);
                     allStates.add(newState);
@@ -169,9 +173,15 @@ public class GridLockProblem implements Problem<GridLockState> {
 
         for(int offset = 1, i = pieceStartY + (pieceSize - 1) ; i < boardHeight ; i++, offset ++) {
             if (board.isEmpty(pieceStartX, pieceStartY + (pieceSize - 1) + offset)) {
-                GridLockRule newRule = new GridLockRule(piece, offset);
-                rules.put(offset, newRule);
-                GridLockState newState = newRule.applyToState(currentState);
+                GridLockRule r;
+                if (!rules.containsKey(offset)) {
+                    r = new GridLockRule(piece, offset);
+                    rules.put(offset, r);
+                }
+                else
+                    r = rules.get(offset);
+
+                GridLockState newState = r.applyToState(currentState);
                 if (!allStates.contains(newState)) {
                     states.add(newState);
                     allStates.add(newState);
@@ -201,9 +211,15 @@ public class GridLockProblem implements Problem<GridLockState> {
 
         for(int offset = -1, i = 0 ; i < pieceStartX ; i++, offset--) {
             if(board.isEmpty(pieceStartX + offset, pieceStartY)) {
-                GridLockRule newRule = new GridLockRule(piece, offset);
-                rules.put(offset, newRule);
-                GridLockState newState = newRule.applyToState(currentState);
+                GridLockRule r;
+                if (!rules.containsKey(offset)) {
+                    r = new GridLockRule(piece, offset);
+                    rules.put(offset, r);
+                }
+                else
+                    r = rules.get(offset);
+
+                GridLockState newState = r.applyToState(currentState);
                 if (!allStates.contains(newState)) {
                     states.add(newState);
                     allStates.add(newState);
@@ -218,9 +234,15 @@ public class GridLockProblem implements Problem<GridLockState> {
 
         for(int offset = 1, i = pieceStartX + (pieceSize - 1) ; i < boardWidth ; i++, offset ++) {
             if (board.isEmpty(pieceStartX + (pieceSize - 1) + offset, pieceStartY)) {
-                GridLockRule newRule = new GridLockRule(piece, offset);
-                rules.put(offset, newRule);
-                GridLockState newState = newRule.applyToState(currentState);
+                GridLockRule r;
+                if (!rules.containsKey(offset)) {
+                    r = new GridLockRule(piece, offset);
+                    rules.put(offset, r);
+                }
+                else
+                    r = rules.get(offset);
+
+                GridLockState newState = r.applyToState(currentState);
                 if (!allStates.contains(newState)) {
                     states.add(newState);
                     allStates.add(newState);
