@@ -20,7 +20,6 @@ public class GridLockAdvancedHeuristic implements Heuristic<GridLockState> {
         int mainPieceSize = mainPiece.getSize();
         int mainPieceFinalPositionX = mainPieceX + mainPieceSize;
         Board board = currentState.getBoard();
-        boardSize = board.getSize();
 
         int verticalMovements = 0;
         for (int i = mainPieceFinalPositionX ; i < boardSize ; i++) {
@@ -33,7 +32,7 @@ public class GridLockAdvancedHeuristic implements Heuristic<GridLockState> {
                 int offsetA = mainPieceY - pieceStartY + 1;
                 int offsetB = pieceFinalY - mainPieceY + 1;
 
-                if (mainPieceY + offsetA > boardSize)
+                if (mainPieceY + offsetA >= boardSize)
                     offsetA = 0;
 
                 if (mainPieceY - offsetB < 0)
