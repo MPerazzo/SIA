@@ -13,6 +13,9 @@ public class Metrics<T> {
 
     private int repOmitted = 0;
 
+    private Metrics () {
+    }
+
     public void computeMetrics(final Integer statesGeneratedCount, final Integer borderNodesCount,
                                final GenericNode<T> solutionNode) {
 
