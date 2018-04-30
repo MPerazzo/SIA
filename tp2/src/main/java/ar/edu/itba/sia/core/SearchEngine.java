@@ -41,19 +41,25 @@ public class SearchEngine<T> {
         borderNodes.add(currentNode);
         allNodes.add(currentNode);
 
-        while (!p.isResolved(currentState)) {
-            List<Rule<T>> rulesToApply = p.getRules(currentState);
+        try {
+            while (!p.isResolved(currentState)) {
+                List<Rule<T>> rulesToApply = p.getRules(currentState);
 
-            borderNodes.remove(0);
+                borderNodes.remove(0);
 
-            List<GenericNode<T>> candidates = expand(rulesToApply, currentNode, h);
+                List<GenericNode<T>> candidates = expand(rulesToApply, currentNode, h);
 
-            searchMethod.search(candidates, borderNodes);
+                searchMethod.search(candidates, borderNodes);
 
-            currentNode = borderNodes.get(0);
-            currentState = currentNode.getState();
+                currentNode = borderNodes.get(0);
+                currentState = currentNode.getState();
+            }
+            metricGenerator.computeMetrics(allNodes.size(), borderNodes.size(), currentNode);
         }
-        metricGenerator.computeMetrics(allNodes.size(), borderNodes.size(), currentNode);
+
+        catch (IndexOutOfBoundsException e) {
+            System.out.println("El estado inicial no tiene solución");
+        }
     }
 
     public List<GenericNode<T>> expand(List<Rule<T>> toApply, GenericNode<T> currentNode,
