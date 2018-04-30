@@ -38,26 +38,30 @@ public class SearchEngine<T> {
         borderNodes.add(currentNode);
         allNodes.add(currentNode);
 
-        int i = 0;
         while (!p.isResolved(currentState)) {
-
-            System.out.println(i);
-
             List<Rule<T>> rulesToApply = p.getRules(currentState);
 
             borderNodes.remove(0);
 
-            // aplica las reglas
             List<GenericNode<T>> candidates = expand(rulesToApply, currentNode, h);
 
             searchMethod.search(candidates, borderNodes);
 
             currentNode = borderNodes.get(0);
             currentState = currentNode.getState();
-
-            i++;
         }
 
+        System.out.println("Estados generados: " + allNodes.size());
+
+        int height = 0;
+        while (currentNode != null) {
+            currentNode = currentNode.getParent();
+            height++;
+        }
+        System.out.println("Altura de la solución : " + height);
+
+        System.out.println("Número de nodos frontera : " + borderNodes.size());
+        System.out.println("Número de nodos expandidos : " + (allNodes.size() - borderNodes.size()));
     }
 
     public List<GenericNode<T>> expand(List<Rule<T>> toApply, GenericNode<T> currentNode,

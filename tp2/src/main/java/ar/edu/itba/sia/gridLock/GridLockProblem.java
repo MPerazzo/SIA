@@ -23,8 +23,6 @@ public class GridLockProblem implements Problem<GridLockState> {
     @Override
     public boolean isResolved(GridLockState state) {
 
-        System.out.println(state);
-
         GridLockPiece mainPiece = state.getMainPiece();
 
         return mainPiece.getPosition().getX() + mainPiece.getSize() == initialState.getBoard().getSize();
