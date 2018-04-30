@@ -26,7 +26,7 @@ public class GridLockProHeuristic implements Heuristic<GridLockState> {
             if (!board.isEmpty(i, mainPieceY)) {
                 GridLockPiece p = currentState.getPiece(i, mainPieceY);
                 int pieceStartY = p.getPosition().getY();
-                int pieceFinalY = pieceStartY + p.getSize();
+                int pieceFinalY = pieceStartY + p.getSize() - 1;
 
                 // both always positive
                 int offsetA = mainPieceY - pieceStartY + 1;
@@ -48,10 +48,13 @@ public class GridLockProHeuristic implements Heuristic<GridLockState> {
                     }
                 }
 
-                if (topMiddlePieces < bottomMiddlePieces)
-                    verticalMovements += topMiddlePieces + offsetA;
+                int topMovements = topMiddlePieces + offsetA;
+                int bottomMovements = bottomMiddlePieces + offsetB;
+
+                if (topMovements > bottomMovements)
+                    verticalMovements += topMovements;
                 else
-                    verticalMovements += bottomMiddlePieces + offsetB;
+                    verticalMovements += bottomMovements;
             }
         }
         return distanceToGoal + verticalMovements;
