@@ -51,13 +51,18 @@ public class Metrics<T> {
         System.out.println("\n");
 
         int i = 0;
+        double prevAccum = 0;
         for (Pair<String, Double> pair : statesChosen) {
-            if (i != 0)
+            if (i != 0) {
                 System.out.println("Movimiento " + i + ":\n");
+                System.out.println("Costo " + (pair.getValue() - prevAccum) + "\n");
+                prevAccum = pair.getValue();
+            }
             else
                 System.out.println("Estado inicial:\n");
 
-            System.out.println("Costo " + pair.getValue() + "\n");
+
+            System.out.println("Costo acumulado: " + pair.getValue() + "\n");
             System.out.println(pair.getKey());
             i++;
         }
