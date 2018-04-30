@@ -26,6 +26,10 @@ public class GenericNode<T> implements Node {
         this.parent = parent;
     }
 
+    public GenericNode<T> getParent() {
+        return parent;
+    }
+
     @Override
     public T getState() {
         return state;
