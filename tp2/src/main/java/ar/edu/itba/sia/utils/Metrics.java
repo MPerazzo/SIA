@@ -1,6 +1,7 @@
 package ar.edu.itba.sia.utils;
 
 import ar.edu.itba.sia.core.GenericNode;
+import javafx.util.Pair;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -19,7 +20,7 @@ public class Metrics<T> {
     public void computeMetrics(final Integer statesGeneratedCount, final Integer borderNodesCount,
                                final GenericNode<T> solutionNode) {
 
-        List<String> statesChosen = new LinkedList<>();
+        List<Pair<String, Double>> statesChosen = new LinkedList<>();
 
         long runningTimeEnd = System.currentTimeMillis();
 
@@ -32,7 +33,7 @@ public class Metrics<T> {
         int height = 0;
         GenericNode<T> currentNode = solutionNode;
         while (currentNode != null) {
-            statesChosen.add(0, currentNode.getState().toString());
+            statesChosen.add(0, new Pair<String, Double>(currentNode.getState().toString(), currentNode.getAccum()));
             currentNode = currentNode.getParent();
             height++;
         }
@@ -50,12 +51,14 @@ public class Metrics<T> {
         System.out.println("\n");
 
         int i = 0;
-        for (String state : statesChosen) {
+        for (Pair<String, Double> pair : statesChosen) {
             if (i != 0)
                 System.out.println("Movimiento " + i + ":\n");
             else
                 System.out.println("Estado inicial:\n");
-            System.out.println(state);
+
+            System.out.println("Costo " + pair.getValue() + "\n");
+            System.out.println(pair.getKey());
             i++;
         }
     }
