@@ -1,11 +1,9 @@
 package ar.edu.itba.sia.searchAlgorithms;
 
-import ar.com.itba.sia.Problem;
 import ar.edu.itba.sia.core.GenericNode;
 
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
 
 
