@@ -36,6 +36,8 @@ public class Metrics<T> {
             currentNode = currentNode.getParent();
             height++;
         }
+        height--;
+
         System.out.println("Altura de la solución: " + height);
 
         System.out.println("Número de nodos frontera: " + borderNodesCount);
@@ -47,8 +49,15 @@ public class Metrics<T> {
         System.out.println("Movimientos elegidos para ganar: ");
         System.out.println("\n");
 
-        for (String state : statesChosen)
+        int i = 0;
+        for (String state : statesChosen) {
+            if (i != 0)
+                System.out.println("Movimiento " + i + ":\n");
+            else
+                System.out.println("Estado inicial:\n");
             System.out.println(state);
+            i++;
+        }
     }
 
     public void repHit() {
