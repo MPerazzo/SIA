@@ -60,9 +60,8 @@ public class Metrics<T> {
             }
             else
                 System.out.println("Estado inicial:\n");
-
-
-            System.out.println("Costo acumulado: " + pair.getValue() + "\n");
+            
+            System.out.println("Costo acumulado " + pair.getValue() + "\n");
             System.out.println(pair.getKey());
             i++;
         }
