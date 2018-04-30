@@ -8,7 +8,9 @@ import java.util.Set;
 import ar.com.itba.sia.Heuristic;
 import ar.com.itba.sia.Problem;
 import ar.com.itba.sia.Rule;
+import ar.edu.itba.sia.interfaces.InformedSearchAlgorithm;
 import ar.edu.itba.sia.interfaces.SearchAlgorithm;
+import ar.edu.itba.sia.interfaces.UnInformedSearchAlgorithm;
 
 public class SearchEngine<T> {
 
@@ -20,12 +22,12 @@ public class SearchEngine<T> {
         allNodes = new HashSet<>();
     }
 
-    public void search(SearchAlgorithm<T> searchMethod, Problem<T> p) {
+    public void search(UnInformedSearchAlgorithm<T> searchMethod, Problem<T> p) {
         Heuristic<T> defaultHeuristic = (t) -> 0;
         this.genericSearch(searchMethod, p, defaultHeuristic);
     }
 
-    public void search(SearchAlgorithm<T> searchMethod, Problem<T> p, Heuristic<T> h) {
+    public void search(InformedSearchAlgorithm<T> searchMethod, Problem<T> p, Heuristic<T> h) {
         this.genericSearch(searchMethod, p, h);
     }
 

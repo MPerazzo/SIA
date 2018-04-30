@@ -1,12 +1,12 @@
 package ar.edu.itba.sia.searchAlgorithms;
 
 import ar.edu.itba.sia.core.GenericNode;
-import ar.edu.itba.sia.interfaces.SearchAlgorithm;
+import ar.edu.itba.sia.interfaces.UnInformedSearchAlgorithm;
 
 import java.util.*;
 
 
-public class IterativeDeepeningSearch<T> implements SearchAlgorithm<T> {
+public class IterativeDeepeningSearch<T> implements UnInformedSearchAlgorithm<T> {
 
     private static final int HEIGHT_INCREMENT = 10;
 
