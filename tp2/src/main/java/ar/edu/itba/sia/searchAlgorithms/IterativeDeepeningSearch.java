@@ -12,7 +12,7 @@ public class IterativeDeepeningSearch<T> implements SearchAlgorithm<T> {
 
     private Map<GenericNode<T>, Integer> nodesHeight;
 
-    private int currentHeight = 1;
+    private int currentHeight = 0;
     private int finalHeight = HEIGHT_INCREMENT;
 
     public IterativeDeepeningSearch() {
