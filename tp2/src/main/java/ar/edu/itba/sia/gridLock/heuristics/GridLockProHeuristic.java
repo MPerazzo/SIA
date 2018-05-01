@@ -39,6 +39,8 @@ public class GridLockProHeuristic implements Heuristic<GridLockState> {
                             topMiddlePieces++;
                     }
                 }
+                else
+                    offsetA = 0;
 
                 int bottomMiddlePieces = 0;
                 if (pieceStartY - offsetB >= 0) {
@@ -47,11 +49,17 @@ public class GridLockProHeuristic implements Heuristic<GridLockState> {
                             bottomMiddlePieces++;
                     }
                 }
+                else
+                    offsetB = 0;
 
                 int topMovements = topMiddlePieces + offsetA;
                 int bottomMovements = bottomMiddlePieces + offsetB;
 
-                if (topMovements > bottomMovements)
+                if (offsetA == 0)
+                    verticalMovements += bottomMovements;
+                else if (offsetB == 0)
+                    verticalMovements += topMovements;
+                else if (topMovements > bottomMovements)
                     verticalMovements += topMovements;
                 else
                     verticalMovements += bottomMovements;

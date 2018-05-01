@@ -33,12 +33,10 @@ public class GridLockAdvancedHeuristic implements Heuristic<GridLockState> {
                 int offsetB = pieceFinalY - mainPieceY + 1;
 
                 if (mainPieceY + offsetA >= boardSize)
-                    offsetA = 0;
-
-                if (mainPieceY - offsetB < 0)
-                    offsetB = 0;
-
-                if (offsetA > offsetB)
+                    verticalMovements += offsetB;
+                else if (mainPieceY - offsetB < 0)
+                    verticalMovements += offsetA;
+                else if (offsetA > offsetB)
                     verticalMovements += offsetA;
                 else
                     verticalMovements += offsetB;
