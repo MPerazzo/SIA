@@ -1,6 +1,7 @@
 package ar.edu.itba.sia;
 
 
+import ar.com.itba.sia.Heuristic;
 import ar.edu.itba.sia.core.SearchEngine;
 import ar.edu.itba.sia.gridLock.heuristics.*;
 import ar.edu.itba.sia.interfaces.InformedSearchAlgorithm;
@@ -18,13 +19,15 @@ public class Main {
 
         GridLockProblem p = new GridLockProblem(ConfigurationManager.getInstance().getInitialState());
 
-        InformedSearchAlgorithm<GridLockState> informedSearchAlgorithm = new AStarSearch<>();
+        UnInformedSearchAlgorithm<GridLockState> unInformedSearchAlgorithm = new IterativeDeepeningSearch<>();
 
-        UnInformedSearchAlgorithm<GridLockState> unInformedSearchAlgorithm = new BreadthFirstSearch<>();
+        InformedSearchAlgorithm<GridLockState> informedSearchAlgorithm = new GreedySearch<>();
 
-        //searchEngine.search(informedSearchAlgorithm, p, new GridLockProHeuristic());
+        Heuristic<GridLockState> heuristic = new GridLockAdvancedHeuristic();
 
-        searchEngine.search(unInformedSearchAlgorithm, p);
+        //searchEngine.search(unInformedSearchAlgorithm, p);
+
+        searchEngine.search(informedSearchAlgorithm, p, heuristic);
 
     }
 
