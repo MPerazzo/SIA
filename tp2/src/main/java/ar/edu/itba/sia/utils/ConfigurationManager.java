@@ -8,11 +8,11 @@ import java.io.IOException;
 
 public class ConfigurationManager {
 
-    private final static String fileName = "configFile.txt";
+    private final static String fileName = "caseMedium.txt";
     private final Parser parser;
     private final GridLockState initialState;
 
-    private static ConfigurationManager instance = null;
+    private static final ConfigurationManager INSTANCE = new ConfigurationManager();
 
     private ConfigurationManager() {
         this.parser = new Parser();
@@ -29,10 +29,7 @@ public class ConfigurationManager {
     }
 
     public static ConfigurationManager getInstance() {
-        if (instance == null) {
-            instance = new ConfigurationManager();
-        }
-        return instance;
+        return INSTANCE;
     }
 
     public GridLockState getInitialState() {

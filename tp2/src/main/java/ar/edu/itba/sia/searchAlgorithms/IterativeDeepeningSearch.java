@@ -13,7 +13,7 @@ public class IterativeDeepeningSearch<T> implements UnInformedSearchAlgorithm<T>
     private Map<GenericNode<T>, Integer> nodesHeight;
 
     private int currentHeight = 0;
-    private int finalHeight = HEIGHT_INCREMENT;
+    private int finalHeight = HEIGHT_INCREMENT + 1;
 
     public IterativeDeepeningSearch() {
         nodesHeight = new HashMap<>();
@@ -22,13 +22,9 @@ public class IterativeDeepeningSearch<T> implements UnInformedSearchAlgorithm<T>
     @Override
     public void search(List<GenericNode<T>> candidates, List<GenericNode<T>> borderNodes) {
 
-        if (nodesHeight.isEmpty()) {
-            GenericNode<T> root = candidates.get(0).getParent();
-            nodesHeight.put(root, 0);
-        }
-
+        currentHeight++;
         for (GenericNode<T> n : candidates)
-            nodesHeight.put(n, currentHeight++);
+            nodesHeight.put(n, currentHeight);
 
         if (currentHeight == finalHeight) {
             borderNodes.addAll(candidates);
@@ -37,8 +33,7 @@ public class IterativeDeepeningSearch<T> implements UnInformedSearchAlgorithm<T>
 
             boolean expandHeight = true;
             for (GenericNode<T> n : borderNodes) {
-                GenericNode<T> parent = n.getParent();
-                if (nodesHeight.get(parent) != finalHeight) {
+                if (nodesHeight.get(n) != finalHeight) {
                     expandHeight = false;
                     break;
                 }

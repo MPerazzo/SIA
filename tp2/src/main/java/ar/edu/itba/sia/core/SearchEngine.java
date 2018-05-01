@@ -11,11 +11,14 @@ import ar.com.itba.sia.Rule;
 import ar.edu.itba.sia.interfaces.InformedSearchAlgorithm;
 import ar.edu.itba.sia.interfaces.SearchAlgorithm;
 import ar.edu.itba.sia.interfaces.UnInformedSearchAlgorithm;
+import ar.edu.itba.sia.utils.Metrics;
 
 public class SearchEngine<T> {
 
     private List<GenericNode<T>> borderNodes;
     private Set<GenericNode<T>> allNodes;
+
+    private Metrics<T> metricGenerator = Metrics.getInstance();
 
     public SearchEngine() {
         borderNodes = new LinkedList<>();
@@ -38,26 +41,25 @@ public class SearchEngine<T> {
         borderNodes.add(currentNode);
         allNodes.add(currentNode);
 
-        int i = 0;
-        while (!p.isResolved(currentState)) {
+        try {
+            while (!p.isResolved(currentState)) {
+                List<Rule<T>> rulesToApply = p.getRules(currentState);
 
-            System.out.println(i);
+                borderNodes.remove(0);
 
-            List<Rule<T>> rulesToApply = p.getRules(currentState);
+                List<GenericNode<T>> candidates = expand(rulesToApply, currentNode, h);
 
-            borderNodes.remove(0);
+                searchMethod.search(candidates, borderNodes);
 
-            // aplica las reglas
-            List<GenericNode<T>> candidates = expand(rulesToApply, currentNode, h);
-
-            searchMethod.search(candidates, borderNodes);
-
-            currentNode = borderNodes.get(0);
-            currentState = currentNode.getState();
-
-            i++;
+                currentNode = borderNodes.get(0);
+                currentState = currentNode.getState();
+            }
+            metricGenerator.computeMetrics(allNodes.size(), borderNodes.size(), currentNode);
         }
 
+        catch (IndexOutOfBoundsException e) {
+            System.out.println("El estado inicial no tiene solución");
+        }
     }
 
     public List<GenericNode<T>> expand(List<Rule<T>> toApply, GenericNode<T> currentNode,
@@ -76,6 +78,8 @@ public class SearchEngine<T> {
                 candidates.add(newNode);
                 allNodes.add(newNode);
             }
+            else
+                metricGenerator.repHit();
         }
         return candidates;
     }

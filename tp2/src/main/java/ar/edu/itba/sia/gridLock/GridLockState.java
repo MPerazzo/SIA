@@ -66,9 +66,13 @@ public class GridLockState {
         for (int i = 0 ; i < size ; i++) {
             for (int j = 0 ; j < size ; j++) {
                 if (matrix[i][j] == null)
-                    s.append(" - ");
-                else
-                    s.append(" " + matrix[i][j] + " ");
+                    s.append(" -  ");
+                else {
+                    if (matrix[i][j] < 10)
+                        s.append(" " + matrix[i][j] + "  ");
+                    else
+                        s.append(" " + matrix[i][j] + " ");
+                }
             }
             s.append("\n");
         }
