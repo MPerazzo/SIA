@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public class ConfigurationManager {
 
-    private final static String fileName = "caseMedium.txt";
+    private final static String fileName = "caseB.txt";
     private final Parser parser;
     private final GridLockState initialState;
 
