@@ -4,17 +4,17 @@ public abstract class Equipment {
 
     private double strength;
     private double agility;
-    private double expertise;
-    private double life;
+    private double dexterity;
+    private double health;
     private double resistance;
 
-    public Equipment(final double strength, final double agility, final double expertise,
-                     final double life, final double resistence) {
+    public Equipment(final double strength, final double agility, final double dexterity,
+                     final double health, final double resistance) {
         this.strength = strength;
         this.agility = agility;
-        this.expertise = expertise;
-        this.life = life;
-        this.resistance = resistence;
+        this.dexterity = dexterity;
+        this.health = health;
+        this.resistance = resistance;
     }
 
     public double getStrength() {
@@ -25,12 +25,12 @@ public abstract class Equipment {
         return agility;
     }
 
-    public double getExpertise() {
-        return expertise;
+    public double getDexterity() {
+        return dexterity;
     }
 
-    public double getLife() {
-        return life;
+    public double getHealth() {
+        return health;
     }
 
     public double getResistance() {

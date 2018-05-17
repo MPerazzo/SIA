@@ -52,13 +52,17 @@ public abstract class Character {
         return height;
     }
 
-    public abstract  double getStrengthFactor();
+    public abstract double getAttackFactor();
 
-    public abstract  double getAgilityFactor();
+    public abstract double getDefenseFactor();
 
-    public abstract  double getExpertiseFactor();
+    public abstract double getStrengthFactor();
 
-    public abstract  double getResistanceFactor();
+    public abstract double getAgilityFactor();
 
-    public abstract  double getLifeFactor();
+    public abstract double getDexterityFactor();
+
+    public abstract double getResistanceFactor();
+
+    public abstract double getHealthFactor();
 }

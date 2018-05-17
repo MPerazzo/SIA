@@ -1,10 +1,10 @@
-package ar.edu.itba.sia.model.character;
+package ar.edu.itba.sia.model.character.defender;
 
-public class Warrior3 extends Character {
+public class Defender1 extends Defender {
 
     @Override
     public double getStrengthFactor() {
-        return 0.8;
+        return 1.0;
     }
 
     @Override
@@ -13,8 +13,8 @@ public class Warrior3 extends Character {
     }
 
     @Override
-    public double getExpertiseFactor() {
-        return 0.9;
+    public double getDexterityFactor() {
+        return 0.7;
     }
 
     @Override
@@ -23,7 +23,7 @@ public class Warrior3 extends Character {
     }
 
     @Override
-    public double getLifeFactor() {
+    public double getHealthFactor() {
         return 1.1;
     }
 }
