@@ -1,5 +1,6 @@
 package ar.edu.itba.sia.model.character;
 
+import ar.edu.itba.sia.model.Modifier;
 import ar.edu.itba.sia.model.equipment.*;
 
 import java.util.LinkedList;
@@ -14,6 +15,10 @@ public abstract class Character {
     private double dexterity = 0;
     private double health = 0;
     private double resistance = 0;
+
+    private double attack;
+    private double defense;
+    private double performance;
 
     private Armor armor;
     private Boots boots;
@@ -47,11 +52,19 @@ public abstract class Character {
             resistance += e.getResistance();
         }
 
-        strength = strength * strengthFactor();
-        agility = agility * agilityFactor();
-        dexterity = dexterity * dexterityFactor();
-        resistance = resistance * resistanceFactor();
-        health = health * healthFactor();
+        strength = Modifier.strengthMod(strength * strengthFactor());
+        agility = Modifier.agilityMod(agility * agilityFactor());
+        dexterity = Modifier.dexterityMod(dexterity * dexterityFactor());
+        resistance = Modifier.resistanceMod(resistance * resistanceFactor());
+        health = Modifier.healthMod(health * healthFactor());
+
+        double attackMod = Modifier.attackMod(height);
+        double defMod = Modifier.defenseMod(height);
+
+        attack = (agility + dexterity) * strength * attackMod;
+        defense = (resistance + dexterity) * health * defMod;
+
+        performance = this.attackFactor() * attack + this.defenseFactor() * defense;
     }
 
     public double getHeight() {
@@ -98,9 +111,9 @@ public abstract class Character {
         return weapon;
     }
 
-    public abstract double getAttackFactor();
+    protected abstract double attackFactor();
 
-    public abstract double getDefenseFactor();
+    protected abstract double defenseFactor();
 
     protected abstract double strengthFactor();
 

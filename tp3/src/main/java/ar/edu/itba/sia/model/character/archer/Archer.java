@@ -5,18 +5,21 @@ import ar.edu.itba.sia.model.equipment.*;
 
 public abstract class Archer extends Character {
 
+    private static final double ATTACK_FACTOR = 0.9;
+    private static final double DEFENSE_FACTOR = 0.1;
+
     public Archer(final double height, final Armor armor, final Boots boots, final Gloves gloves,
                    final Helmet helmet, final Weapon weapon) {
         super(height, armor, boots, gloves, helmet, weapon);
     }
 
     @Override
-    public double getAttackFactor() {
-        return 0.9;
+    protected double attackFactor() {
+        return ATTACK_FACTOR;
     }
 
     @Override
-    public double getDefenseFactor() {
-        return 0.1;
+    protected double defenseFactor() {
+        return DEFENSE_FACTOR;
     }
 }
