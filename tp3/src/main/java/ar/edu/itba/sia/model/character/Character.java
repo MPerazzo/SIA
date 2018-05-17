@@ -9,23 +9,73 @@ public abstract class Character {
 
     private double height;
 
-    private List<Equipment> equipment = new LinkedList<>();
+    private double strength = 0;
+    private double agility = 0;
+    private double dexterity = 0;
+    private double health = 0;
+    private double resistance = 0;
+
     private Armor armor;
     private Boots boots;
     private Gloves gloves;
     private Helmet helmet;
     private Weapon weapon;
 
-    public Character() {
+    public Character(final double height, final Armor armor, final Boots boots, final Gloves gloves,
+                     final Helmet helmet, final Weapon weapon) {
+
+        this.height = height;
+
+        this.armor = armor;
+        this.boots = boots;
+        this.gloves = gloves;
+        this.helmet = helmet;
+        this.weapon = weapon;
+
+        List<Equipment> equipment = new LinkedList<>();
         equipment.add(armor);
         equipment.add(boots);
         equipment.add(gloves);
         equipment.add(helmet);
         equipment.add(weapon);
+
+        for (Equipment e : equipment) {
+            strength += e.getStrength();
+            agility += e.getAgility();
+            dexterity += e.getDexterity();
+            health += e.getHealth();
+            resistance += e.getResistance();
+        }
+
+        strength = strength * strengthFactor();
+        agility = agility * agilityFactor();
+        dexterity = dexterity * dexterityFactor();
+        resistance = resistance * resistanceFactor();
+        health = health * healthFactor();
     }
 
-    public List<Equipment> getEquipment() {
-        return equipment;
+    public double getHeight() {
+        return height;
+    }
+
+    public double getStrength() {
+        return strength;
+    }
+
+    public double getAgility() {
+        return agility;
+    }
+
+    public double getDexterity() {
+        return dexterity;
+    }
+
+    public double getHealth() {
+        return health;
+    }
+
+    public double getResistance() {
+        return resistance;
     }
 
     public Armor getArmor() {
@@ -48,21 +98,18 @@ public abstract class Character {
         return weapon;
     }
 
-    public double getHeight() {
-        return height;
-    }
-
     public abstract double getAttackFactor();
 
     public abstract double getDefenseFactor();
 
-    public abstract double getStrengthFactor();
+    protected abstract double strengthFactor();
 
-    public abstract double getAgilityFactor();
+    protected abstract double agilityFactor();
 
-    public abstract double getDexterityFactor();
+    protected abstract double dexterityFactor();
 
-    public abstract double getResistanceFactor();
+    protected abstract double resistanceFactor();
 
-    public abstract double getHealthFactor();
+    protected abstract double healthFactor();
+
 }

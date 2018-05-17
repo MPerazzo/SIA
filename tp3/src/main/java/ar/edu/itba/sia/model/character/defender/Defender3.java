@@ -1,29 +1,42 @@
 package ar.edu.itba.sia.model.character.defender;
 
+import ar.edu.itba.sia.model.equipment.*;
+
 public class Defender3 extends Defender {
 
-    @Override
-    public double getStrengthFactor() {
-        return 0.9;
+    private static final double STRENGTH_FACTOR = 0.9;
+    private static final double AGILITY_FACTOR = 0.9;
+    private static final double DEXTERITY_FACTOR = 0.9;
+    private static final double RESISTANCE_FACTOR = 1.0;
+    private static final double HEALTH_FACTOR = 1.3;
+
+    public Defender3(final double height, final Armor armor, final Boots boots, final Gloves gloves,
+                     final Helmet helmet, final Weapon weapon) {
+        super(height, armor, boots, gloves, helmet, weapon);
     }
 
     @Override
-    public double getAgilityFactor() {
-        return 0.9;
+    protected double strengthFactor() {
+        return STRENGTH_FACTOR;
     }
 
     @Override
-    public double getDexterityFactor() {
-        return 0.9;
+    protected double agilityFactor() {
+        return AGILITY_FACTOR;
     }
 
     @Override
-    public double getResistanceFactor() {
-        return 1.0;
+    protected double dexterityFactor() {
+        return DEXTERITY_FACTOR;
     }
 
     @Override
-    public double getHealthFactor() {
-        return 1.3;
+    protected double resistanceFactor() {
+        return RESISTANCE_FACTOR;
+    }
+
+    @Override
+    protected double healthFactor() {
+        return HEALTH_FACTOR;
     }
 }
