@@ -56,8 +56,8 @@ public class AnularCross implements CrossAlgorithm<Character> {
 		
 		for(int i=0; i<crossPoint && i<Character.allelsQuantity-1; i++) {
 
-			equipment1[i]= character1.getEquipments().get(i);
-			equipment2[i]= character2.getEquipments().get(i);
+			equipment1[i]= character1.getEquipment().get(i);
+			equipment2[i]= character2.getEquipment().get(i);
 	
 		}
 	
@@ -69,8 +69,8 @@ public class AnularCross implements CrossAlgorithm<Character> {
 			}
 			
 			if (i<Character.allelsQuantity-1) {
-				equipment1[i]= character2.getEquipments().get(i);
-				equipment2[i]= character1.getEquipments().get(i);
+				equipment1[i]= character2.getEquipment().get(i);
+				equipment2[i]= character1.getEquipment().get(i);
 				
 			}
 			
@@ -86,8 +86,8 @@ public class AnularCross implements CrossAlgorithm<Character> {
 		
 		if(j<Character.allelsQuantity) {
 			for(int i=j; i<Character.allelsQuantity-1 ;i++) {
-				equipment1[i]= character1.getEquipments().get(i);
-				equipment2[i]= character2.getEquipments().get(i);
+				equipment1[i]= character1.getEquipment().get(i);
+				equipment2[i]= character2.getEquipment().get(i);
 				height1= character1.getHeight();
 				height2= character2.getHeight();
 			}

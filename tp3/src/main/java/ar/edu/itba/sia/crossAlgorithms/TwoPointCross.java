@@ -46,22 +46,22 @@ public class TwoPointCross implements CrossAlgorithm<Character> {
  		
  		for(int i=0; i<crossPoint1 && i<Character.allelsQuantity-1; i++) {
 
-			equipment1[i]= character1.getEquipments().get(i);
-			equipment2[i]= character2.getEquipments().get(i);
+			equipment1[i]= character1.getEquipment().get(i);
+			equipment2[i]= character2.getEquipment().get(i);
 			
 		}
 	
  		for(int i=crossPoint1; i<crossPoint2 && i<Character.allelsQuantity-1 ;i++) {
  			
- 			equipment1[i]= character2.getEquipments().get(i);
-			equipment2[i]= character1.getEquipments().get(i);
+ 			equipment1[i]= character2.getEquipment().get(i);
+			equipment2[i]= character1.getEquipment().get(i);
  			
  		}
  		
 		for(int i=crossPoint2; i<Character.allelsQuantity-1; i++) {
 		
-			equipment1[i]= character1.getEquipments().get(i);
-			equipment2[i]= character2.getEquipments().get(i);
+			equipment1[i]= character1.getEquipment().get(i);
+			equipment2[i]= character2.getEquipment().get(i);
 						
 		}
 		

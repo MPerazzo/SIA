@@ -12,7 +12,7 @@ public class ShuffleMutation implements MutationAlgorithm<Character> {
 	@Override
 	public Character mute(Character character, double pc) {
 		
-		List<Equipment>equipments= character.getEquipments();
+		List<Equipment>equipments= character.getEquipment();
 		
 		Collections.shuffle(equipments);
 		

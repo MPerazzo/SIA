@@ -46,15 +46,15 @@ public class SinglePointCross implements CrossAlgorithm<Character> {
 		
 		for(int i=0; i<crossPoint && i<Character.allelsQuantity-1; i++) {
 
-			equipment1[i]= character1.getEquipments().get(i);
-			equipment2[i]= character2.getEquipments().get(i);
+			equipment1[i]= character1.getEquipment().get(i);
+			equipment2[i]= character2.getEquipment().get(i);
 			
 		}
 	
 		for(int i=crossPoint; i<Character.allelsQuantity-1; i++) {
 		
-			equipment1[i]= character2.getEquipments().get(i);
-			equipment2[i]= character1.getEquipments().get(i);
+			equipment1[i]= character2.getEquipment().get(i);
+			equipment2[i]= character1.getEquipment().get(i);
 						
 		}
 		

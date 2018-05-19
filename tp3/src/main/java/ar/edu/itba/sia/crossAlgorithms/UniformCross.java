@@ -50,11 +50,11 @@ public class UniformCross implements CrossAlgorithm<Character> {
 		
 		for (int i=0; i<Character.allelsQuantity-1; i++) {
 			if(probabilities[i]< p) {
-				equipment1[i]= character1.getEquipments().get(i);
-				equipment2[i]= character2.getEquipments().get(i);
+				equipment1[i]= character1.getEquipment().get(i);
+				equipment2[i]= character2.getEquipment().get(i);
 			}else {
-				equipment1[i]= character2.getEquipments().get(i);
-				equipment2[i]= character1.getEquipments().get(i);
+				equipment1[i]= character2.getEquipment().get(i);
+				equipment2[i]= character1.getEquipment().get(i);
 			}	
 		}
 		

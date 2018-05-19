@@ -15,17 +15,17 @@ public class ChangeMutation implements MutationAlgorithm<Character> {
 		Equipment equipment1, equipment2;
 						
 		if (gen1 != gen2) {
-			equipment1 = character.getEquipments().get(gen1);
-			equipment2 = character.getEquipments().get(gen2);
-			character.getEquipments().set(gen1, equipment2);
-			character.getEquipments().set(gen2, equipment1);
+			equipment1 = character.getEquipment().get(gen1);
+			equipment2 = character.getEquipment().get(gen2);
+			character.getEquipment().set(gen1, equipment2);
+			character.getEquipment().set(gen2, equipment1);
 		}
 		
-		character.setArmor(character.getEquipments().get(0));
-		character.setBoots(character.getEquipments().get(1));
-		character.setGloves(character.getEquipments().get(2));
-		character.setHelmet(character.getEquipments().get(3));
-		character.setWeapon(character.getEquipments().get(4));
+		character.setArmor(character.getEquipment().get(0));
+		character.setBoots(character.getEquipment().get(1));
+		character.setGloves(character.getEquipment().get(2));
+		character.setHelmet(character.getEquipment().get(3));
+		character.setWeapon(character.getEquipment().get(4));
 		
 
 		return character;

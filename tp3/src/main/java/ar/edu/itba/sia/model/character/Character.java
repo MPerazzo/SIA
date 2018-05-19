@@ -23,6 +23,8 @@ public abstract class Character {
     private double defense;
     private double fitness;
 
+    private List<Equipment> equipment = new LinkedList<>();
+
     private Armor armor; 
 	private Boots boots;
     private Gloves gloves;
@@ -40,7 +42,11 @@ public abstract class Character {
         this.helmet = helmet;
         this.weapon = weapon;
 
-        List<Equipment> equipment = getEquipments();
+        equipment.add(armor);
+        equipment.add(boots);
+        equipment.add(gloves);
+        equipment.add(helmet);
+        equipment.add(weapon);
 
         for (Equipment e : equipment) {
             strength += e.getStrength();
@@ -111,16 +117,8 @@ public abstract class Character {
         return weapon;
     }
 
-    public List<Equipment> getEquipments(){
-    	List<Equipment>equipments = new ArrayList<Equipment>(); 
-    	
-    	equipments.add(armor);
-        equipments.add(boots);
-        equipments.add(gloves);
-        equipments.add(helmet);
-    	equipments.add(weapon);
-    	
-    	return equipments;
+    public List<Equipment> getEquipment() {
+    	return equipment;
     }
     
     public void setHeight(double height) {
