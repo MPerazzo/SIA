@@ -1,5 +1,7 @@
 package ar.edu.itba.sia;
 
+import ar.edu.itba.sia.utils.Parser;
+
 public class Main
 {
     public static void main( String[] args )
