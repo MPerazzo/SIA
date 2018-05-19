@@ -25,7 +25,7 @@ import ar.edu.itba.sia.model.equipment.Gloves;
 import ar.edu.itba.sia.model.equipment.Helmet;
 import ar.edu.itba.sia.model.equipment.Weapon;
 
-public class SinglePointCross implements CrossAlgorithm<Character> {
+public class SinglePointCross implements CrossAlgorithm {
 	
 	private int crossPoint= ThreadLocalRandom.current().nextInt(0,Character.allelsQuantity+1);
 	private double probability= ThreadLocalRandom.current().nextDouble(0,1);

@@ -3,10 +3,10 @@ package ar.edu.itba.sia.mutationAlgorithms;
 import ar.edu.itba.sia.interfaces.MutationAlgorithm;
 import ar.edu.itba.sia.model.character.Character;
 
-public class MultiGenMutation implements MutationAlgorithm<Character> {
+public class MultiGenMutation implements MutationAlgorithm {
 
 	@Override
-	public Character mute(Character character, double pc) {
+	public Character mutate(Character character, double pc) {
 		// TODO Auto-generated method stub
 		return character;
 	}

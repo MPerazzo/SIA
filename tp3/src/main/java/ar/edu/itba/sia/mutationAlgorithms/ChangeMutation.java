@@ -6,10 +6,10 @@ import ar.edu.itba.sia.interfaces.MutationAlgorithm;
 import ar.edu.itba.sia.model.character.Character;
 import ar.edu.itba.sia.model.equipment.Equipment;
 
-public class ChangeMutation implements MutationAlgorithm<Character> {
+public class ChangeMutation implements MutationAlgorithm {
 
 	@Override
-	public Character mute(Character character, double pc) {
+	public Character mutate(Character character, double pc) {
 		int gen1= ThreadLocalRandom.current().nextInt(0,Character.allelsQuantity-1);
 		int gen2= ThreadLocalRandom.current().nextInt(0,Character.allelsQuantity-1);
 		Equipment equipment1, equipment2;

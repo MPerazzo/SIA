@@ -7,10 +7,10 @@ import ar.edu.itba.sia.interfaces.MutationAlgorithm;
 import ar.edu.itba.sia.model.character.Character;
 import ar.edu.itba.sia.model.equipment.Equipment;
 
-public class ShuffleMutation implements MutationAlgorithm<Character> {
+public class ShuffleMutation implements MutationAlgorithm {
 
 	@Override
-	public Character mute(Character character, double pc) {
+	public Character mutate(Character character, double pc) {
 		
 		List<Equipment>equipments= character.getEquipment();
 		

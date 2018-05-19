@@ -4,6 +4,6 @@ import java.util.List;
 
 import ar.edu.itba.sia.model.character.Character;
 
-public interface CrossAlgorithm<T> {
-	List<Character> cross(T character1, T character2, double pc);
+public interface CrossAlgorithm {
+	List<Character> cross(Character character1, Character character2, double pc);
 }

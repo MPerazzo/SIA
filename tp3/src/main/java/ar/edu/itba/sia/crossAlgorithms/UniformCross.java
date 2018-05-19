@@ -25,7 +25,7 @@ import ar.edu.itba.sia.model.equipment.Gloves;
 import ar.edu.itba.sia.model.equipment.Helmet;
 import ar.edu.itba.sia.model.equipment.Weapon;
 
-public class UniformCross implements CrossAlgorithm<Character> {
+public class UniformCross implements CrossAlgorithm {
 
 	private static final double p = 0.5;
 	private double probability= ThreadLocalRandom.current().nextDouble(0,1);

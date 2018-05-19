@@ -25,7 +25,7 @@ import ar.edu.itba.sia.model.equipment.Gloves;
 import ar.edu.itba.sia.model.equipment.Helmet;
 import ar.edu.itba.sia.model.equipment.Weapon;
 
-public class AnularCross implements CrossAlgorithm<Character> {
+public class AnularCross implements CrossAlgorithm {
 
 	private int crossPoint=ThreadLocalRandom.current().nextInt(0,Character.allelsQuantity+1);
 	private int segment=ThreadLocalRandom.current().nextInt(0,(Character.allelsQuantity/2)+1);
