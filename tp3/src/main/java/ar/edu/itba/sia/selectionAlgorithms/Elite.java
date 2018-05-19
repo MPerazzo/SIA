@@ -1,17 +1,18 @@
 package ar.edu.itba.sia.selectionAlgorithms;
 
 import ar.edu.itba.sia.structures.Candidate;
+import ar.edu.itba.sia.utils.Parser;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public class Elite {
 
-    private static final int K_START = 100;
+    private int k;
 
-    private static final int K_DECREASE_FACTOR = 2;
-
-    private int k = K_START;
+    public Elite(Parser parser) {
+        k = parser.getSelectionCant();
+    }
 
     private List<Candidate> select(List<Candidate> candidates) {
 
@@ -28,8 +29,6 @@ public class Elite {
 
         for (int i = 0; i < k; i++)
             selected.add(candidates.get(i));
-
-        k /= K_DECREASE_FACTOR;
 
         return selected;
     }

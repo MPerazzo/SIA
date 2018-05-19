@@ -1,17 +1,18 @@
 package ar.edu.itba.sia.selectionAlgorithms;
 
 import ar.edu.itba.sia.structures.Candidate;
+import ar.edu.itba.sia.utils.Parser;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public class Universal {
 
-    private static final int K_START = 100;
+    private int k;
 
-    private static final int K_DECREASE_FACTOR = 2;
-
-    private int k = K_START;
+    public Universal(Parser parser) {
+        k = parser.getSelectionCant();
+    }
 
     private List<Candidate> select(List<Candidate> candidates) {
 
@@ -39,8 +40,6 @@ public class Universal {
             }
             prevCandidateAccum = currentCandidateAccum;
         }
-
-        k /= K_DECREASE_FACTOR;
 
         return selected;
     }

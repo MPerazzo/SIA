@@ -1,6 +1,7 @@
 package ar.edu.itba.sia.selectionAlgorithms;
 
 import ar.edu.itba.sia.structures.Candidate;
+import ar.edu.itba.sia.utils.Parser;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -8,8 +9,13 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class TournamentDeterministic {
 
-    private static final int M = 3;
     private static final int K = 20;
+
+    private int m;
+
+    public TournamentDeterministic(Parser parser) {
+        m = parser.getTournamentCantCompetitors();
+    }
 
     private List<Candidate> select (List<Candidate> candidates) {
 
@@ -19,7 +25,7 @@ public class TournamentDeterministic {
         while (k-- != 0) {
 
             List<Candidate> selected = new LinkedList<>();
-            for (int i = 0; i < M; i++) {
+            for (int i = 0; i < m; i++) {
                 int random = ThreadLocalRandom.current().nextInt(0, candidates.size());
                 selected.add(candidates.get(random));
             }
