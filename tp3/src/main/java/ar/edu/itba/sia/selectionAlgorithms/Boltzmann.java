@@ -32,8 +32,8 @@ public class Boltzmann {
         for (Candidate c : candidates)
             totalExpVal += Math.exp(c.getFitness() / t);
 
-        double prevCandidateAccum = Math.exp(candidates.get(0).getFitness() / t) / totalExpVal;
-        for (int i = 1, j=0 ; i < k ; i++) {
+        double prevCandidateAccum = 0;
+        for (int i = 0, j=0 ; i < k && j < accumToMatch.length ;) {
             Candidate currentCandidate = candidates.get(i);
             double currentCandidateAccum = prevCandidateAccum +
                     (Math.exp(currentCandidate.getFitness() / t) / totalExpVal);
@@ -42,8 +42,13 @@ public class Boltzmann {
             if (prevCandidateAccum < currentAccumToMatch && currentAccumToMatch < currentCandidateAccum) {
                 selected.add(currentCandidate);
                 j++;
+                i = 0;
+                prevCandidateAccum = 0;
             }
-            prevCandidateAccum = currentCandidateAccum;
+            else {
+                prevCandidateAccum = currentCandidateAccum;
+                i++;
+            }
         }
 
         t /= T_DECREASE_FACTOR;

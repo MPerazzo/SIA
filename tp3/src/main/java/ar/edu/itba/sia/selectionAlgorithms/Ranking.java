@@ -34,20 +34,25 @@ public class Ranking {
         });
 
         int totalFitness = 0;
-        for (int i = 1 ; i < candidates.size() ; i++)
-            totalFitness += i;
+        for (int i = 0 ; i < candidates.size() ; i++)
+            totalFitness += (i + 1);
 
-        double prevCandidateAccum = 1 / totalFitness;
-        for (int i = 1, j=0 ; i < k ; i++) {
+        double prevCandidateAccum = 0;
+        for (int i = 0, j=0 ; i < k && j < accumToMatch.length ;) {
             Candidate currentCandidate = candidates.get(i);
-            double currentCandidateAccum = prevCandidateAccum + (i / totalFitness);
+            double currentCandidateAccum = prevCandidateAccum + ((i + 1) / totalFitness);
             double currentAccumToMatch = accumToMatch[j];
 
             if (prevCandidateAccum < currentAccumToMatch && currentAccumToMatch < currentCandidateAccum) {
                 selected.add(currentCandidate);
                 j++;
+                i = 0;
+                prevCandidateAccum = 0;
             }
-            prevCandidateAccum = currentCandidateAccum;
+            else {
+                prevCandidateAccum = currentCandidateAccum;
+                i++;
+            }
         }
 
         return selected;
