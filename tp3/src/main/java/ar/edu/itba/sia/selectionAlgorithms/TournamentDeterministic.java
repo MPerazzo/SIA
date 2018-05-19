@@ -1,13 +1,14 @@
 package ar.edu.itba.sia.selectionAlgorithms;
 
-import ar.edu.itba.sia.structures.Candidate;
+import ar.edu.itba.sia.interfaces.SelectionAlgortihm;
 import ar.edu.itba.sia.utils.Parser;
+import ar.edu.itba.sia.model.character.Character;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class TournamentDeterministic {
+public class TournamentDeterministic implements SelectionAlgortihm {
 
     private static final int K = 20;
 
@@ -17,17 +18,17 @@ public class TournamentDeterministic {
         m = parser.getTournamentCantCompetitors();
     }
 
-    private List<Candidate> select (List<Candidate> candidates) {
+    public List<Character> select (List<Character> characters) {
 
-        List<Candidate> optimalCandidates = new LinkedList<>();
+        List<Character> optimalCharacters = new LinkedList<>();
 
         int k = K;
         while (k-- != 0) {
 
-            List<Candidate> selected = new LinkedList<>();
+            List<Character> selected = new LinkedList<>();
             for (int i = 0; i < m; i++) {
-                int random = ThreadLocalRandom.current().nextInt(0, candidates.size());
-                selected.add(candidates.get(random));
+                int random = ThreadLocalRandom.current().nextInt(0, characters.size());
+                selected.add(characters.get(random));
             }
 
             selected.sort((c1, c2) -> {
@@ -38,8 +39,8 @@ public class TournamentDeterministic {
                 else
                     return 0;
             });
-            optimalCandidates.add(selected.get(selected.size() - 1));
+            optimalCharacters.add(selected.get(selected.size() - 1));
         }
-        return optimalCandidates;
+        return optimalCharacters;
     }
 }

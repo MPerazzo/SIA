@@ -1,10 +1,10 @@
-package ar.edu.itba.sia.crossoverAlgorithms;
+package ar.edu.itba.sia.crossAlgorithms;
+
+import ar.edu.itba.sia.interfaces.CrossAlgorithm;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
-
-import ar.edu.itba.sia.interfaces.CrossAlgorithm;
 import ar.edu.itba.sia.model.character.Character;
 import ar.edu.itba.sia.model.character.archer.Archer1;
 import ar.edu.itba.sia.model.character.archer.Archer2;
@@ -25,10 +25,9 @@ import ar.edu.itba.sia.model.equipment.Gloves;
 import ar.edu.itba.sia.model.equipment.Helmet;
 import ar.edu.itba.sia.model.equipment.Weapon;
 
-public class AnularCross implements CrossAlgorithm<Character> {
-
-	private int crossPoint=ThreadLocalRandom.current().nextInt(0,Character.allelsQuantity+1);
-	private int segment=ThreadLocalRandom.current().nextInt(0,(Character.allelsQuantity/2)+1);
+public class SinglePointCross implements CrossAlgorithm<Character> {
+	
+	private int crossPoint= ThreadLocalRandom.current().nextInt(0,Character.allelsQuantity+1);
 	private double probability= ThreadLocalRandom.current().nextDouble(0,1);
 	
 	@Override
@@ -38,62 +37,35 @@ public class AnularCross implements CrossAlgorithm<Character> {
 		Character son2 = null;
 		Equipment [] equipment1 = new Equipment[Character.allelsQuantity-1]; 
 		Equipment [] equipment2 = new Equipment[Character.allelsQuantity-1];
- 		double height1, height2;
- 		int j= crossPoint+segment ;
+		double height1, height2;
 		
-	
+				
 		if (probability>pc) {
 			return null;
-		}
-		
-		if(crossPoint==6) {
-			height1= character1.getHeight();
-			height2= character2.getHeight();
-		}else {
-			height1= character2.getHeight();
-			height2= character1.getHeight();
 		}
 		
 		for(int i=0; i<crossPoint && i<Character.allelsQuantity-1; i++) {
 
 			equipment1[i]= character1.getEquipments().get(i);
 			equipment2[i]= character2.getEquipments().get(i);
-	
+			
 		}
 	
-		for(int i=crossPoint; (segment+1) > 0 ; i++) {
+		for(int i=crossPoint; i<Character.allelsQuantity-1; i++) {
 		
-			if(i==5) {
-				height1= character2.getHeight();
-				height2= character1.getHeight();
-			}
-			
-			if (i<Character.allelsQuantity-1) {
-				equipment1[i]= character2.getEquipments().get(i);
-				equipment2[i]= character1.getEquipments().get(i);
+			equipment1[i]= character2.getEquipments().get(i);
+			equipment2[i]= character1.getEquipments().get(i);
+						
+		}
+		
+		if (crossPoint == 6) {
+			height1= character1.getHeight();
+			height2= character2.getHeight();
+		}else {
+			height1= character2.getHeight();
+			height2= character1.getHeight();
+		}
 				
-			}
-			
-			if(i>=Character.allelsQuantity-1) {
-				i=0;
-			}	
-			
-			if (i != Character.allelsQuantity) {
-				segment--;
-			}
-		
-		}
-		
-		if(j<Character.allelsQuantity) {
-			for(int i=j; i<Character.allelsQuantity-1 ;i++) {
-				equipment1[i]= character1.getEquipments().get(i);
-				equipment2[i]= character2.getEquipments().get(i);
-				height1= character1.getHeight();
-				height2= character2.getHeight();
-			}
-		}		
-		
-		
 		if (character1 instanceof Warrior1) {
 			son1 = new Warrior1(height1, (Armor)equipment1[0], (Boots)equipment1[1], (Gloves)equipment1[2], (Helmet)equipment1[3], (Weapon)equipment1[4]);
 			son1 = new Warrior1(height2, (Armor)equipment2[0], (Boots)equipment2[1], (Gloves)equipment2[2], (Helmet)equipment2[3], (Weapon)equipment2[4]);
@@ -158,7 +130,10 @@ public class AnularCross implements CrossAlgorithm<Character> {
 		sons.add(son2);
 		
 		return sons;
-			
+		
+		
+		
+		
 	}
 
 }

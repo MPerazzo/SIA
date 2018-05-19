@@ -1,27 +1,28 @@
 package ar.edu.itba.sia.selectionAlgorithms;
 
-import ar.edu.itba.sia.structures.Candidate;
+import ar.edu.itba.sia.interfaces.SelectionAlgortihm;
+import ar.edu.itba.sia.model.character.Character;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class TournamentProbabilistic {
+public class TournamentProbabilistic implements SelectionAlgortihm {
 
     private static final int K = 20;
 
-    private void select (List<Candidate> candidates) {
+    public List<Character> select (List<Character> characters) {
 
-        List<Candidate> selected = new LinkedList<>();
+        List<Character> selected = new LinkedList<>();
 
         int k = K;
         while (k-- != 0) {
-            int random1 = ThreadLocalRandom.current().nextInt(0, candidates.size());
-            int random2 = ThreadLocalRandom.current().nextInt(0, candidates.size());
+            int random1 = ThreadLocalRandom.current().nextInt(0, characters.size());
+            int random2 = ThreadLocalRandom.current().nextInt(0, characters.size());
 
-            List<Candidate> duo = new LinkedList<>();
-            duo.add(candidates.get(random1));
-            duo.add(candidates.get(random2));
+            List<Character> duo = new LinkedList<>();
+            duo.add(characters.get(random1));
+            duo.add(characters.get(random2));
             duo.sort((c1, c2) -> {
                 if (c1.getFitness() > c2.getFitness())
                     return 1;
@@ -34,9 +35,10 @@ public class TournamentProbabilistic {
             double random = Math.random();
 
             if (random < 0.75)
-                selected.add(candidates.get(1));
+                selected.add(characters.get(1));
             else
-                selected.add(candidates.get(0));
+                selected.add(characters.get(0));
         }
+        return selected;
     }
 }

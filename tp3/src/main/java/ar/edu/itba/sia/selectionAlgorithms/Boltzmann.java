@@ -1,12 +1,13 @@
 package ar.edu.itba.sia.selectionAlgorithms;
 
-import ar.edu.itba.sia.structures.Candidate;
+import ar.edu.itba.sia.interfaces.SelectionAlgortihm;
+import ar.edu.itba.sia.model.character.Character;
 import ar.edu.itba.sia.utils.Parser;
 
 import java.util.LinkedList;
 import java.util.List;
 
-public class Boltzmann {
+public class Boltzmann implements SelectionAlgortihm {
 
     private static final double T_DECREASE_FACTOR = 1.5;
 
@@ -18,9 +19,9 @@ public class Boltzmann {
         t = parser.getTemp();
     }
 
-    private List<Candidate> select(List<Candidate> candidates) {
+    public List<Character> select(List<Character> characters) {
 
-        List<Candidate> selected = new LinkedList<>();
+        List<Character> selected = new LinkedList<>();
         double accumToMatch[] = new double[k];
 
         for (int i = 0 ; i < k ; i++) {
@@ -29,24 +30,24 @@ public class Boltzmann {
         }
 
         double totalExpVal = 0;
-        for (Candidate c : candidates)
+        for (Character c : characters)
             totalExpVal += Math.exp(c.getFitness() / t);
 
-        double prevCandidateAccum = 0;
-        for (int i = 0, j=0 ; j < accumToMatch.length ;) {
-            Candidate currentCandidate = candidates.get(i);
-            double currentCandidateAccum = prevCandidateAccum +
-                    (Math.exp(currentCandidate.getFitness() / t) / totalExpVal);
+        double prevCharacterAccum = 0;
+        for (int i = 0, j=0 ; i < k && j < accumToMatch.length ;) {
+            Character currentCharacter = characters.get(i);
+            double currentCharacterAccum = prevCharacterAccum +
+                    (Math.exp(currentCharacter.getFitness() / t) / totalExpVal);
             double currentAccumToMatch = accumToMatch[j];
 
-            if (prevCandidateAccum < currentAccumToMatch && currentAccumToMatch < currentCandidateAccum) {
-                selected.add(currentCandidate);
+            if (prevCharacterAccum < currentAccumToMatch && currentAccumToMatch < currentCharacterAccum) {
+                selected.add(currentCharacter);
                 j++;
                 i = 0;
-                prevCandidateAccum = 0;
+                prevCharacterAccum = 0;
             }
             else {
-                prevCandidateAccum = currentCandidateAccum;
+                prevCharacterAccum = currentCharacterAccum;
                 i++;
             }
         }

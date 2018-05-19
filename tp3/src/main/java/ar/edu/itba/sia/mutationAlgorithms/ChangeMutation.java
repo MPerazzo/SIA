@@ -1,4 +1,4 @@
-package ar.edu.itba.sia.muteAlgorithms;
+package ar.edu.itba.sia.mutationAlgorithms;
 
 import java.util.concurrent.ThreadLocalRandom;
 

@@ -1,6 +1,6 @@
 package ar.edu.itba.sia.selectionAlgorithms;
 
-import ar.edu.itba.sia.structures.Candidate;
+import ar.edu.itba.sia.model.character.Character;
 import ar.edu.itba.sia.utils.Parser;
 
 import java.util.LinkedList;
@@ -14,9 +14,9 @@ public class Ranking {
         k = parser.getSelectionCant();
     }
 
-    private List<Candidate> select(List<Candidate> candidates) {
+    private List<Character> select(List<Character> characters) {
 
-        List<Candidate> selected = new LinkedList<>();
+        List<Character> selected = new LinkedList<>();
         double accumToMatch[] = new double[k];
 
         for (int i = 0 ; i < k ; i++) {
@@ -24,7 +24,7 @@ public class Ranking {
             accumToMatch[i] = random;
         }
 
-        candidates.sort((c1, c2) -> {
+        characters.sort((c1, c2) -> {
             if (c1.getFitness() > c2.getFitness())
                 return 1;
             else if (c1.getFitness() < c2.getFitness())
@@ -34,23 +34,23 @@ public class Ranking {
         });
 
         int totalFitness = 0;
-        for (int i = 0 ; i < candidates.size() ; i++)
+        for (int i = 0 ; i < characters.size() ; i++)
             totalFitness += (i + 1);
 
-        double prevCandidateAccum = 0;
+        double prevCharacterAccum = 0;
         for (int i = 0, j=0 ; j < accumToMatch.length ;) {
-            Candidate currentCandidate = candidates.get(i);
-            double currentCandidateAccum = prevCandidateAccum + ((i + 1) / totalFitness);
+            Character currentCharacter = characters.get(i);
+            double currentCharacterAccum = prevCharacterAccum + ((i + 1) / totalFitness);
             double currentAccumToMatch = accumToMatch[j];
 
-            if (prevCandidateAccum < currentAccumToMatch && currentAccumToMatch < currentCandidateAccum) {
-                selected.add(currentCandidate);
+            if (prevCharacterAccum < currentAccumToMatch && currentAccumToMatch < currentCharacterAccum) {
+                selected.add(currentCharacter);
                 j++;
                 i = 0;
-                prevCandidateAccum = 0;
+                prevCharacterAccum = 0;
             }
             else {
-                prevCandidateAccum = currentCandidateAccum;
+                prevCharacterAccum = currentCharacterAccum;
                 i++;
             }
         }

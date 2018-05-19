@@ -1,4 +1,4 @@
-package ar.edu.itba.sia.crossoverAlgorithms;
+package ar.edu.itba.sia.crossAlgorithms;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,50 +25,59 @@ import ar.edu.itba.sia.model.equipment.Gloves;
 import ar.edu.itba.sia.model.equipment.Helmet;
 import ar.edu.itba.sia.model.equipment.Weapon;
 
-public class UniformCross implements CrossAlgorithm<Character> {
-
-	private static final double p = 0.5;
-	private double probability= ThreadLocalRandom.current().nextDouble(0,1);
+public class TwoPointCross implements CrossAlgorithm<Character> {
 	
+	private int crossPoint1=ThreadLocalRandom.current().nextInt(0,Character.allelsQuantity+1);
+	private int crossPoint2=ThreadLocalRandom.current().nextInt(crossPoint1+1,Character.allelsQuantity+1);
+	private double probability= ThreadLocalRandom.current().nextDouble(0,1);
+
 	@Override
 	public List<Character> cross(Character character1, Character character2, double pc) {
 		List<Character> sons= new ArrayList<Character>();
-		double [] probabilities = new double[Character.allelsQuantity];
-		Equipment [] equipment1 = new Equipment[Character.allelsQuantity-1]; 
-		Equipment [] equipment2 = new Equipment[Character.allelsQuantity-1];
 		Character son1 = null;
 		Character son2 = null;
-		double height1, height2;
-						
-		if (probability>pc) {
+		Equipment [] equipment1 = new Equipment[Character.allelsQuantity-1]; 
+		Equipment [] equipment2 = new Equipment[Character.allelsQuantity-1];
+ 		double height1, height2;
+ 		
+ 		if (probability>pc) {
 			return null;
 		}
+ 		
+ 		for(int i=0; i<crossPoint1 && i<Character.allelsQuantity-1; i++) {
+
+			equipment1[i]= character1.getEquipments().get(i);
+			equipment2[i]= character2.getEquipments().get(i);
+			
+		}
+	
+ 		for(int i=crossPoint1; i<crossPoint2 && i<Character.allelsQuantity-1 ;i++) {
+ 			
+ 			equipment1[i]= character2.getEquipments().get(i);
+			equipment2[i]= character1.getEquipments().get(i);
+ 			
+ 		}
+ 		
+		for(int i=crossPoint2; i<Character.allelsQuantity-1; i++) {
 		
-		for (int i=0; i<Character.allelsQuantity; i++) {
-			probabilities[i]=ThreadLocalRandom.current().nextDouble(0,1);
+			equipment1[i]= character1.getEquipments().get(i);
+			equipment2[i]= character2.getEquipments().get(i);
+						
 		}
 		
-		for (int i=0; i<Character.allelsQuantity-1; i++) {
-			if(probabilities[i]< p) {
-				equipment1[i]= character1.getEquipments().get(i);
-				equipment2[i]= character2.getEquipments().get(i);
-			}else {
-				equipment1[i]= character2.getEquipments().get(i);
-				equipment2[i]= character1.getEquipments().get(i);
-			}	
-		}
-		
-		if(probabilities[5]< p) {
+		if (crossPoint1==6) {
 			height1= character1.getHeight();
 			height2= character2.getHeight();
-		}else {
+		}else if(crossPoint2==6) {
 			height1= character2.getHeight();
 			height2= character1.getHeight();
-		}	
-		
-		
-		
-		if (character1 instanceof Warrior1) {
+		}else {
+			height1= character1.getHeight();
+			height2= character2.getHeight();
+		}
+ 		
+ 		
+ 		if (character1 instanceof Warrior1) {
 			son1 = new Warrior1(height1, (Armor)equipment1[0], (Boots)equipment1[1], (Gloves)equipment1[2], (Helmet)equipment1[3], (Weapon)equipment1[4]);
 			son1 = new Warrior1(height2, (Armor)equipment2[0], (Boots)equipment2[1], (Gloves)equipment2[2], (Helmet)equipment2[3], (Weapon)equipment2[4]);
 		}
@@ -127,11 +136,13 @@ public class UniformCross implements CrossAlgorithm<Character> {
 			son1 = new Defender3(height1, (Armor)equipment1[0], (Boots)equipment1[1], (Gloves)equipment1[2], (Helmet)equipment1[3], (Weapon)equipment1[4]);
 			son1 = new Defender3(height2, (Armor)equipment2[0], (Boots)equipment2[1], (Gloves)equipment2[2], (Helmet)equipment2[3], (Weapon)equipment2[4]);
 		}
-
-		sons.add(son1);
+ 		
+ 		
+ 		sons.add(son1);
 		sons.add(son2);
 		
 		return sons;
+		
 		
 	}
 

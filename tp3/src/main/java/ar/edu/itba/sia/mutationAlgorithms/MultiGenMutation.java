@@ -1,4 +1,4 @@
-package ar.edu.itba.sia.muteAlgorithms;
+package ar.edu.itba.sia.mutationAlgorithms;
 
 import ar.edu.itba.sia.interfaces.MutationAlgorithm;
 import ar.edu.itba.sia.model.character.Character;
