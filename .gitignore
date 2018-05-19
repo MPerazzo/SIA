@@ -4,6 +4,7 @@
 .project
 .metadata
 .classpath
+.setings
 .target/
 
 # IntelliJ
