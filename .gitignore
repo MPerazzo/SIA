@@ -2,6 +2,7 @@
 *.class
 
 .project
+.metadata
 .classpath
 .target/
 
