@@ -5,7 +5,7 @@ import ar.edu.itba.sia.structures.Candidate;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Rulete {
+public class Roulette {
 
     private static final int K_START = 100;
 
