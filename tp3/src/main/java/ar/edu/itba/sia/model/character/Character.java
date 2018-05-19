@@ -3,11 +3,14 @@ package ar.edu.itba.sia.model.character;
 import ar.edu.itba.sia.model.Modifier;
 import ar.edu.itba.sia.model.equipment.*;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 public abstract class Character {
 
+	public static final int allelsQuantity = 6;
+	
     private double height;
 
     private double strength = 0;
@@ -20,8 +23,8 @@ public abstract class Character {
     private double defense;
     private double performance;
 
-    private Armor armor;
-    private Boots boots;
+    private Armor armor; 
+	private Boots boots;
     private Gloves gloves;
     private Helmet helmet;
     private Weapon weapon;
@@ -37,12 +40,7 @@ public abstract class Character {
         this.helmet = helmet;
         this.weapon = weapon;
 
-        List<Equipment> equipment = new LinkedList<>();
-        equipment.add(armor);
-        equipment.add(boots);
-        equipment.add(gloves);
-        equipment.add(helmet);
-        equipment.add(weapon);
+        List<Equipment> equipment = getEquipments();
 
         for (Equipment e : equipment) {
             strength += e.getStrength();
@@ -66,7 +64,7 @@ public abstract class Character {
 
         performance = this.attackFactor() * attack + this.defenseFactor() * defense;
     }
-
+    
     public double getHeight() {
         return height;
     }
@@ -111,6 +109,42 @@ public abstract class Character {
         return weapon;
     }
 
+    public List<Equipment> getEquipments(){
+    	List<Equipment>equipments = new ArrayList<Equipment>(); 
+    	
+    	equipments.add(armor);
+        equipments.add(boots);
+        equipments.add(gloves);
+        equipments.add(helmet);
+    	equipments.add(weapon);
+    	
+    	return equipments;
+    }
+    
+    public void setHeight(double height) {
+		this.height = height;
+	}
+
+	public void setArmor(Equipment armor) {
+		this.armor = (Armor) armor;
+	}
+
+	public void setBoots(Equipment boots) {
+		this.boots = (Boots) boots;
+	}
+
+	public void setGloves(Equipment gloves) {
+		this.gloves = (Gloves) gloves;
+	}
+
+	public void setHelmet(Equipment helmet) {
+		this.helmet = (Helmet) helmet;
+	}
+
+	public void setWeapon(Equipment weapon) {
+		this.weapon = (Weapon) weapon;
+	}
+    
     protected abstract double attackFactor();
 
     protected abstract double defenseFactor();
@@ -124,5 +158,8 @@ public abstract class Character {
     protected abstract double resistanceFactor();
 
     protected abstract double healthFactor();
+    
+    
+    
 
 }

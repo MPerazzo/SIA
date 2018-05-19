@@ -2,7 +2,7 @@ package ar.edu.itba.sia.model.equipment;
 
 public abstract class Equipment {
 
-    private double strength;
+  	private double strength;
     private double agility;
     private double dexterity;
     private double health;
