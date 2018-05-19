@@ -13,12 +13,30 @@ public class Archer2 extends Archer {
     public Archer2(final double height, final Armor armor, final Boots boots, final Gloves gloves,
                    final Helmet helmet, final Weapon weapon) {
         super(height, armor, boots, gloves, helmet, weapon);
+    }
 
-        strength = strength * STRENGTH_FACTOR;
-        agility = agility * AGILITY_FACTOR;
-        dexterity = dexterity * DEXTERITY_FACTOR;
-        resistance = resistance * RESISTANCE_FACTOR;
-        health = health * HEALTH_FACTOR;
+    @Override
+    protected double strengthFactor() {
+        return STRENGTH_FACTOR;
+    }
 
+    @Override
+    protected double agilityFactor() {
+        return AGILITY_FACTOR;
+    }
+
+    @Override
+    protected double dexterityFactor() {
+        return DEXTERITY_FACTOR;
+    }
+
+    @Override
+    protected double resistanceFactor() {
+        return RESISTANCE_FACTOR;
+    }
+
+    @Override
+    protected double healthFactor() {
+        return HEALTH_FACTOR;
     }
 }

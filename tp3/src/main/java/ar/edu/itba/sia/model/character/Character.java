@@ -21,7 +21,7 @@ public abstract class Character {
 
     private double attack;
     private double defense;
-    private double performance;
+    private double fitness;
 
     private Armor armor; 
 	private Boots boots;
@@ -62,7 +62,7 @@ public abstract class Character {
         attack = (agility + dexterity) * strength * attackMod;
         defense = (resistance + dexterity) * health * defMod;
 
-        performance = this.attackFactor() * attack + this.defenseFactor() * defense;
+        fitness = this.attackFactor() * attack + this.defenseFactor() * defense;
     }
     
     public double getHeight() {
@@ -88,6 +88,8 @@ public abstract class Character {
     public double getResistance() {
         return resistance;
     }
+
+    public double getFitness() { return fitness; }
 
     public Armor getArmor() {
         return armor;
