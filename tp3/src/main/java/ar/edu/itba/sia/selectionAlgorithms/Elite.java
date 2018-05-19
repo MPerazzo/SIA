@@ -1,13 +1,13 @@
 package ar.edu.itba.sia.selectionAlgorithms;
 
-import ar.edu.itba.sia.interfaces.SelectionAlgortihm;
+import ar.edu.itba.sia.interfaces.SelectionAlgorithm;
 import ar.edu.itba.sia.model.character.Character;
 import ar.edu.itba.sia.utils.Parser;
 
 import java.util.LinkedList;
 import java.util.List;
 
-public class Elite implements SelectionAlgortihm {
+public class Elite implements SelectionAlgorithm {
 
     private int k;
 

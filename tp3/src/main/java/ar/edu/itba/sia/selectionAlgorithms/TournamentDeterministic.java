@@ -1,6 +1,6 @@
 package ar.edu.itba.sia.selectionAlgorithms;
 
-import ar.edu.itba.sia.interfaces.SelectionAlgortihm;
+import ar.edu.itba.sia.interfaces.SelectionAlgorithm;
 import ar.edu.itba.sia.utils.Parser;
 import ar.edu.itba.sia.model.character.Character;
 
@@ -8,7 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class TournamentDeterministic implements SelectionAlgortihm {
+public class TournamentDeterministic implements SelectionAlgorithm {
 
     private static final int K = 20;
 

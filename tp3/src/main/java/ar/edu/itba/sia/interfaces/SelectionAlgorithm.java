@@ -6,6 +6,6 @@ import ar.edu.itba.sia.model.character.Character;
 
 import java.util.List;
 
-public interface SelectionAlgortihm {
+public interface SelectionAlgorithm {
     List<Character> select(List<Character> characters);
 }

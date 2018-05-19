@@ -1,13 +1,13 @@
 package ar.edu.itba.sia.selectionAlgorithms;
 
-import ar.edu.itba.sia.interfaces.SelectionAlgortihm;
+import ar.edu.itba.sia.interfaces.SelectionAlgorithm;
 import ar.edu.itba.sia.model.character.Character;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class TournamentProbabilistic implements SelectionAlgortihm {
+public class TournamentProbabilistic implements SelectionAlgorithm {
 
     private static final int K = 20;
 
