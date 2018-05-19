@@ -29,7 +29,7 @@ public class Universal {
             totalFitness += c.getFitness();
 
         double prevCandidateAccum = 0;
-        for (int i = 0, j=0 ; i < k ;) {
+        for (int i = 0, j=0 ; j < accumToMatch.length ;) {
             Candidate currentCandidate = candidates.get(i);
             double currentCandidateAccum = prevCandidateAccum + (currentCandidate.getFitness() / totalFitness);
             double currentAccumToMatch = accumToMatch[j];
@@ -39,13 +39,11 @@ public class Universal {
                 j++;
                 i = 0;
                 prevCandidateAccum = 0;
-            }
-            else {
+            } else {
                 prevCandidateAccum = currentCandidateAccum;
                 i++;
             }
         }
-
         return selected;
     }
 }

@@ -29,7 +29,7 @@ public class Roulette {
             totalFitness += c.getFitness();
 
         double prevCandidateAccum = 0;
-        for (int i = 0, j=0 ; i < k && j < accumToMatch.length ;) {
+        for (int i = 0, j=0 ; j < accumToMatch.length ;) {
             Candidate currentCandidate = candidates.get(i);
             double currentCandidateAccum = prevCandidateAccum + (currentCandidate.getFitness() / totalFitness);
             double currentAccumToMatch = accumToMatch[j];
