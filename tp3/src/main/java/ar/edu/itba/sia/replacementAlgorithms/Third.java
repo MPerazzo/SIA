@@ -18,12 +18,10 @@ public class Third implements ReplacementAlgorithm {
     }
 
     @Override
-    public List<Character> newGeneration(List<Character> sons, List<Character> oldGeneration) {
-        List<Character> all = new LinkedList<>();
-        if(sons != null) {
-            all.addAll(sons);
-        }
-        all.addAll(oldGeneration);
-        return selectionAlgorithm.select(all);
+    public void newGeneration(List<Character> newGen, List<Character> oldGeneration) {
+        newGen.addAll(oldGeneration);
+        List<Character> selected = selectionAlgorithm.select(newGen);
+        newGen.clear();
+        newGen.addAll(selected);
     }
 }

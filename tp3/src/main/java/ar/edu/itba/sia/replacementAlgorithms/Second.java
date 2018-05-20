@@ -18,12 +18,7 @@ public class Second implements ReplacementAlgorithm {
     }
 
     @Override
-    public List<Character> newGeneration(List<Character> sons, List<Character> oldGeneration) {
-        List<Character> newGen = new LinkedList<>();
-        if(sons != null) {
-            newGen.addAll(sons);
-        }
+    public void newGeneration(List<Character> newGen, List<Character> oldGeneration) {
         newGen.addAll(selectionAlgorithm.select(oldGeneration));
-        return newGen;
     }
 }

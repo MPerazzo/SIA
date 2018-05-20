@@ -3,7 +3,6 @@ package ar.edu.itba.sia.model.character;
 import ar.edu.itba.sia.model.Modifier;
 import ar.edu.itba.sia.model.equipment.*;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 

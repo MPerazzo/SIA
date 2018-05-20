@@ -17,28 +17,17 @@ public class First implements ReplacementAlgorithm{
 
     public First(Parser parser) {
         this.N = parser.getPopulation();
-        this.selectionAlgorithm = new Roulette(2);
+        this.selectionAlgorithm = new Roulette(selectionCant);
     }
 
     @Override
-    public List<Character> newGeneration(List<Character> sons, List<Character> oldGeneration) {
-        int cant = 0;
-        List<Character> newGen;
-        if(sons != null) {
-            cant = sons.size();
-            newGen = sons;
-        } else {
-            newGen = new LinkedList<>();
-        }
+    public void newGeneration(List<Character> newGen, List<Character> oldGeneration) {
 
-        while(cant < N) {
+        while(newGen.size() < N) {
             //Select
             //Cross
             //Mutation
             //newGen.addAll(new sons);
-            cant = newGen.size();
         }
-
-        return newGen;
     }
 }
