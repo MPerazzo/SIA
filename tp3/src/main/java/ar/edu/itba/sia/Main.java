@@ -1,11 +1,25 @@
 package ar.edu.itba.sia;
 
+import ar.edu.itba.sia.model.character.Character;
 import ar.edu.itba.sia.utils.Parser;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.List;
+
+import ar.edu.itba.sia.utils.PopulationGenerator;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
 
 public class Main
 {
-    public static void main( String[] args )
-    {
+    public static void main( String[] args ) throws IOException {
         System.out.println( "Hello World!" );
         Parser parser = new Parser("configFile.txt");
         System.out.println(parser.getFirstSelectionMethod());
@@ -24,6 +38,9 @@ public class Main
         System.out.println(parser.getTournamentCantCompetitors());
         System.out.println(parser.isTournamentProb());
         System.out.println(parser.getTournamentProb());
+
+
+        PopulationGenerator populationGenerator = new PopulationGenerator(parser.getPopulation(),"testdata/pecheras.xls","testdata/botas.xls","testdata/guantes.xls", "testdata/cascos.xls", "testdata/armas.xls");
 
     }
 }
