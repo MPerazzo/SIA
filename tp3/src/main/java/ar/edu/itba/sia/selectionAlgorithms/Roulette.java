@@ -15,6 +15,10 @@ public class Roulette implements SelectionAlgorithm {
         k = parser.getSelectionCant();
     }
 
+    public Roulette(int k) {
+        this.k = k;
+    }
+
     public List<Character> select(List<Character> characters) {
 
         List<Character> selected = new LinkedList<>();
