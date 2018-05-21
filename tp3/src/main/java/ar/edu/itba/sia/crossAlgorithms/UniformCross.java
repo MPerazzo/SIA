@@ -45,7 +45,7 @@ public class UniformCross implements CrossAlgorithm {
 		List<Equipment> equipmentSon2 = new LinkedList<>();
 
 		for (int i=0 ; i < equipmentQuantity ; i++) {
-			probabilities[i] = ThreadLocalRandom.current().nextDouble(0,1);
+			probabilities[i] = Math.random();
 		}
 
 		for (int i=0 ; i < equipmentQuantity ; i++) {

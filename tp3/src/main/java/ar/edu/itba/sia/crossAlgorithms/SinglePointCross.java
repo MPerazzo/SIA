@@ -34,7 +34,7 @@ public class SinglePointCross implements CrossAlgorithm {
 
 		int equipmentQuantity = character1.getEquipmentQuantity();
 
-		int crossPoint = ThreadLocalRandom.current().nextInt(0, equipmentQuantity - 1);
+		int crossPoint = ThreadLocalRandom.current().nextInt(0, equipmentQuantity);
 
 		List<Equipment> equipmentFather1 = character1.getEquipment();
 		List<Equipment> equipmentFather2 = character2.getEquipment();

@@ -35,7 +35,7 @@ public class TwoPointCross implements CrossAlgorithm {
 
 		int equipmentQuantity = character1.getEquipmentQuantity();
 
-		int crossPoint1=ThreadLocalRandom.current().nextInt(0, equipmentQuantity - 2);
+		int crossPoint1=ThreadLocalRandom.current().nextInt(0, equipmentQuantity - 1);
 		int crossPoint2=ThreadLocalRandom.current().nextInt(crossPoint1 + 1, equipmentQuantity);
 
 		List<Equipment> equipmentFather1 = character1.getEquipment();

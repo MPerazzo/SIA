@@ -122,7 +122,6 @@ public class AnularCross implements CrossAlgorithm {
 			son2 = new Defender3(heightSon2, equipmentSon2);
 		}
 
-
 		sons.add(son1);
 		sons.add(son2);
 
