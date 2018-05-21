@@ -13,14 +13,6 @@ public class First implements ReplacementAlgorithm{
     @Override
     public void newGeneration(List<Character> newGen, List<Character> oldGeneration,
                               SelectionAlgorithm selectionAlgorithm) {
-        selectionAlgorithm.select(oldGeneration);
-
-
-        while(newGen.size() < N) {
-            //Select
-            //Crossing
-            //Mutation
-            //newGen.addAll(new sons);
         }
-    }
 }
+
