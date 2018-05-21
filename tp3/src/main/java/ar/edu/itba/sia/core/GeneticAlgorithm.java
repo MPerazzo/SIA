@@ -61,7 +61,7 @@ public class GeneticAlgorithm {
 
         MutationAlgorithm mutationAlgorithm = MutationMethod.getMutationAlgorithm(m.getMutationMethod());
 
-        SelectionAlgorithm selectionAlgorithReplacement1 = SelectionMethod.
+        SelectionAlgorithm selectionAlgorithmReplacement1 = SelectionMethod.
                 getSelectionAlgorithm(m.getFirstSelectionMethod(), replacementCant1, m);
         SelectionAlgorithm selectionAlgorithmReplacement2 = SelectionMethod.
                 getSelectionAlgorithm(m.getSecondSelectionMethod(), replacementCant2, m);
@@ -83,7 +83,8 @@ public class GeneticAlgorithm {
 
             Mutation.mutate(newGen, mutationAlgorithm, m.getMutationProb());
 
-
+            replacementAlgorithm1.newGeneration(newGen, currentGeneration, selectionAlgorithmReplacement1);
+            replacementAlgorithm2.newGeneration(newGen, currentGeneration, selectionAlgorithmReplacement2);
         }
     }
 }
