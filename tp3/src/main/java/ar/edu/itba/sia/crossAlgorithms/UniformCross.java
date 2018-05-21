@@ -79,8 +79,8 @@ public class UniformCross implements CrossAlgorithm {
 			son2 = new Warrior2(heightSon2, equipmentSon2);
 		}
 		else if (character1 instanceof Warrior3) {
-			son1 = new Warrior2(heightSon1, equipmentSon1);
-			son2 = new Warrior2(heightSon2, equipmentSon2);
+			son1 = new Warrior3(heightSon1, equipmentSon1);
+			son2 = new Warrior3(heightSon2, equipmentSon2);
 		}
 		else if (character1 instanceof Archer1) {
 			son1 = new Archer1(heightSon1, equipmentSon1);
