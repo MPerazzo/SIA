@@ -2,6 +2,8 @@ package ar.edu.itba.sia.model.character.warrior;
 
 import ar.edu.itba.sia.model.equipment.*;
 
+import java.util.List;
+
 public class Warrior3 extends Warrior {
 
     private static final double STRENGTH_FACTOR = 0.8;
@@ -10,8 +12,12 @@ public class Warrior3 extends Warrior {
     private static final double RESISTANCE_FACTOR = 1.2;
     private static final double HEALTH_FACTOR = 1.1;
 
+    public Warrior3(final double height, final List<Equipment> equipment) {
+        super(height, equipment);
+    }
+
     public Warrior3(final double height, final Armor armor, final Boots boots, final Gloves gloves,
-                    final Helmet helmet, final Weapon weapon) {
+                      final Helmet helmet, final Weapon weapon) {
         super(height, armor, boots, gloves, helmet, weapon);
     }
 

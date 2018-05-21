@@ -8,8 +8,6 @@ import java.util.List;
 
 public abstract class Character {
 
-	public static final int allelsQuantity = 6;
-	
     private double height;
 
     private double strength = 0;
@@ -18,8 +16,6 @@ public abstract class Character {
     private double health = 0;
     private double resistance = 0;
 
-    private double attack;
-    private double defense;
     private double fitness;
 
     private List<Equipment> equipment = new LinkedList<>();
@@ -30,9 +26,8 @@ public abstract class Character {
     private Helmet helmet;
     private Weapon weapon;
 
-    public Character(final double height, final Armor armor, final Boots boots, final Gloves gloves,
-                     final Helmet helmet, final Weapon weapon) {
-
+    public Character (final double height, final Armor armor, final Boots boots, final Gloves gloves,
+                      final Helmet helmet, final Weapon weapon) {
         this.height = height;
 
         this.armor = armor;
@@ -41,11 +36,31 @@ public abstract class Character {
         this.helmet = helmet;
         this.weapon = weapon;
 
-        equipment.add(armor);
-        equipment.add(boots);
-        equipment.add(gloves);
-        equipment.add(helmet);
-        equipment.add(weapon);
+        this.equipment.add(armor);
+        this.equipment.add(boots);
+        this.equipment.add(gloves);
+        this.equipment.add(helmet);
+        this.equipment.add(weapon);
+
+        this.calculateAttributes();
+    }
+
+    public Character(final double height, final List<Equipment> equipment) {
+
+        this.height = height;
+
+        this.armor = (Armor) equipment.get(0);
+        this.boots = (Boots) equipment.get(1);
+        this.gloves = (Gloves) equipment.get(2);
+        this.helmet = (Helmet) equipment.get(3);
+        this.weapon = (Weapon) equipment.get(4);
+
+        this.equipment.addAll(equipment);
+
+        this.calculateAttributes();
+    }
+
+    private void calculateAttributes() {
 
         for (Equipment e : equipment) {
             strength += e.getStrength();
@@ -64,8 +79,8 @@ public abstract class Character {
         double attackMod = Modifier.attackMod(height);
         double defMod = Modifier.defenseMod(height);
 
-        attack = (agility + dexterity) * strength * attackMod;
-        defense = (resistance + dexterity) * health * defMod;
+        double attack = (agility + dexterity) * strength * attackMod;
+        double defense = (resistance + dexterity) * health * defMod;
 
         fitness = this.attackFactor() * attack + this.defenseFactor() * defense;
     }
@@ -96,6 +111,9 @@ public abstract class Character {
 
     public double getFitness() { return fitness; }
 
+    public int getEquipmentQuantity() {
+        return equipment.size();
+    }
     public Armor getArmor() {
         return armor;
     }

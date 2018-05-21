@@ -2,6 +2,8 @@ package ar.edu.itba.sia.model.character.assasin;
 
 import ar.edu.itba.sia.model.equipment.*;
 
+import java.util.List;
+
 public class Assassin1 extends Assassin {
 
     private static final double STRENGTH_FACTOR = 0.8;
@@ -10,8 +12,13 @@ public class Assassin1 extends Assassin {
     private static final double RESISTANCE_FACTOR = 1.0;
     private static final double HEALTH_FACTOR = 0.8;
 
+    public Assassin1 (final double height, final List<Equipment> equipment) {
+        super(height, equipment);
+    }
+
+
     public Assassin1(final double height, final Armor armor, final Boots boots, final Gloves gloves,
-                   final Helmet helmet, final Weapon weapon) {
+                    final Helmet helmet, final Weapon weapon) {
         super(height, armor, boots, gloves, helmet, weapon);
     }
 

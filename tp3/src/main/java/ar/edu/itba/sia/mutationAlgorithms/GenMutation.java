@@ -10,8 +10,7 @@ public class GenMutation implements MutationAlgorithm {
 	@Override
 	public Character mutate(Character character, double pc) {
 		
-		int gen= ThreadLocalRandom.current().nextInt(0,Character.allelsQuantity-1);
-		
+
 		// TODO Auto-generated method stub
 		
 		return character;

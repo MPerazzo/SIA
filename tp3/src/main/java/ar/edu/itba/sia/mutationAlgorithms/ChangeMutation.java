@@ -10,8 +10,9 @@ public class ChangeMutation implements MutationAlgorithm {
 
 	@Override
 	public Character mutate(Character character, double pc) {
-		int gen1= ThreadLocalRandom.current().nextInt(0,Character.allelsQuantity-1);
-		int gen2= ThreadLocalRandom.current().nextInt(0,Character.allelsQuantity-1);
+		int equipmentQuantity = character.getEquipmentQuantity();
+		int gen1= ThreadLocalRandom.current().nextInt(0, equipmentQuantity);
+		int gen2= ThreadLocalRandom.current().nextInt(0, equipmentQuantity);
 		Equipment equipment1, equipment2;
 						
 		if (gen1 != gen2) {

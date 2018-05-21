@@ -1,6 +1,7 @@
 package ar.edu.itba.sia.crossAlgorithms;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -26,137 +27,105 @@ import ar.edu.itba.sia.model.equipment.Helmet;
 import ar.edu.itba.sia.model.equipment.Weapon;
 
 public class AnularCross implements CrossAlgorithm {
-
-	private int crossPoint=ThreadLocalRandom.current().nextInt(0,Character.allelsQuantity+1);
-	private int segment=ThreadLocalRandom.current().nextInt(0,(Character.allelsQuantity/2)+1);
-	private double probability= ThreadLocalRandom.current().nextDouble(0,1);
 	
 	@Override
 	public List<Character> cross(Character character1, Character character2, double pc) {
-		List<Character> sons= new ArrayList<Character>();
-		Character son1 = null;
-		Character son2 = null;
-		Equipment [] equipment1 = new Equipment[Character.allelsQuantity-1]; 
-		Equipment [] equipment2 = new Equipment[Character.allelsQuantity-1];
- 		double height1, height2;
- 		int j= crossPoint+segment ;
-		
-	
-		if (probability>pc) {
-			return null;
-		}
-		
-		if(crossPoint==6) {
-			height1= character1.getHeight();
-			height2= character2.getHeight();
-		}else {
-			height1= character2.getHeight();
-			height2= character1.getHeight();
-		}
-		
-		for(int i=0; i<crossPoint && i<Character.allelsQuantity-1; i++) {
 
-			equipment1[i]= character1.getEquipment().get(i);
-			equipment2[i]= character2.getEquipment().get(i);
-	
+		List<Character> sons= new ArrayList<>();
+
+		int equipmentQuantity = character1.getEquipmentQuantity();
+
+		int crossPoint = ThreadLocalRandom.current().nextInt(0, equipmentQuantity);
+		int segment = ThreadLocalRandom.current().nextInt(0, (equipmentQuantity/2)+1);
+
+		List<Equipment> equipmentFather1 = character1.getEquipment();
+		List<Equipment> equipmentFather2 = character2.getEquipment();
+
+		List<Equipment> equipmentSon1 = new LinkedList<>();
+		List<Equipment> equipmentSon2 = new LinkedList<>();
+
+		for (int i=0 ; i < crossPoint ; i++) {
+			equipmentSon1.add(equipmentFather1.get(i));
+			equipmentSon2.add(equipmentFather2.get(i));
 		}
-	
-		for(int i=crossPoint; (segment+1) > 0 ; i++) {
-		
-			if(i==5) {
-				height1= character2.getHeight();
-				height2= character1.getHeight();
-			}
-			
-			if (i<Character.allelsQuantity-1) {
-				equipment1[i]= character2.getEquipment().get(i);
-				equipment2[i]= character1.getEquipment().get(i);
-				
-			}
-			
-			if(i>=Character.allelsQuantity-1) {
-				i=0;
-			}	
-			
-			if (i != Character.allelsQuantity) {
-				segment--;
-			}
-		
+
+		int i = crossPoint;
+		for ( ; i + segment < equipmentQuantity - 1 ; i++) {
+			equipmentSon1.add(equipmentFather2.get(i));
+			equipmentSon2.add(equipmentFather1.get(i));
 		}
-		
-		if(j<Character.allelsQuantity) {
-			for(int i=j; i<Character.allelsQuantity-1 ;i++) {
-				equipment1[i]= character1.getEquipment().get(i);
-				equipment2[i]= character2.getEquipment().get(i);
-				height1= character1.getHeight();
-				height2= character2.getHeight();
-			}
-		}		
-		
-		
+
+		for (int j = i ; j < equipmentQuantity - 1 ; j++) {
+			equipmentSon1.add(equipmentFather1.get(i));
+			equipmentSon2.add(equipmentFather2.get(i));
+		}
+
+
+		double heightSon1, heightSon2;
+		if (crossPoint < (equipmentQuantity)/2) {
+			heightSon1= character1.getHeight();
+			heightSon2= character2.getHeight();
+		} else {
+			heightSon1= character2.getHeight();
+			heightSon2= character1.getHeight();
+		}
+
+		Character son1;
+		Character son2;
+
 		if (character1 instanceof Warrior1) {
-			son1 = new Warrior1(height1, (Armor)equipment1[0], (Boots)equipment1[1], (Gloves)equipment1[2], (Helmet)equipment1[3], (Weapon)equipment1[4]);
-			son1 = new Warrior1(height2, (Armor)equipment2[0], (Boots)equipment2[1], (Gloves)equipment2[2], (Helmet)equipment2[3], (Weapon)equipment2[4]);
+			son1 = new Warrior1(heightSon1, equipmentSon1);
+			son2 = new Warrior1(heightSon2, equipmentSon2);
 		}
-		
-		if (character1 instanceof Warrior2) {
-			son1 = new Warrior2(height1, (Armor)equipment1[0], (Boots)equipment1[1], (Gloves)equipment1[2], (Helmet)equipment1[3], (Weapon)equipment1[4]);
-			son1 = new Warrior2(height2, (Armor)equipment2[0], (Boots)equipment2[1], (Gloves)equipment2[2], (Helmet)equipment2[3], (Weapon)equipment2[4]);
+		else if (character1 instanceof Warrior2) {
+			son1 = new Warrior2(heightSon1, equipmentSon1);
+			son2 = new Warrior2(heightSon2, equipmentSon2);
 		}
-		
-		if (character1 instanceof Warrior3) {
-			son1 = new Warrior3(height1, (Armor)equipment1[0], (Boots)equipment1[1], (Gloves)equipment1[2], (Helmet)equipment1[3], (Weapon)equipment1[4]);
-			son1 = new Warrior3(height2, (Armor)equipment2[0], (Boots)equipment2[1], (Gloves)equipment2[2], (Helmet)equipment2[3], (Weapon)equipment2[4]);
+		else if (character1 instanceof Warrior3) {
+			son1 = new Warrior2(heightSon1, equipmentSon1);
+			son2 = new Warrior2(heightSon2, equipmentSon2);
 		}
-		
-		if (character1 instanceof Archer1) {
-			son1 = new Archer1(height1, (Armor)equipment1[0], (Boots)equipment1[1], (Gloves)equipment1[2], (Helmet)equipment1[3], (Weapon)equipment1[4]);
-			son1 = new Archer1(height2, (Armor)equipment2[0], (Boots)equipment2[1], (Gloves)equipment2[2], (Helmet)equipment2[3], (Weapon)equipment2[4]);
+		else if (character1 instanceof Archer1) {
+			son1 = new Archer1(heightSon1, equipmentSon1);
+			son2 = new Archer1(heightSon2, equipmentSon2);
 		}
-		
-		if (character1 instanceof Archer2) {
-			son1 = new Archer2(height1, (Armor)equipment1[0], (Boots)equipment1[1], (Gloves)equipment1[2], (Helmet)equipment1[3], (Weapon)equipment1[4]);
-			son1 = new Archer2(height2, (Armor)equipment2[0], (Boots)equipment2[1], (Gloves)equipment2[2], (Helmet)equipment2[3], (Weapon)equipment2[4]);
+		else if (character1 instanceof Archer2) {
+			son1 = new Archer2(heightSon1, equipmentSon1);
+			son2 = new Archer2(heightSon2, equipmentSon2);
 		}
-		
-		if (character1 instanceof Archer3) {
-			son1 = new Archer3(height1, (Armor)equipment1[0], (Boots)equipment1[1], (Gloves)equipment1[2], (Helmet)equipment1[3], (Weapon)equipment1[4]);
-			son1 = new Archer3(height2, (Armor)equipment2[0], (Boots)equipment2[1], (Gloves)equipment2[2], (Helmet)equipment2[3], (Weapon)equipment2[4]);
+		else if (character1 instanceof Archer3) {
+			son1 = new Archer3(heightSon1, equipmentSon1);
+			son2 = new Archer3(heightSon2, equipmentSon2);
 		}
-		
-		if (character1 instanceof Assassin1) {
-			son1 = new Assassin1(height1, (Armor)equipment1[0], (Boots)equipment1[1], (Gloves)equipment1[2], (Helmet)equipment1[3], (Weapon)equipment1[4]);
-			son1 = new Assassin1(height2, (Armor)equipment2[0], (Boots)equipment2[1], (Gloves)equipment2[2], (Helmet)equipment2[3], (Weapon)equipment2[4]);
-		}	
+		else if (character1 instanceof Assassin1) {
+			son1 = new Assassin1(heightSon1, equipmentSon1);
+			son2 = new Assassin1(heightSon2, equipmentSon2);
+		}
+		else if (character1 instanceof Assassin2) {
+			son1 = new Assassin2(heightSon1, equipmentSon1);
+			son2 = new Assassin2(heightSon2, equipmentSon2);
+		}
+		else if (character1 instanceof Assassin3) {
+			son1 = new Assassin3(heightSon1, equipmentSon1);
+			son2 = new Assassin3(heightSon2, equipmentSon2);
+		}
+		else if (character1 instanceof Defender1) {
+			son1 = new Defender1(heightSon1, equipmentSon1);
+			son2 = new Defender1(heightSon2, equipmentSon2);
+		}
+		else if (character1 instanceof Defender2) {
+			son1 = new Defender2(heightSon1, equipmentSon1);
+			son2 = new Defender2(heightSon2, equipmentSon2);
+		}
+		else  {
+			son1 = new Defender3(heightSon1, equipmentSon1);
+			son2 = new Defender3(heightSon2, equipmentSon2);
+		}
 
-		if (character1 instanceof Assassin2) {
-			son1 = new Assassin2(height1, (Armor)equipment1[0], (Boots)equipment1[1], (Gloves)equipment1[2], (Helmet)equipment1[3], (Weapon)equipment1[4]);
-			son1 = new Assassin2(height2, (Armor)equipment2[0], (Boots)equipment2[1], (Gloves)equipment2[2], (Helmet)equipment2[3], (Weapon)equipment2[4]);
-		}	
-
-		if (character1 instanceof Assassin3) {
-			son1 = new Assassin3(height1, (Armor)equipment1[0], (Boots)equipment1[1], (Gloves)equipment1[2], (Helmet)equipment1[3], (Weapon)equipment1[4]);
-			son1 = new Assassin3(height2, (Armor)equipment2[0], (Boots)equipment2[1], (Gloves)equipment2[2], (Helmet)equipment2[3], (Weapon)equipment2[4]);
-		}
-		
-		if (character1 instanceof Defender1) {
-			son1 = new Defender1(height1, (Armor)equipment1[0], (Boots)equipment1[1], (Gloves)equipment1[2], (Helmet)equipment1[3], (Weapon)equipment1[4]);
-			son1 = new Defender1(height2, (Armor)equipment2[0], (Boots)equipment2[1], (Gloves)equipment2[2], (Helmet)equipment2[3], (Weapon)equipment2[4]);
-		}
-		
-		if (character1 instanceof Defender2) {
-			son1 = new Defender2(height1, (Armor)equipment1[0], (Boots)equipment1[1], (Gloves)equipment1[2], (Helmet)equipment1[3], (Weapon)equipment1[4]);
-			son1 = new Defender2(height2, (Armor)equipment2[0], (Boots)equipment2[1], (Gloves)equipment2[2], (Helmet)equipment2[3], (Weapon)equipment2[4]);
-		}
-		
-		if (character1 instanceof Defender3) {
-			son1 = new Defender3(height1, (Armor)equipment1[0], (Boots)equipment1[1], (Gloves)equipment1[2], (Helmet)equipment1[3], (Weapon)equipment1[4]);
-			son1 = new Defender3(height2, (Armor)equipment2[0], (Boots)equipment2[1], (Gloves)equipment2[2], (Helmet)equipment2[3], (Weapon)equipment2[4]);
-		}
 
 		sons.add(son1);
 		sons.add(son2);
-		
+
 		return sons;
 			
 	}
