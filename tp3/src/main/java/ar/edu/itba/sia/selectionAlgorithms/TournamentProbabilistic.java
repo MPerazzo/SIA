@@ -9,13 +9,19 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class TournamentProbabilistic implements SelectionAlgorithm {
 
-    private static final int K = 20;
+    private final int selectionCant;
+    private final double p;
+
+    public TournamentProbabilistic(final int selectionCant, final double p) {
+        this.selectionCant = selectionCant;
+        this.p = p;
+    }
 
     public List<Character> select (List<Character> characters) {
 
         List<Character> selected = new LinkedList<>();
 
-        int k = K;
+        int k = selectionCant;
         while (k-- != 0) {
             int random1 = ThreadLocalRandom.current().nextInt(0, characters.size());
             int random2 = ThreadLocalRandom.current().nextInt(0, characters.size());
@@ -34,7 +40,7 @@ public class TournamentProbabilistic implements SelectionAlgorithm {
 
             double random = Math.random();
 
-            if (random < 0.75)
+            if (random < p)
                 selected.add(characters.get(1));
             else
                 selected.add(characters.get(0));

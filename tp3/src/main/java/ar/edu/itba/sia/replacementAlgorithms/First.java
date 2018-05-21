@@ -6,7 +6,6 @@ import ar.edu.itba.sia.model.character.Character;
 import ar.edu.itba.sia.selectionAlgorithms.Roulette;
 import ar.edu.itba.sia.utils.Parser;
 
-import java.util.LinkedList;
 import java.util.List;
 
 public class First implements ReplacementAlgorithm{
@@ -16,7 +15,7 @@ public class First implements ReplacementAlgorithm{
     private SelectionAlgorithm selectionAlgorithm;
 
     public First(Parser parser) {
-        this.N = parser.getPopulation();
+        this.N = parser.getPopulationCant();
         this.selectionAlgorithm = new Roulette(selectionCant);
     }
 

@@ -2,29 +2,32 @@ package ar.edu.itba.sia.selectionAlgorithms;
 
 import ar.edu.itba.sia.interfaces.SelectionAlgorithm;
 import ar.edu.itba.sia.model.character.Character;
-import ar.edu.itba.sia.utils.Parser;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public class Boltzmann implements SelectionAlgorithm {
 
-    private static final double T_DECREASE_FACTOR = 1.5;
-
-    private int k;
+    private final int selectionCant;
+    private final double t0;
+    private final double exponentialFactor;
     private double t;
 
-    public Boltzmann(Parser parser) {
-        k = parser.getSelectionCant();
-        t = parser.getTemp();
+    private final long runningTimeStart = System.currentTimeMillis();
+
+    public Boltzmann(int selectionCant, double t0, double exponentialFactor) {
+        this.selectionCant = selectionCant;
+        this.t0 = t0;
+        this.exponentialFactor = exponentialFactor;
+        t = t0;
     }
 
     public List<Character> select(List<Character> characters) {
 
         List<Character> selected = new LinkedList<>();
-        double accumToMatch[] = new double[k];
+        double accumToMatch[] = new double[selectionCant];
 
-        for (int i = 0 ; i < k ; i++) {
+        for (int i = 0 ; i < selectionCant; i++) {
             double random = Math.random();
             accumToMatch[i] = random;
         }
@@ -34,7 +37,7 @@ public class Boltzmann implements SelectionAlgorithm {
             totalExpVal += Math.exp(c.getFitness() / t);
 
         double prevCharacterAccum = 0;
-        for (int i = 0, j=0 ; i < k && j < accumToMatch.length ;) {
+        for (int i = 0, j=0 ; i < selectionCant && j < accumToMatch.length ;) {
             Character currentCharacter = characters.get(i);
             double currentCharacterAccum = prevCharacterAccum +
                     (Math.exp(currentCharacter.getFitness() / t) / totalExpVal);
@@ -51,8 +54,10 @@ public class Boltzmann implements SelectionAlgorithm {
                 i++;
             }
         }
+        long runningTimeEnd = System.currentTimeMillis();
+        double runningTime = ((double)(runningTimeEnd - runningTimeStart)) / 1000;
 
-        t /= T_DECREASE_FACTOR;
+        t = t0 * Math.exp(-runningTime * exponentialFactor);
 
         return selected;
     }

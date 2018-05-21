@@ -1,25 +1,25 @@
 package ar.edu.itba.sia.selectionAlgorithms;
 
+import ar.edu.itba.sia.interfaces.SelectionAlgorithm;
 import ar.edu.itba.sia.model.character.Character;
-import ar.edu.itba.sia.utils.Parser;
 
 import java.util.LinkedList;
 import java.util.List;
 
-public class Ranking {
+public class Ranking implements SelectionAlgorithm {
 
-    private int k;
+    private int selectionCount;
 
-    public Ranking(Parser parser) {
-        k = parser.getSelectionCant();
+    public Ranking(int selectionCant) {
+        selectionCount = selectionCant;
     }
 
-    private List<Character> select(List<Character> characters) {
+    public List<Character> select(List<Character> characters) {
 
         List<Character> selected = new LinkedList<>();
-        double accumToMatch[] = new double[k];
+        double accumToMatch[] = new double[selectionCount];
 
-        for (int i = 0 ; i < k ; i++) {
+        for (int i = 0 ; i < selectionCount; i++) {
             double random = Math.random();
             accumToMatch[i] = random;
         }

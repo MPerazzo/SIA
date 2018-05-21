@@ -1,9 +1,11 @@
 package ar.edu.itba.sia.utils;
 
+import ar.edu.itba.sia.model.character.Character;
 import javax.management.AttributeNotFoundException;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.List;
 
 public class Parser {
 
@@ -12,10 +14,16 @@ public class Parser {
             SECOND_REPLACEMENT_METHOD = "SECOND_REPLACEMENT_METHOD";
 
     private static final String SELECTION_PERCENT = "SELECTION_PERCENT", REPLACEMENT_PERCENT = "REPLACEMENT_PERCENT",
-            MUTATION_PROB = "MUTATION_PROB", CROSSING_PROB = "CROSSING_PROB", POPULATION = "POPULATION", SELECTION_CANT = "SELECTION_CANT", TEMP = "TEMP",
-            TOURNAMENT_CANT_COMPETITORS = "TOURNAMENT_CANT_COMPETITORS", IS_TOURNAMENT_PROB = "IS_TOURNAMENT_PROB", TOURNAMENT_PROB = "TOURNAMENT_PROB";
+            MUTATION_PROB = "MUTATION_PROB", CROSSING_PROB = "CROSSING_PROB", POPULATION_CANT = "POPULATION_CANT", SELECTION_CANT = "SELECTION_CANT", TEMP = "TEMP",
+            TOURNAMENT_CANT_COMPETITORS = "TOURNAMENT_CANT_COMPETITORS", TOURNAMENT_PROB = "TOURNAMENT_PROB",
+            EXPONENTIAL_FACTOR = "EXPONENTIAL_FACTOR";
+
+    private static final String ARMOR_FILE = "ARMOR_FILE", BOOTS_FILE = "BOOTS_FILE", GLOVES_FILE = "GLOVES_FILE",
+            HELMET_FILE = "HELMET_FILE", WEAPON_FILE = "WEAPON_FILE";
 
     private static final String VALUE_SEPARATOR = " ";
+
+    private PopulationGenerator populationGenerator;
 
     private CrossingMethod crossingMethod;
     private MutationMethod mutationMethod;
@@ -27,13 +35,12 @@ public class Parser {
     private double replacementPercent;
     private double mutationProb;
     private double crossingProb;
-    private int population;
+    private int populationCant;
     private int selectionCant;
     private double temp;
+    private double exponentialFactor;
     private int tournamentCantCompetitors;
-    private boolean isTournamentProb;
     private double tournamentProb;
-
 
     public Parser(final String filename) {
         try {
@@ -50,9 +57,15 @@ public class Parser {
         BufferedReader bufferedReader = new BufferedReader(fileReader);
 
         String line;
+
+        String armorFile = null;
+        String bootsFile = null;
+        String glovesFile = null;
+        String helmetFile = null;
+        String weaponFile = null;
+
         while((line = bufferedReader.readLine()) != null) {
             String args[] = line.split(VALUE_SEPARATOR);
-
 
             switch (args[0]) {
                 case FIRST_SELECTION_METHOD:
@@ -85,8 +98,8 @@ public class Parser {
                 case CROSSING_PROB:
                     this.crossingProb = Double.parseDouble(args[1]);
                     break;
-                case POPULATION:
-                    this.population = Integer.parseInt(args[1]);
+                case POPULATION_CANT:
+                    this.populationCant = Integer.parseInt(args[1]);
                     break;
                 case SELECTION_CANT:
                     this.selectionCant = Integer.parseInt(args[1]);
@@ -94,17 +107,31 @@ public class Parser {
                 case TEMP:
                     this.temp = Double.parseDouble(args[1]);
                     break;
+                case EXPONENTIAL_FACTOR:
+                    this.exponentialFactor = Double.parseDouble(args[1]);
+                    break;
                 case TOURNAMENT_CANT_COMPETITORS:
                     this.tournamentCantCompetitors = Integer.parseInt(args[1]);
-                    break;
-                case IS_TOURNAMENT_PROB:
-                    this.isTournamentProb = Integer.parseInt(args[1]) == 1;
                     break;
                 case TOURNAMENT_PROB:
                     this.tournamentProb = Double.parseDouble(args[1]);
                     break;
+                case ARMOR_FILE:
+                    armorFile = args[1];
+                    break;
+                case BOOTS_FILE:
+                    bootsFile = args[1];
+                    break;
+                case GLOVES_FILE:
+                    glovesFile = args[1];
+                case HELMET_FILE:
+                    helmetFile = args[1];
+                case WEAPON_FILE:
+                    weaponFile = args[1];
             }
         }
+        populationGenerator = new PopulationGenerator(populationCant, armorFile, bootsFile, glovesFile,
+                helmetFile, weaponFile);
     }
 
     public CrossingMethod getCrossingMethod() {
@@ -147,8 +174,8 @@ public class Parser {
         return crossingProb;
     }
 
-    public int getPopulation() {
-        return population;
+    public int getPopulationCant() {
+        return populationCant;
     }
 
     public int getSelectionCant() {
@@ -159,15 +186,15 @@ public class Parser {
         return temp;
     }
 
+    public double getExponentialFactor() { return exponentialFactor; }
+
     public int getTournamentCantCompetitors() {
         return tournamentCantCompetitors;
-    }
-
-    public boolean isTournamentProb() {
-        return isTournamentProb;
     }
 
     public double getTournamentProb() {
         return tournamentProb;
     }
+
+    public List<Character> getInitialGeneration() { return populationGenerator.getInitialGeneration(); }
 }

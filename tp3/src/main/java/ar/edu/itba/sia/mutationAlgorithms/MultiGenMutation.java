@@ -6,7 +6,7 @@ import ar.edu.itba.sia.model.character.Character;
 public class MultiGenMutation implements MutationAlgorithm {
 
 	@Override
-	public Character mutate(Character character, double pc) {
+	public Character mutate(Character character) {
 		// TODO Auto-generated method stub
 		return character;
 	}

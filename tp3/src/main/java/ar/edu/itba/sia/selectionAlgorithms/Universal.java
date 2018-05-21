@@ -2,28 +2,27 @@ package ar.edu.itba.sia.selectionAlgorithms;
 
 import ar.edu.itba.sia.interfaces.SelectionAlgorithm;
 import ar.edu.itba.sia.model.character.Character;
-import ar.edu.itba.sia.utils.Parser;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public class Universal implements SelectionAlgorithm {
 
-    private int k;
+    private int selectionCant;
 
-    public Universal(Parser parser) {
-        k = parser.getSelectionCant();
+    public Universal(int selectionCant) {
+        this.selectionCant = selectionCant;
     }
 
     public List<Character> select(List<Character> characters) {
 
         List<Character> selected = new LinkedList<>();
-        double accumToMatch[] = new double[k];
+        double accumToMatch[] = new double[selectionCant];
 
         double random = Math.random();
 
-        for (int i = 0 ; i < k ; i++)
-            accumToMatch[i] = (random + i)/k;
+        for (int i = 0 ; i < selectionCant; i++)
+            accumToMatch[i] = (random + i)/ selectionCant;
 
         double totalFitness = 0;
         for (Character c : characters)

@@ -27,21 +27,23 @@ public enum SelectionMethod {
         } else throw new AttributeNotFoundException("selection method doesn\'t exist");
     }
 
-    public static SelectionAlgorithm getSelectionAlgorithm(final SelectionMethod method, final Parser parser) {
+    public static SelectionAlgorithm getSelectionAlgorithm(final SelectionMethod method,
+                                                           final int selectionCount,
+                                                           final ConfigurationManager m) {
         if(method.equals(ELITE)) {
-            return new Elite(parser);
+            return new Elite(selectionCount);
         } else if(method.equals(ROULETTE)) {
-            return new Roulette(parser);
+            return new Roulette(selectionCount);
         } else if(method.equals(UNIVERSAL)) {
-            return new Universal(parser);
+            return new Universal(selectionCount);
         } else if(method.equals(BOLTZMAN_ROULETTE)) {
-            return new Boltzmann(parser);
+            return new Boltzmann(selectionCount, m.getTemp(), m.getExponentialFactor());
         } else if(method.equals(TOURNAMENT_DETERINISTIC)) {
-            return new TournamentDeterministic(parser);
+            return new TournamentDeterministic(selectionCount, m.getTournamentCantCompetitors());
         } else if(method.equals(TOURNAMENT_PROBABILISTIC)) {
-            return new TournamentProbabilistic();
+            return new TournamentProbabilistic(selectionCount, m.getTournamentProb());
         } else if(method.equals(RANKING)) {
-            //return new Ranking(parser);
+            return new Ranking(selectionCount);
         }
         return null;
     }

@@ -30,9 +30,7 @@ public class TwoPointCross implements CrossAlgorithm {
 
 
 	@Override
-	public List<Character> cross(Character character1, Character character2, double pc) {
-		List<Character> sons= new ArrayList<Character>();
-
+	public void cross(List<Character> newGen, Character character1, Character character2) {
 		int equipmentQuantity = character1.getEquipmentQuantity();
 
 		int crossPoint1=ThreadLocalRandom.current().nextInt(0, equipmentQuantity - 1);
@@ -120,10 +118,8 @@ public class TwoPointCross implements CrossAlgorithm {
 			son2 = new Defender3(heightSon2, equipmentSon2);
 		}
 
- 		sons.add(son1);
-		sons.add(son2);
-		
-		return sons;
+		newGen.add(son1);
+		newGen.add(son2);
 	}
 
 }
