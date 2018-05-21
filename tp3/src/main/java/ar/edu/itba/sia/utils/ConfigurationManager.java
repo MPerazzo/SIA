@@ -1,11 +1,14 @@
 package ar.edu.itba.sia.utils;
 
 import ar.edu.itba.sia.model.character.Character;
+import ar.edu.itba.sia.model.equipment.Equipment;
 
 import java.util.List;
 
 public class ConfigurationManager {
 
+    public static final double HEIGHT_START = 1.3;
+    public static final double HEIGHT_END = 2.0;
     private final Parser parser;
 
     public ConfigurationManager(final Parser parser) {
@@ -69,5 +72,25 @@ public class ConfigurationManager {
 
     public double getMutationProb() {
         return parser.getMutationProb();
+    }
+
+    public List<Equipment> getArmors() {
+        return parser.getArmors();
+    }
+
+    public List<Equipment> getBoots() {
+        return parser.getBoots();
+    }
+
+    public List<Equipment> getHelmets() {
+        return parser.getHelmets();
+    }
+
+    public List<Equipment> getGloves() {
+        return parser.getGloves();
+    }
+
+    public List<Equipment> getWeapons() {
+        return parser.getWeapons();
     }
 }
