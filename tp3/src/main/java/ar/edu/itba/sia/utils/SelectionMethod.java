@@ -1,5 +1,8 @@
 package ar.edu.itba.sia.utils;
 
+import ar.edu.itba.sia.interfaces.SelectionAlgorithm;
+import ar.edu.itba.sia.selectionAlgorithms.*;
+
 import javax.management.AttributeNotFoundException;
 
 public enum SelectionMethod {
@@ -22,5 +25,24 @@ public enum SelectionMethod {
         } else if(method.equals(RANKING)) {
             return RANKING;
         } else throw new AttributeNotFoundException("selection method doesn\'t exist");
+    }
+
+    public static SelectionAlgorithm getSelectionAlgorithm(final SelectionMethod method, final Parser parser) {
+        if(method.equals(ELITE)) {
+            return new Elite(parser);
+        } else if(method.equals(ROULETTE)) {
+            return new Roulette(parser);
+        } else if(method.equals(UNIVERSAL)) {
+            return new Universal(parser);
+        } else if(method.equals(BOLTZMAN_ROULETTE)) {
+            return new Boltzmann(parser);
+        } else if(method.equals(TOURNAMENT_DETERINISTIC)) {
+            return new TournamentDeterministic(parser);
+        } else if(method.equals(TOURNAMENT_PROBABILISTIC)) {
+            return new TournamentProbabilistic();
+        } else if(method.equals(RANKING)) {
+            //return new Ranking(parser);
+        }
+        return null;
     }
 }
