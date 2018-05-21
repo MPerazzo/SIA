@@ -1,5 +1,10 @@
 package ar.edu.itba.sia.utils;
 
+import ar.edu.itba.sia.interfaces.MutationAlgorithm;
+import ar.edu.itba.sia.mutationAlgorithms.GenMutation;
+import ar.edu.itba.sia.mutationAlgorithms.MultiGenMutation;
+import ar.edu.itba.sia.selectionAlgorithms.*;
+
 import javax.management.AttributeNotFoundException;
 
 public enum MutationMethod {
@@ -11,5 +16,12 @@ public enum MutationMethod {
         } else if(method.equals(NO_UNIFORM.toString())) {
             return NO_UNIFORM;
         } else throw new AttributeNotFoundException("mutation method doesn\'t exist");
+    }
+
+    public static MutationAlgorithm getMutationAlgorithm(final MutationMethod method) {
+        if (method.equals(UNIFORM))
+            return new GenMutation();
+        else
+            return new MultiGenMutation();
     }
 }

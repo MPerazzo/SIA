@@ -1,5 +1,11 @@
 package ar.edu.itba.sia.utils;
 
+import ar.edu.itba.sia.crossAlgorithms.AnularCross;
+import ar.edu.itba.sia.crossAlgorithms.SinglePointCross;
+import ar.edu.itba.sia.crossAlgorithms.TwoPointCross;
+import ar.edu.itba.sia.crossAlgorithms.UniformCross;
+import ar.edu.itba.sia.interfaces.CrossAlgorithm;
+
 import javax.management.AttributeNotFoundException;
 
 public enum CrossingMethod {
@@ -15,5 +21,16 @@ public enum CrossingMethod {
         } else if(method.equals(ANNULAR.toString())) {
             return ANNULAR;
         } else throw new AttributeNotFoundException("crossing method doesn\'t exist");
+    }
+
+    public static CrossAlgorithm getCrossingAlgorithm(final CrossingMethod method) {
+        if (method.equals(ONE_POINT.toString())) {
+            return new SinglePointCross();
+        } else if (method.equals(TWO_POINT.toString())) {
+            return new TwoPointCross();
+        } else if (method.equals(UNIFORM.toString())) {
+            return new UniformCross();
+        } else
+            return new AnularCross();
     }
 }

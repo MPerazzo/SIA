@@ -10,21 +10,15 @@ import java.util.List;
 
 public class First implements ReplacementAlgorithm{
 
-    private static final int selectionCant = 2;
-    private int N;
-    private SelectionAlgorithm selectionAlgorithm;
-
-    public First(Parser parser) {
-        this.N = parser.getPopulationCant();
-        this.selectionAlgorithm = new Roulette(selectionCant);
-    }
-
     @Override
-    public void newGeneration(List<Character> newGen, List<Character> oldGeneration) {
+    public void newGeneration(List<Character> newGen, List<Character> oldGeneration,
+                              SelectionAlgorithm selectionAlgorithm) {
+        selectionAlgorithm.select(oldGeneration);
+
 
         while(newGen.size() < N) {
             //Select
-            //Cross
+            //Crossing
             //Mutation
             //newGen.addAll(new sons);
         }

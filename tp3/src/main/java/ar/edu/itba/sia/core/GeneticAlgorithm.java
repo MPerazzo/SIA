@@ -1,10 +1,11 @@
 package ar.edu.itba.sia.core;
 
+import ar.edu.itba.sia.interfaces.CrossAlgorithm;
+import ar.edu.itba.sia.interfaces.MutationAlgorithm;
+import ar.edu.itba.sia.interfaces.ReplacementAlgorithm;
 import ar.edu.itba.sia.interfaces.SelectionAlgorithm;
 import ar.edu.itba.sia.model.character.Character;
-import ar.edu.itba.sia.utils.ConfigurationManager;
-import ar.edu.itba.sia.utils.Parser;
-import ar.edu.itba.sia.utils.SelectionMethod;
+import ar.edu.itba.sia.utils.*;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -33,24 +34,33 @@ public class GeneticAlgorithm {
         SelectionAlgorithm selectionAlgorithm2 = SelectionMethod.
                 getSelectionAlgorithm(m.getSecondSelectionMethod(), selectionCant2, m);
 
-        List<Character> selected = new LinkedList<>();
+        CrossAlgorithm crossAlgorithm = CrossingMethod.getCrossingAlgorithm(m.getCrossMethod());
+
+        MutationAlgorithm mutationAlgorithm = MutationMethod.getMutationAlgorithm(m.getMutationMethod());
+
+        SelectionAlgorithm selectionAlgorithReplacement1 = SelectionMethod.
+                getSelectionAlgorithm(m.getFirstSelectionMethod(), replacementCant1, m);
+        SelectionAlgorithm selectionAlgorithmReplacement2 = SelectionMethod.
+                getSelectionAlgorithm(m.getSecondSelectionMethod(), replacementCant2, m);
+
+        ReplacementAlgorithm replacementAlgorithm1 = ReplacementMethod.getReplacementAlgorithm(m.getFirstReplacementMethod());
+        ReplacementAlgorithm replacementAlgorithm2 = ReplacementMethod.getReplacementAlgorithm(m.getSecondReplacementMethod());
+
+        LinkedList<Character> selected = new LinkedList<>();
+
+        double crossingProb = m.getCrossingProb();
+
+        List<Character> currentGeneration = initialGeneration;
 
         while(true/*condicion*/) {
-            selected.addAll(selectionAlgorithm1.select(initialGeneration));
-            selected.addAll(selectionAlgorithm2.select(initialGeneration));
-            //entre los dos obtenemos k candidatos.
-            //
-            //crossAlgorithm.cross(k candidatos);
-            //salen k hijos.
-            //
-            //mutationAlgorithm.mute(k hijos);
-            //salen los hijos mutados
-            //
-            //replacementAlgorithm1.newGeneration(k hijos, generation);
-            //replacementAlgorithm2.newGeneration(k hijos, generation);
-            //entre los dos da una nueva poblacion de long N.
-            //
-            selected.clear();
+            selected.addAll(selectionAlgorithm1.select(currentGeneration));
+            selected.addAll(selectionAlgorithm2.select(currentGeneration));
+
+            List<Character> newGen = Crossing.cross(selected, crossAlgorithm, crossingProb);
+
+            Mutation.mutate(newGen, mutationAlgorithm, m.getMutationProb());
+
+
         }
     }
 }

@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface ReplacementAlgorithm {
 
-    void newGeneration(List<Character> sons, List<Character> oldGeneration);
+    void newGeneration(List<Character> sons, List<Character> oldGeneration, SelectionAlgorithm selectionAlgorithm);
 }

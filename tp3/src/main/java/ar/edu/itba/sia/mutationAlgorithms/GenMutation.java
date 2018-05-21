@@ -8,12 +8,10 @@ import ar.edu.itba.sia.model.character.Character;
 public class GenMutation implements MutationAlgorithm {
 
 	@Override
-	public Character mutate(Character character) {
+	public void mutate(Character character) {
 		
 
 		// TODO Auto-generated method stub
-		
-		return character;
 	}
 	
 	

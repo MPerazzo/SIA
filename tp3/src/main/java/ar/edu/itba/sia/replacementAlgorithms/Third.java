@@ -10,14 +10,9 @@ import java.util.List;
 
 public class Third implements ReplacementAlgorithm {
 
-    private SelectionAlgorithm selectionAlgorithm;
-
-    public Third(Parser parser) {
-        this.selectionAlgorithm = new Roulette(parser.getPopulationCant()-parser.getSelectionCant());
-    }
-
     @Override
-    public void newGeneration(List<Character> newGen, List<Character> oldGeneration) {
+    public void newGeneration(List<Character> newGen, List<Character> oldGeneration,
+                              SelectionAlgorithm selectionAlgorithm) {
         newGen.addAll(oldGeneration);
         List<Character> selected = selectionAlgorithm.select(newGen);
         newGen.clear();
