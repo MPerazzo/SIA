@@ -26,8 +26,31 @@ public class GeneticAlgorithm {
         int selectionCant = m.getSelectionCant();
         int selectionCant1 = (int) Math.floor(selectionPercent * selectionCant);
         int selectionCant2 = selectionCant - selectionCant1;
-        int replacementCant1 = (int) Math.floor(replacementPercent * populationCant);
-        int replacementCant2 = populationCant - replacementCant1;
+        int replacementCant1;
+        int replacementCant2;
+
+        ReplacementMethod replacementMethod1 = ReplacementMethod.
+                getReplacementMethod(m.getFirstSelectionMethodReplacement());
+
+        ReplacementMethod replacementMethod2 = ReplacementMethod.
+                getReplacementMethod(m.getSecondSelectionMethodReplacement());
+
+        if (replacementMethod1.equals(ReplacementMethod.SECOND))
+            replacementCant1 = (int) Math.floor(replacementPercent * populationCant - selectionCant1);
+        else if (replacementMethod1.equals(ReplacementMethod.FIRST)) {
+            replacementCant1 = (int) Math.floor(replacementPercent * populationCant);
+            selectionCant1 = replacementCant1;
+        } else
+            replacementCant1 = (int) Math.floor(replacementPercent * populationCant);
+
+        if (replacementMethod2.equals(ReplacementMethod.SECOND))
+            replacementCant2 = (int) Math.floor((1 - replacementPercent) * populationCant - selectionCant2);
+        else if (replacementMethod2.equals(ReplacementMethod.FIRST)) {
+            replacementCant2 = (int) Math.floor((1 - replacementPercent) * populationCant);
+            selectionCant2 = replacementCant2;
+        } else
+            replacementCant2 = (int) Math.floor((1 - replacementPercent) * populationCant);
+
 
         SelectionAlgorithm selectionAlgorithm1 = SelectionMethod.
                 getSelectionAlgorithm(m.getFirstSelectionMethod(), selectionCant1, m);
@@ -56,7 +79,7 @@ public class GeneticAlgorithm {
             selected.addAll(selectionAlgorithm1.select(currentGeneration));
             selected.addAll(selectionAlgorithm2.select(currentGeneration));
 
-            List<Character> newGen = Crossing.cross(selected, crossAlgorithm, crossingProb);
+            List<Character> newGen = Crossing.randomCross(selected, crossAlgorithm, crossingProb);
 
             Mutation.mutate(newGen, mutationAlgorithm, m.getMutationProb());
 

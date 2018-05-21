@@ -11,8 +11,8 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Crossing {
 
-    public static List<Character> cross(LinkedList<Character> selected, CrossAlgorithm crossAlgorithm,
-                                        double crossProbability) {
+    public static List<Character> randomCross(LinkedList<Character> selected, CrossAlgorithm crossAlgorithm,
+                                              double crossProbability) {
 
         List<Character> newGen = new LinkedList<>();
 
