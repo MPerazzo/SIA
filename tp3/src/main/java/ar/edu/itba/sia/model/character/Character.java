@@ -8,6 +8,13 @@ import java.util.List;
 
 public abstract class Character {
 
+    public static final int ARMOR_SLOT = 0;
+    public static final int BOOTS_SLOT = 1;
+    public static final int GLOVES_SLOT = 2;
+    public static final int HELMET_SLOT = 3;
+    public static final int WEAPON_SLOT = 4;
+    public static final int HEIGHT_SLOT = 5;
+
     private double height;
 
     private double strength = 0;
@@ -20,21 +27,10 @@ public abstract class Character {
 
     private List<Equipment> equipment = new LinkedList<>();
 
-    private Armor armor; 
-	private Boots boots;
-    private Gloves gloves;
-    private Helmet helmet;
-    private Weapon weapon;
 
     public Character (final double height, final Armor armor, final Boots boots, final Gloves gloves,
                       final Helmet helmet, final Weapon weapon) {
         this.height = height;
-
-        this.armor = armor;
-        this.boots = boots;
-        this.gloves = gloves;
-        this.helmet = helmet;
-        this.weapon = weapon;
 
         this.equipment.add(armor);
         this.equipment.add(boots);
@@ -48,12 +44,6 @@ public abstract class Character {
     public Character(final double height, final List<Equipment> equipment) {
 
         this.height = height;
-
-        this.armor = (Armor) equipment.get(0);
-        this.boots = (Boots) equipment.get(1);
-        this.gloves = (Gloves) equipment.get(2);
-        this.helmet = (Helmet) equipment.get(3);
-        this.weapon = (Weapon) equipment.get(4);
 
         this.equipment.addAll(equipment);
 
@@ -115,23 +105,23 @@ public abstract class Character {
         return equipment.size();
     }
     public Armor getArmor() {
-        return armor;
+        return (Armor) equipment.get(ARMOR_SLOT);
     }
 
     public Boots getBoots() {
-        return boots;
+        return (Boots) equipment.get(BOOTS_SLOT);
     }
 
     public Gloves getGloves() {
-        return gloves;
+        return (Gloves) equipment.get(GLOVES_SLOT);
     }
 
     public Helmet getHelmet() {
-        return helmet;
+        return (Helmet) equipment.get(HELMET_SLOT);
     }
 
     public Weapon getWeapon() {
-        return weapon;
+        return (Weapon) equipment.get(WEAPON_SLOT);
     }
 
     public List<Equipment> getEquipment() {
@@ -143,23 +133,23 @@ public abstract class Character {
 	}
 
 	public void setArmor(Equipment armor) {
-		this.armor = (Armor) armor;
+		equipment.set(ARMOR_SLOT, armor);
 	}
 
 	public void setBoots(Equipment boots) {
-		this.boots = (Boots) boots;
+		equipment.set(BOOTS_SLOT, boots);
 	}
 
 	public void setGloves(Equipment gloves) {
-		this.gloves = (Gloves) gloves;
+		equipment.set(GLOVES_SLOT, gloves);
 	}
 
 	public void setHelmet(Equipment helmet) {
-		this.helmet = (Helmet) helmet;
+		equipment.set(HELMET_SLOT, helmet);
 	}
 
 	public void setWeapon(Equipment weapon) {
-		this.weapon = (Weapon) weapon;
+		equipment.set(WEAPON_SLOT, weapon);
 	}
     
     protected abstract double attackFactor();

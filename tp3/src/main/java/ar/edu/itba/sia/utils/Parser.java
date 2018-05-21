@@ -1,6 +1,8 @@
 package ar.edu.itba.sia.utils;
 
 import ar.edu.itba.sia.model.character.Character;
+import ar.edu.itba.sia.model.equipment.Equipment;
+
 import javax.management.AttributeNotFoundException;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -203,4 +205,24 @@ public class Parser {
     }
 
     public List<Character> getInitialGeneration() { return populationGenerator.getInitialGeneration(); }
+
+    public List<Equipment> getArmors() {
+        return populationGenerator.getArmors();
+    }
+
+    public List<Equipment> getBoots() {
+        return populationGenerator.getBoots();
+    }
+
+    public List<Equipment> getHelmets() {
+        return populationGenerator.getHelmets();
+    }
+
+    public List<Equipment> getGloves() {
+        return populationGenerator.getGloves();
+    }
+
+    public List<Equipment> getWeapons() {
+        return populationGenerator.getWeapons();
+    }
 }

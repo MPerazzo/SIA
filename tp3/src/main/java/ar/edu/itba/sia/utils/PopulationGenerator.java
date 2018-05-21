@@ -61,7 +61,7 @@ public class PopulationGenerator {
             glovesIndex = ThreadLocalRandom.current().nextInt(0, glovesSize);
             helmetIndex = ThreadLocalRandom.current().nextInt(0, helmetsSize);
             weaponIndex = ThreadLocalRandom.current().nextInt(0, weaponsSize);
-            height = ThreadLocalRandom.current().nextDouble(1.3, 2);
+            height = ThreadLocalRandom.current().nextDouble(ConfigurationManager.HEIGHT_START, ConfigurationManager.HEIGHT_END);
             switch (type) {
                 case ARCHER1:
                     initialGeneration.add(new Archer1(height, (Armor) armors.get(armorIndex), (Boots) boots.get(bootsIndex),
