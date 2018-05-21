@@ -16,7 +16,7 @@ public class Parser {
     private static final String SELECTION_PERCENT = "SELECTION_PERCENT", REPLACEMENT_PERCENT = "REPLACEMENT_PERCENT",
             MUTATION_PROB = "MUTATION_PROB", CROSSING_PROB = "CROSSING_PROB", POPULATION_CANT = "POPULATION_CANT", SELECTION_CANT = "SELECTION_CANT", TEMP = "TEMP",
             TOURNAMENT_CANT_COMPETITORS = "TOURNAMENT_CANT_COMPETITORS", TOURNAMENT_PROB = "TOURNAMENT_PROB",
-            EXPONENTIAL_FACTOR = "EXPONENTIAL_FACTOR";
+            EXPONENTIAL_FACTOR = "EXPONENTIAL_FACTOR", CHARACTER_TYPE = "CHARACTER_TYPE";
 
     private static final String ARMOR_FILE = "ARMOR_FILE", BOOTS_FILE = "BOOTS_FILE", GLOVES_FILE = "GLOVES_FILE",
             HELMET_FILE = "HELMET_FILE", WEAPON_FILE = "WEAPON_FILE";
@@ -31,6 +31,7 @@ public class Parser {
     private SelectionMethod secondSelectionMethod;
     private ReplacementMethod firstReplacementMethod;
     private ReplacementMethod secondReplacementMethod;
+    private CharacterType characterType;
     private double selectionPercent;
     private double replacementPercent;
     private double mutationProb;
@@ -116,6 +117,9 @@ public class Parser {
                 case TOURNAMENT_PROB:
                     this.tournamentProb = Double.parseDouble(args[1]);
                     break;
+                case CHARACTER_TYPE:
+                    this.characterType = CharacterType.getCharacterType(args[1]);
+                    break;
                 case ARMOR_FILE:
                     armorFile = args[1];
                     break;
@@ -130,7 +134,7 @@ public class Parser {
                     weaponFile = args[1];
             }
         }
-        populationGenerator = new PopulationGenerator(populationCant, armorFile, bootsFile, glovesFile,
+        populationGenerator = new PopulationGenerator(populationCant, characterType, armorFile, bootsFile, glovesFile,
                 helmetFile, weaponFile);
     }
 
@@ -157,6 +161,8 @@ public class Parser {
     public ReplacementMethod getSecondReplacementMethod() {
         return secondReplacementMethod;
     }
+
+    public CharacterType getCharacterType() { return this.characterType; }
 
     public double getSelectionPercent() {
         return selectionPercent;
