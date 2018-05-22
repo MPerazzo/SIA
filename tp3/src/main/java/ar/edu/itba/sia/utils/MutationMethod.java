@@ -18,10 +18,10 @@ public enum MutationMethod {
         } else throw new AttributeNotFoundException("mutation method doesn\'t exist");
     }
 
-    public static MutationAlgorithm getMutationAlgorithm(final MutationMethod method) {
+    public static MutationAlgorithm getMutationAlgorithm(final MutationMethod method, ConfigurationManager m) {
         if (method.equals(UNIFORM))
-            return new GenMutation();
+            return new GenMutation(m);
         else
-            return new MultiGenMutation();
+            return new MultiGenMutation(m);
     }
 }

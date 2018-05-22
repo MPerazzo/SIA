@@ -59,7 +59,7 @@ public class GeneticAlgorithm {
 
         CrossAlgorithm crossAlgorithm = CrossingMethod.getCrossingAlgorithm(m.getCrossMethod());
 
-        MutationAlgorithm mutationAlgorithm = MutationMethod.getMutationAlgorithm(m.getMutationMethod());
+        MutationAlgorithm mutationAlgorithm = MutationMethod.getMutationAlgorithm(m.getMutationMethod(), m);
 
         SelectionAlgorithm selectionAlgorithmReplacement1 = SelectionMethod.
                 getSelectionAlgorithm(m.getFirstSelectionMethod(), replacementCant1, m);
