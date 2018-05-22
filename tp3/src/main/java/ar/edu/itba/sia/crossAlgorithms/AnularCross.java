@@ -54,7 +54,7 @@ public class AnularCross implements CrossAlgorithm {
 
 		int segmentUses = i - crossPoint;
 
-		if (segmentUses == 0) {
+		if (segmentUses == segment) {
 				for (int j = i; j < equipmentQuantity - 1; j++) {
 				equipmentSon1.add(equipmentFather1.get(i));
 				equipmentSon2.add(equipmentFather2.get(i));
