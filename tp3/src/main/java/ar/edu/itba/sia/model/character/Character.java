@@ -17,11 +17,20 @@ public abstract class Character {
 
     private double height;
 
-    private double strength = 0;
-    private double agility = 0;
-    private double dexterity = 0;
-    private double health = 0;
-    private double resistance = 0;
+    private double strength;
+    private double agility;
+    private double dexterity;
+    private double health;
+    private double resistance;
+
+    private double strengthMod;
+    private double agilityMod;
+    private double dexterityMod;
+    private double healthMod;
+    private double resistanceMod;
+
+    private double attackMod;
+    private double defMod;
 
     private double fitness;
 
@@ -60,43 +69,15 @@ public abstract class Character {
             resistance += e.getResistance();
         }
 
-        strength = Modifier.strengthMod(strength * strengthFactor());
-        agility = Modifier.agilityMod(agility * agilityFactor());
-        dexterity = Modifier.dexterityMod(dexterity * dexterityFactor());
-        resistance = Modifier.resistanceMod(resistance * resistanceFactor());
-        health = Modifier.healthMod(health * healthFactor());
+        calculateAttsMod();
 
-        double attackMod = Modifier.attackMod(height);
-        double defMod = Modifier.defenseMod(height);
+        calculateHeightMod();
 
-        double attack = (agility + dexterity) * strength * attackMod;
-        double defense = (resistance + dexterity) * health * defMod;
-
-        fitness = this.attackFactor() * attack + this.defenseFactor() * defense;
+        calculateFitness();
     }
     
     public double getHeight() {
         return height;
-    }
-
-    public double getStrength() {
-        return strength;
-    }
-
-    public double getAgility() {
-        return agility;
-    }
-
-    public double getDexterity() {
-        return dexterity;
-    }
-
-    public double getHealth() {
-        return health;
-    }
-
-    public double getResistance() {
-        return resistance;
     }
 
     public double getFitness() { return fitness; }
@@ -104,6 +85,7 @@ public abstract class Character {
     public int getEquipmentQuantity() {
         return equipment.size();
     }
+
     public Armor getArmor() {
         return (Armor) equipment.get(ARMOR_SLOT);
     }
@@ -130,27 +112,84 @@ public abstract class Character {
     
     public void setHeight(double height) {
 		this.height = height;
+        calculateHeightMod();
+        calculateFitness();
 	}
 
 	public void setArmor(Equipment armor) {
-		equipment.set(ARMOR_SLOT, armor);
+        refreshFitness(armor, ARMOR_SLOT);
+        equipment.set(ARMOR_SLOT, armor);
 	}
 
 	public void setBoots(Equipment boots) {
-		equipment.set(BOOTS_SLOT, boots);
+        refreshFitness(boots, BOOTS_SLOT);
+        equipment.set(BOOTS_SLOT, boots);
 	}
 
 	public void setGloves(Equipment gloves) {
-		equipment.set(GLOVES_SLOT, gloves);
-	}
+        refreshFitness(gloves, GLOVES_SLOT);
+        equipment.set(GLOVES_SLOT, gloves);
+    }
 
 	public void setHelmet(Equipment helmet) {
-		equipment.set(HELMET_SLOT, helmet);
+		refreshFitness(helmet, HELMET_SLOT);
+        equipment.set(HELMET_SLOT, helmet);
 	}
 
 	public void setWeapon(Equipment weapon) {
-		equipment.set(WEAPON_SLOT, weapon);
+        refreshFitness(weapon, WEAPON_SLOT);
+        equipment.set(WEAPON_SLOT, weapon);
 	}
+
+    private void refreshFitness(Equipment newEquipment, int slot) {
+        Equipment toReplace = equipment.get(slot);
+        substractStats(toReplace);
+        addStats(newEquipment);
+
+        calculateAttsMod();
+
+        calculateFitness();
+    }
+
+    private void addStats(Equipment e) {
+
+        strength += e.getStrength() * strengthFactor();
+        agility += e.getAgility() * agilityFactor();
+        dexterity += e.getDexterity() * dexterityFactor();
+        resistance += e.getResistance() * resistanceFactor();
+        health += e.getHealth() * healthFactor();
+    }
+
+    private void substractStats(Equipment e) {
+
+        strength -= e.getStrength() * strengthFactor();
+        agility -= e.getAgility() * agilityFactor();
+        dexterity -= e.getDexterity() * dexterityFactor();
+        resistance -= e.getResistance() * resistanceFactor();
+        health -= e.getHealth() * healthFactor();
+    }
+
+    private void calculateFitness() {
+
+        double attack = (agilityMod + dexterityMod) * strengthMod * attackMod;
+        double defense = (resistanceMod + dexterityMod) * healthMod * defMod;
+
+        fitness = this.attackFactor() * attack + this.defenseFactor() * defense;
+    }
+
+    private void calculateAttsMod() {
+
+        strengthMod = Modifier.strengthMod(strength * strengthFactor());
+        agilityMod = Modifier.agilityMod(agility * agilityFactor());
+        dexterityMod = Modifier.dexterityMod(dexterity * dexterityFactor());
+        resistanceMod = Modifier.resistanceMod(resistance * resistanceFactor());
+        healthMod = Modifier.healthMod(health * healthFactor());
+    }
+
+    private void calculateHeightMod() {
+        attackMod = Modifier.attackMod(height);
+        defMod = Modifier.defenseMod(height);
+    }
     
     protected abstract double attackFactor();
 
