@@ -1,5 +1,6 @@
 package ar.edu.itba.sia.model.character.defender;
 
+import ar.edu.itba.sia.model.character.Character;
 import ar.edu.itba.sia.model.equipment.*;
 
 import java.util.List;
@@ -20,6 +21,11 @@ public class Defender2 extends Defender {
     public Defender2 (final double height, final Armor armor, final Boots boots, final Gloves gloves,
                     final Helmet helmet, final Weapon weapon) {
         super(height, armor, boots, gloves, helmet, weapon);
+    }
+
+    @Override
+    public Character newSon(double height, List<Equipment> equipment) {
+        return new Defender2(height, equipment);
     }
 
     @Override

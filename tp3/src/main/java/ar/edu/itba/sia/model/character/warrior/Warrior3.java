@@ -1,5 +1,6 @@
 package ar.edu.itba.sia.model.character.warrior;
 
+import ar.edu.itba.sia.model.character.Character;
 import ar.edu.itba.sia.model.equipment.*;
 
 import java.util.List;
@@ -19,6 +20,11 @@ public class Warrior3 extends Warrior {
     public Warrior3(final double height, final Armor armor, final Boots boots, final Gloves gloves,
                       final Helmet helmet, final Weapon weapon) {
         super(height, armor, boots, gloves, helmet, weapon);
+    }
+
+    @Override
+    public Character newSon(double height, List<Equipment> equipment) {
+        return new Warrior3(height, equipment);
     }
 
     @Override

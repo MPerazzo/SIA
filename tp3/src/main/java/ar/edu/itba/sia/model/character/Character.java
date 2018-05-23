@@ -190,6 +190,8 @@ public abstract class Character {
         attackMod = Modifier.attackMod(height);
         defMod = Modifier.defenseMod(height);
     }
+
+    public abstract Character newSon(double height, List<Equipment> equipment);
     
     protected abstract double attackFactor();
 

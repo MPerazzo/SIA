@@ -59,57 +59,8 @@ public class SinglePointCross implements CrossAlgorithm {
 			heightSon2= character1.getHeight();
 		}
 
-		Character son1;
-		Character son2;
-
-		if (character1 instanceof Warrior1) {
-			son1 = new Warrior1(heightSon1, equipmentSon1);
-			son2 = new Warrior1(heightSon2, equipmentSon2);
-		}
-		else if (character1 instanceof Warrior2) {
-			son1 = new Warrior2(heightSon1, equipmentSon1);
-			son2 = new Warrior2(heightSon2, equipmentSon2);
-		}
-		else if (character1 instanceof Warrior3) {
-			son1 = new Warrior3(heightSon1, equipmentSon1);
-			son2 = new Warrior3(heightSon2, equipmentSon2);
-		}
-		else if (character1 instanceof Archer1) {
-			son1 = new Archer1(heightSon1, equipmentSon1);
-			son2 = new Archer1(heightSon2, equipmentSon2);
-		}
-		else if (character1 instanceof Archer2) {
-			son1 = new Archer2(heightSon1, equipmentSon1);
-			son2 = new Archer2(heightSon2, equipmentSon2);
-		}
-		else if (character1 instanceof Archer3) {
-			son1 = new Archer3(heightSon1, equipmentSon1);
-			son2 = new Archer3(heightSon2, equipmentSon2);
-		}
-		else if (character1 instanceof Assassin1) {
-			son1 = new Assassin1(heightSon1, equipmentSon1);
-			son2 = new Assassin1(heightSon2, equipmentSon2);
-		}
-		else if (character1 instanceof Assassin2) {
-			son1 = new Assassin2(heightSon1, equipmentSon1);
-			son2 = new Assassin2(heightSon2, equipmentSon2);
-		}
-		else if (character1 instanceof Assassin3) {
-			son1 = new Assassin3(heightSon1, equipmentSon1);
-			son2 = new Assassin3(heightSon2, equipmentSon2);
-		}
-		else if (character1 instanceof Defender1) {
-			son1 = new Defender1(heightSon1, equipmentSon1);
-			son2 = new Defender1(heightSon2, equipmentSon2);
-		}
-		else if (character1 instanceof Defender2) {
-			son1 = new Defender2(heightSon1, equipmentSon1);
-			son2 = new Defender2(heightSon2, equipmentSon2);
-		}
-		else  {
-			son1 = new Defender3(heightSon1, equipmentSon1);
-			son2 = new Defender3(heightSon2, equipmentSon2);
-		}
+		Character son1 = character1.newSon(heightSon1, equipmentSon1);
+		Character son2 = character2.newSon(heightSon2, equipmentSon2);
 
 		newGen.add(son1);
 		newGen.add(son2);
