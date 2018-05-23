@@ -1,30 +1,11 @@
 package ar.edu.itba.sia.crossAlgorithms;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 import ar.edu.itba.sia.interfaces.CrossAlgorithm;
 import ar.edu.itba.sia.model.character.Character;
-import ar.edu.itba.sia.model.character.archer.Archer1;
-import ar.edu.itba.sia.model.character.archer.Archer2;
-import ar.edu.itba.sia.model.character.archer.Archer3;
-import ar.edu.itba.sia.model.character.assasin.Assassin1;
-import ar.edu.itba.sia.model.character.assasin.Assassin2;
-import ar.edu.itba.sia.model.character.assasin.Assassin3;
-import ar.edu.itba.sia.model.character.defender.Defender1;
-import ar.edu.itba.sia.model.character.defender.Defender2;
-import ar.edu.itba.sia.model.character.defender.Defender3;
-import ar.edu.itba.sia.model.character.warrior.Warrior1;
-import ar.edu.itba.sia.model.character.warrior.Warrior2;
-import ar.edu.itba.sia.model.character.warrior.Warrior3;
-import ar.edu.itba.sia.model.equipment.Armor;
-import ar.edu.itba.sia.model.equipment.Boots;
 import ar.edu.itba.sia.model.equipment.Equipment;
-import ar.edu.itba.sia.model.equipment.Gloves;
-import ar.edu.itba.sia.model.equipment.Helmet;
-import ar.edu.itba.sia.model.equipment.Weapon;
 
 public class UniformCross implements CrossAlgorithm {
 

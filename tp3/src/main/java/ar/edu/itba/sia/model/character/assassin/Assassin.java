@@ -1,4 +1,4 @@
-package ar.edu.itba.sia.model.character.assasin;
+package ar.edu.itba.sia.model.character.assassin;
 
 import ar.edu.itba.sia.model.character.Character;
 import ar.edu.itba.sia.model.equipment.*;

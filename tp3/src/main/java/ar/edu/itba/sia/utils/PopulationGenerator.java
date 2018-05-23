@@ -2,12 +2,13 @@ package ar.edu.itba.sia.utils;
 
 import ar.edu.itba.sia.model.character.Character;
 import ar.edu.itba.sia.model.character.archer.*;
-import ar.edu.itba.sia.model.character.assasin.*;
+import ar.edu.itba.sia.model.character.assassin.*;
 import ar.edu.itba.sia.model.character.defender.*;
 import ar.edu.itba.sia.model.character.warrior.*;
 
 import ar.edu.itba.sia.model.equipment.*;
 import ar.edu.itba.sia.utils.equipmentParsers.*;
+import ar.edu.itba.sia.utils.instantiate.*;
 
 import java.io.IOException;
 import java.util.LinkedList;
@@ -48,71 +49,58 @@ public class PopulationGenerator {
         int helmetsSize = helmets.size();
         int weaponsSize = weapons.size();
 
-        int armorIndex;
-        int bootsIndex;
-        int glovesIndex;
-        int helmetIndex;
-        int weaponIndex;
-        double height;
-        int cant = 0;
+        Instantiate instantiator = null;
 
+        switch (type) {
+            case ARCHER1:
+                instantiator = new InstantiateArcher1();
+                break;
+            case ARCHER2:
+                instantiator = new InstantiateArcher2();
+                break;
+            case ARCHER3:
+                instantiator = new InstantiateArcher3();
+                break;
+            case ASSASIN1:
+                instantiator = new InstantiateAssassin1();
+                break;
+            case ASSASIN2:
+                instantiator = new InstantiateAssassin2();
+                break;
+            case ASSASIN3:
+                instantiator = new InstantiateAssassin3();
+                break;
+            case DEFENDER1:
+                instantiator = new InstantiateDefender1();
+                break;
+            case DEFENDER2:
+                instantiator = new InstantiateDefender2();
+                break;
+            case DEFENDER3:
+                instantiator = new InstantiateDefender3();
+                break;
+            case WARRIOR1:
+                instantiator = new InstantiateWarrior1();
+                break;
+            case WARRIOR2:
+                instantiator = new InstantiateWarrior2();
+                break;
+            case WARRIOR3:
+                instantiator = new InstantiateWarrior3();
+                break;
+        }
+
+        int cant = 0;
         while (cant < population) {
-            armorIndex = ThreadLocalRandom.current().nextInt(0, armorsSize);
-            bootsIndex = ThreadLocalRandom.current().nextInt(0, bootsSize);
-            glovesIndex = ThreadLocalRandom.current().nextInt(0, glovesSize);
-            helmetIndex = ThreadLocalRandom.current().nextInt(0, helmetsSize);
-            weaponIndex = ThreadLocalRandom.current().nextInt(0, weaponsSize);
-            height = ThreadLocalRandom.current().nextDouble(ConfigurationManager.HEIGHT_START, ConfigurationManager.HEIGHT_END);
-            switch (type) {
-                case ARCHER1:
-                    initialGeneration.add(new Archer1(height, armors.get(armorIndex), boots.get(bootsIndex),
-                             gloves.get(glovesIndex), helmets.get(helmetIndex), weapons.get(weaponIndex)));
-                    break;
-                case ARCHER2:
-                    initialGeneration.add(new Archer2(height, armors.get(armorIndex), boots.get(bootsIndex),
-                            gloves.get(glovesIndex), helmets.get(helmetIndex), weapons.get(weaponIndex)));
-                    break;
-                case ARCHER3:
-                    initialGeneration.add(new Archer3(height, armors.get(armorIndex), boots.get(bootsIndex),
-                            gloves.get(glovesIndex), helmets.get(helmetIndex), weapons.get(weaponIndex)));
-                    break;
-                case ASSASIN1:
-                    initialGeneration.add(new Assassin1(height, armors.get(armorIndex), boots.get(bootsIndex),
-                            gloves.get(glovesIndex), helmets.get(helmetIndex), weapons.get(weaponIndex)));
-                    break;
-                case ASSASIN2:
-                    initialGeneration.add(new Assassin2(height, armors.get(armorIndex), boots.get(bootsIndex),
-                            gloves.get(glovesIndex), helmets.get(helmetIndex), weapons.get(weaponIndex)));
-                    break;
-                case ASSASIN3:
-                    initialGeneration.add(new Assassin3(height, armors.get(armorIndex), boots.get(bootsIndex),
-                            gloves.get(glovesIndex), helmets.get(helmetIndex), weapons.get(weaponIndex)));
-                    break;
-                case DEFENDER1:
-                    initialGeneration.add(new Defender1(height, armors.get(armorIndex), boots.get(bootsIndex),
-                            gloves.get(glovesIndex), helmets.get(helmetIndex), weapons.get(weaponIndex)));
-                    break;
-                case DEFENDER2:
-                    initialGeneration.add(new Defender2(height, armors.get(armorIndex), boots.get(bootsIndex),
-                            gloves.get(glovesIndex), helmets.get(helmetIndex), weapons.get(weaponIndex)));
-                    break;
-                case DEFENDER3:
-                    initialGeneration.add(new Defender3(height, armors.get(armorIndex), boots.get(bootsIndex),
-                            gloves.get(glovesIndex), helmets.get(helmetIndex), weapons.get(weaponIndex)));
-                    break;
-                case WARRIOR1:
-                    initialGeneration.add(new Warrior1(height, armors.get(armorIndex), boots.get(bootsIndex),
-                            gloves.get(glovesIndex), helmets.get(helmetIndex), weapons.get(weaponIndex)));
-                    break;
-                case WARRIOR2:
-                    initialGeneration.add(new Warrior2(height, armors.get(armorIndex), boots.get(bootsIndex),
-                            gloves.get(glovesIndex), helmets.get(helmetIndex), weapons.get(weaponIndex)));
-                    break;
-                case WARRIOR3:
-                    initialGeneration.add(new Warrior3(height, armors.get(armorIndex), boots.get(bootsIndex),
-                            gloves.get(glovesIndex), helmets.get(helmetIndex), weapons.get(weaponIndex)));
-                    break;
-            }
+            int armorIndex = ThreadLocalRandom.current().nextInt(0, armorsSize);
+            int bootsIndex = ThreadLocalRandom.current().nextInt(0, bootsSize);
+            int glovesIndex = ThreadLocalRandom.current().nextInt(0, glovesSize);
+            int helmetIndex = ThreadLocalRandom.current().nextInt(0, helmetsSize);
+            int weaponIndex = ThreadLocalRandom.current().nextInt(0, weaponsSize);
+            double height = ThreadLocalRandom.current().nextDouble(ConfigurationManager.HEIGHT_START, ConfigurationManager.HEIGHT_END);
+
+            initialGeneration.add(instantiator.Instantiate(height, armors.get(armorIndex), boots.get(bootsIndex),
+                    gloves.get(glovesIndex), helmets.get(helmetIndex), weapons.get(weaponIndex)));
             cant++;
         }
     }
