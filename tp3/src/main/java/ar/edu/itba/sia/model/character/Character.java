@@ -116,27 +116,27 @@ public abstract class Character {
         calculateFitness();
 	}
 
-	public void setArmor(Equipment armor) {
+	public void setArmor(Armor armor) {
         refreshFitness(armor, ARMOR_SLOT);
         equipment.set(ARMOR_SLOT, armor);
 	}
 
-	public void setBoots(Equipment boots) {
+	public void setBoots(Boots boots) {
         refreshFitness(boots, BOOTS_SLOT);
         equipment.set(BOOTS_SLOT, boots);
 	}
 
-	public void setGloves(Equipment gloves) {
+	public void setGloves(Gloves gloves) {
         refreshFitness(gloves, GLOVES_SLOT);
         equipment.set(GLOVES_SLOT, gloves);
     }
 
-	public void setHelmet(Equipment helmet) {
+	public void setHelmet(Helmet helmet) {
 		refreshFitness(helmet, HELMET_SLOT);
         equipment.set(HELMET_SLOT, helmet);
 	}
 
-	public void setWeapon(Equipment weapon) {
+	public void setWeapon(Weapon weapon) {
         refreshFitness(weapon, WEAPON_SLOT);
         equipment.set(WEAPON_SLOT, weapon);
 	}

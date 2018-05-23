@@ -1,7 +1,7 @@
 package ar.edu.itba.sia.utils;
 
 import ar.edu.itba.sia.model.character.Character;
-import ar.edu.itba.sia.model.equipment.Equipment;
+import ar.edu.itba.sia.model.equipment.*;
 
 import java.util.List;
 
@@ -74,23 +74,23 @@ public class ConfigurationManager {
         return parser.getMutationProb();
     }
 
-    public List<Equipment> getArmors() {
+    public List<Armor> getArmors() {
         return parser.getArmors();
     }
 
-    public List<Equipment> getBoots() {
+    public List<Boots> getBoots() {
         return parser.getBoots();
     }
 
-    public List<Equipment> getHelmets() {
+    public List<Helmet> getHelmets() {
         return parser.getHelmets();
     }
 
-    public List<Equipment> getGloves() {
+    public List<Gloves> getGloves() {
         return parser.getGloves();
     }
 
-    public List<Equipment> getWeapons() {
+    public List<Weapon> getWeapons() {
         return parser.getWeapons();
     }
 }
