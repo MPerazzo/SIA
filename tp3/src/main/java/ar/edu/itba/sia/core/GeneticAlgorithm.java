@@ -6,6 +6,10 @@ import ar.edu.itba.sia.interfaces.ReplacementAlgorithm;
 import ar.edu.itba.sia.interfaces.SelectionAlgorithm;
 import ar.edu.itba.sia.model.character.Character;
 import ar.edu.itba.sia.utils.*;
+import ar.edu.itba.sia.utils.enums.CrossingMethod;
+import ar.edu.itba.sia.utils.enums.MutationMethod;
+import ar.edu.itba.sia.utils.enums.ReplacementMethod;
+import ar.edu.itba.sia.utils.enums.SelectionMethod;
 
 import java.util.LinkedList;
 import java.util.List;

@@ -1,7 +1,8 @@
-package ar.edu.itba.sia.utils;
+package ar.edu.itba.sia.utils.enums;
 
 import ar.edu.itba.sia.interfaces.SelectionAlgorithm;
 import ar.edu.itba.sia.selectionAlgorithms.*;
+import ar.edu.itba.sia.utils.ConfigurationManager;
 
 import javax.management.AttributeNotFoundException;
 

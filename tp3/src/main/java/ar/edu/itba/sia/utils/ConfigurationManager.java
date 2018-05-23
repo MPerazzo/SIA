@@ -2,6 +2,10 @@ package ar.edu.itba.sia.utils;
 
 import ar.edu.itba.sia.model.character.Character;
 import ar.edu.itba.sia.model.equipment.*;
+import ar.edu.itba.sia.utils.enums.CrossingMethod;
+import ar.edu.itba.sia.utils.enums.MutationMethod;
+import ar.edu.itba.sia.utils.enums.ReplacementMethod;
+import ar.edu.itba.sia.utils.enums.SelectionMethod;
 
 import java.util.List;
 

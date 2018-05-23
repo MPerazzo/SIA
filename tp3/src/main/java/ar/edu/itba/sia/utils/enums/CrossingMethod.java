@@ -1,4 +1,4 @@
-package ar.edu.itba.sia.utils;
+package ar.edu.itba.sia.utils.enums;
 
 import ar.edu.itba.sia.crossAlgorithms.AnularCross;
 import ar.edu.itba.sia.crossAlgorithms.SinglePointCross;

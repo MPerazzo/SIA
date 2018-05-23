@@ -1,9 +1,9 @@
-package ar.edu.itba.sia.utils;
+package ar.edu.itba.sia.utils.enums;
 
 import ar.edu.itba.sia.interfaces.MutationAlgorithm;
 import ar.edu.itba.sia.mutationAlgorithms.GenMutation;
 import ar.edu.itba.sia.mutationAlgorithms.MultiGenMutation;
-import ar.edu.itba.sia.selectionAlgorithms.*;
+import ar.edu.itba.sia.utils.ConfigurationManager;
 
 import javax.management.AttributeNotFoundException;
 
