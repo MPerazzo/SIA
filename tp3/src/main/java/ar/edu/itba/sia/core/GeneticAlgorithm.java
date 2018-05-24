@@ -151,6 +151,9 @@ public class GeneticAlgorithm {
     private void calculateMetrics(List<Character> currentGeneration) {
         averageFitness = currentGeneration.stream().collect(Collectors.averagingDouble(c -> c.getFitness()));
         maxFitness = currentGeneration.stream().map(c -> c.getFitness()).reduce(Double::max).get();
+
+        System.out.println("Max Fitness: " + maxFitness);
+        System.out.println("Average Fitness: " + averageFitness);
     }
 
     private boolean checkGeneration(double prevAverageFitness, double prevMaxFitness, int currentGenerationCount) {
