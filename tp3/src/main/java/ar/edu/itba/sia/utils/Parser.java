@@ -15,14 +15,16 @@ import java.util.List;
 
 public class Parser {
 
-    private static final String FIRST_SELECTION_METHOD = "FIRST_SELECTION_METHOD", SECOND_SELECTION_METHOD = "SECOND_SELECTION_METHOD",
-            CROSSING_METHOD = "CROSSING_METHOD", MUTATION_METHOD = "MUTATION_METHOD", FIRST_REPLACEMENT_METHOD = "FIRST_REPLACEMENT_METHOD",
-            SECOND_REPLACEMENT_METHOD = "SECOND_REPLACEMENT_METHOD";
+    private static final String SELECTION_METHOD_A = "SELECTION_METHOD_A", SELECTION_METHOD_B = "SELECTION_METHOD_B",
+            CROSSING_METHOD = "CROSSING_METHOD", MUTATION_METHOD = "MUTATION_METHOD", REPLACEMENT_METHOD = "REPLACEMENT_METHOD",
+            REPLACEMENT_SELECTION_METHOD_A = "REPLACEMENT_SELECTION_METHOD_A", REPLACEMENT_SELECTION_METHOD_B = "REPLACEMENT_SELECTION_METHOD_B";
 
     private static final String SELECTION_PERCENT = "SELECTION_PERCENT", REPLACEMENT_PERCENT = "REPLACEMENT_PERCENT",
             MUTATION_PROB = "MUTATION_PROB", CROSSING_PROB = "CROSSING_PROB", POPULATION_CANT = "POPULATION_CANT", SELECTION_CANT = "SELECTION_CANT", TEMP = "TEMP",
             TOURNAMENT_CANT_COMPETITORS = "TOURNAMENT_CANT_COMPETITORS", TOURNAMENT_PROB = "TOURNAMENT_PROB",
             EXPONENTIAL_FACTOR = "EXPONENTIAL_FACTOR", CHARACTER_TYPE = "CHARACTER_TYPE";
+
+    private static final String GENERATIONS = "GENERATIONS", FITNESS_OPT = "FITNESS_OPT", EPSILON = "EPSILON";
 
     private static final String ARMOR_FILE = "ARMOR_FILE", BOOTS_FILE = "BOOTS_FILE", GLOVES_FILE = "GLOVES_FILE",
             HELMET_FILE = "HELMET_FILE", WEAPON_FILE = "WEAPON_FILE";
@@ -31,12 +33,13 @@ public class Parser {
 
     private PopulationGenerator populationGenerator;
 
+    private SelectionMethod selectionMethodA;
+    private SelectionMethod selectionMethodB;
     private CrossingMethod crossingMethod;
     private MutationMethod mutationMethod;
-    private SelectionMethod firstSelectionMethod;
-    private SelectionMethod secondSelectionMethod;
-    private ReplacementMethod firstReplacementMethod;
-    private ReplacementMethod secondReplacementMethod;
+    private ReplacementMethod replacementMethod;
+    private SelectionMethod replacementSelectionMethodA;
+    private SelectionMethod replacementSelectionMethodB;
     private CharacterType characterType;
     private double selectionPercent;
     private double replacementPercent;
@@ -48,6 +51,9 @@ public class Parser {
     private double exponentialFactor;
     private int tournamentCantCompetitors;
     private double tournamentProb;
+    private int generationsMax;
+    private double fitnessOpt;
+    private double epsilon;
 
     public Parser(final String filename) {
         try {
@@ -75,11 +81,11 @@ public class Parser {
             String args[] = line.split(VALUE_SEPARATOR);
 
             switch (args[0]) {
-                case FIRST_SELECTION_METHOD:
-                    this.firstSelectionMethod = SelectionMethod.getSelectionMethod(args[1]);
+                case SELECTION_METHOD_A:
+                    this.selectionMethodA = SelectionMethod.getSelectionMethod(args[1]);
                     break;
-                case SECOND_SELECTION_METHOD:
-                    this.secondSelectionMethod = SelectionMethod.getSelectionMethod(args[1]);
+                case SELECTION_METHOD_B:
+                    this.selectionMethodB = SelectionMethod.getSelectionMethod(args[1]);
                     break;
                 case CROSSING_METHOD:
                     this.crossingMethod = CrossingMethod.getCrossingMethod(args[1]);
@@ -87,11 +93,14 @@ public class Parser {
                 case MUTATION_METHOD:
                     this.mutationMethod = MutationMethod.getMutationMethod(args[1]);
                     break;
-                case FIRST_REPLACEMENT_METHOD:
-                    this.firstReplacementMethod = ReplacementMethod.getReplacementMethod(args[1]);
+                case REPLACEMENT_METHOD:
+                    this.replacementMethod = ReplacementMethod.getReplacementMethod(args[1]);
                     break;
-                case SECOND_REPLACEMENT_METHOD:
-                    this.secondReplacementMethod = ReplacementMethod.getReplacementMethod(args[1]);
+                case REPLACEMENT_SELECTION_METHOD_A:
+                    this.replacementSelectionMethodA = SelectionMethod.getSelectionMethod(args[1]);
+                    break;
+                case REPLACEMENT_SELECTION_METHOD_B:
+                    this.replacementSelectionMethodB = SelectionMethod.getSelectionMethod(args[1]);
                     break;
                 case SELECTION_PERCENT:
                     this.selectionPercent = Double.parseDouble(args[1]);
@@ -126,6 +135,15 @@ public class Parser {
                 case CHARACTER_TYPE:
                     this.characterType = CharacterType.getCharacterType(args[1]);
                     break;
+                case GENERATIONS:
+                    this.generationsMax = Integer.parseInt(args[1]);
+                    break;
+                case FITNESS_OPT:
+                    this.fitnessOpt = Double.parseDouble(args[1]);
+                    break;
+                case EPSILON:
+                    this.epsilon = Double.parseDouble(args[1]);
+                    break;
                 case ARMOR_FILE:
                     armorFile = args[1];
                     break;
@@ -152,21 +170,21 @@ public class Parser {
         return mutationMethod;
     }
 
-    public SelectionMethod getFirstSelectionMethod() {
-        return firstSelectionMethod;
+    public SelectionMethod getSelectionMethodA() {
+        return selectionMethodA;
     }
 
-    public SelectionMethod getSecondSelectionMethod() {
-        return secondSelectionMethod;
+    public SelectionMethod getSelectionMethodB() {
+        return selectionMethodB;
     }
 
-    public ReplacementMethod getFirstReplacementMethod() {
-        return firstReplacementMethod;
+    public ReplacementMethod getReplacementMethod() {
+        return replacementMethod;
     }
 
-    public ReplacementMethod getSecondReplacementMethod() {
-        return secondReplacementMethod;
-    }
+    public SelectionMethod getReplacementSelectionMethodA() { return replacementSelectionMethodA; }
+
+    public SelectionMethod getReplacementSelectionMethodB() { return replacementSelectionMethodB; }
 
     public CharacterType getCharacterType() { return this.characterType; }
 
@@ -207,6 +225,12 @@ public class Parser {
     public double getTournamentProb() {
         return tournamentProb;
     }
+
+    public int getGenerationsMax() { return generationsMax; }
+
+    public double getFitnessOpt() { return fitnessOpt; }
+
+    public double getEpsilon() { return epsilon; }
 
     public List<Character> getInitialGeneration() { return populationGenerator.getInitialGeneration(); }
 

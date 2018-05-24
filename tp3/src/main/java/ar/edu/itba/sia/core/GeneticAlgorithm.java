@@ -23,72 +23,95 @@ public class GeneticAlgorithm {
     }
 
     public void geneticAlgorithm() {
-        double selectionPercent = m.getSelectionPercent();
-        double replacementPercent = m.getReplacementPercent();
-        List<Character> initialGeneration = m.getInitialGeneration();
-        int populationCant = m.getPopulationCant();
-        int selectionCant = m.getSelectionCant();
-        int selectionCant1 = (int) Math.floor(selectionPercent * selectionCant);
-        int selectionCant2 = selectionCant - selectionCant1;
-        int replacementCant1;
-        int replacementCant2;
+        if (m.getReplacementMethod().equals(ReplacementMethod.FIRST)) {
+            geneticAlgorithmFirst();
+        }
+        else
+            geneticAlgorithmOthers();
+    }
 
-        ReplacementMethod replacementMethod1 = ReplacementMethod.
-                getReplacementMethod(m.getFirstSelectionMethodReplacement());
+    private void geneticAlgorithmFirst() {
 
-        ReplacementMethod replacementMethod2 = ReplacementMethod.
-                getReplacementMethod(m.getSecondSelectionMethodReplacement());
-
-        if (replacementMethod1.equals(ReplacementMethod.SECOND))
-            replacementCant1 = (int) Math.floor(replacementPercent * populationCant - selectionCant1);
-        else if (replacementMethod1.equals(ReplacementMethod.FIRST)) {
-            replacementCant1 = (int) Math.floor(replacementPercent * populationCant);
-            selectionCant1 = replacementCant1;
-        } else
-            replacementCant1 = (int) Math.floor(replacementPercent * populationCant);
-
-        if (replacementMethod2.equals(ReplacementMethod.SECOND))
-            replacementCant2 = (int) Math.floor((1 - replacementPercent) * populationCant - selectionCant2);
-        else if (replacementMethod2.equals(ReplacementMethod.FIRST)) {
-            replacementCant2 = (int) Math.floor((1 - replacementPercent) * populationCant);
-            selectionCant2 = replacementCant2;
-        } else
-            replacementCant2 = (int) Math.floor((1 - replacementPercent) * populationCant);
-
-
-        SelectionAlgorithm selectionAlgorithm1 = SelectionMethod.
-                getSelectionAlgorithm(m.getFirstSelectionMethod(), selectionCant1, m);
-        SelectionAlgorithm selectionAlgorithm2 = SelectionMethod.
-                getSelectionAlgorithm(m.getSecondSelectionMethod(), selectionCant2, m);
+        LinkedList<Character> currentGeneration = (LinkedList) m.getInitialGeneration();
 
         CrossAlgorithm crossAlgorithm = CrossingMethod.getCrossingAlgorithm(m.getCrossMethod());
 
         MutationAlgorithm mutationAlgorithm = MutationMethod.getMutationAlgorithm(m.getMutationMethod(), m);
 
-        SelectionAlgorithm selectionAlgorithmReplacement1 = SelectionMethod.
-                getSelectionAlgorithm(m.getFirstSelectionMethod(), replacementCant1, m);
-        SelectionAlgorithm selectionAlgorithmReplacement2 = SelectionMethod.
-                getSelectionAlgorithm(m.getSecondSelectionMethod(), replacementCant2, m);
+        double crossingProb = m.getCrossingProb();
 
-        ReplacementAlgorithm replacementAlgorithm1 = ReplacementMethod.getReplacementAlgorithm(m.getFirstReplacementMethod());
-        ReplacementAlgorithm replacementAlgorithm2 = ReplacementMethod.getReplacementAlgorithm(m.getSecondReplacementMethod());
+        while(true) {
 
-        LinkedList<Character> selected = new LinkedList<>();
+            LinkedList<Character> children = (LinkedList) Crossing.randomCross(currentGeneration, crossAlgorithm, crossingProb);
+
+            Mutation.mutate(children, mutationAlgorithm, m.getMutationProb());
+
+            currentGeneration = children;
+        }
+    }
+
+    private void geneticAlgorithmOthers() {
+
+        int population = m.getPopulationCant();
+        List<Character> currentGeneration = m.getInitialGeneration();
+
+        double selectionPercent = m.getSelectionPercent();
+        double replacementPercent = m.getReplacementPercent();
+        int selectionCant = m.getSelectionCant();
+        int selectionCantA = (int) Math.floor(selectionPercent * selectionCant);
+        int selectionCantB = selectionCant - selectionCantA;
+
+        ReplacementMethod replacementMethod = m.getReplacementMethod();
+
+        int replacementCant = 0;
+        switch (replacementMethod) {
+            case SECOND:
+                replacementCant = population - selectionCant;
+                break;
+            case THIRD:
+                replacementCant = population;
+                break;
+        }
+
+        int replacementCantA = (int) Math.floor(replacementPercent * replacementCant);
+        int replacementCantB = replacementCant - replacementCantA;
+
+        SelectionAlgorithm selectionAlgorithmA = SelectionMethod.
+                getSelectionAlgorithm(m.getSelectionMethodA(), selectionCantA, m);
+        SelectionAlgorithm selectionAlgorithmB = SelectionMethod.
+                getSelectionAlgorithm(m.getSelectionMethodB(), selectionCantB, m);
+
+        SelectionAlgorithm selectionAlgorithmReplacementA = SelectionMethod.
+                getSelectionAlgorithm(m.getReplacementSelectionMethodA(), replacementCantA, m);
+        SelectionAlgorithm selectionAlgorithmReplacementB = SelectionMethod.
+                getSelectionAlgorithm(m.getReplacementSelectionMethodB(), replacementCantB, m);
+
+        CrossAlgorithm crossAlgorithm = CrossingMethod.getCrossingAlgorithm(m.getCrossMethod());
 
         double crossingProb = m.getCrossingProb();
 
-        List<Character> currentGeneration = initialGeneration;
+        MutationAlgorithm mutationAlgorithm = MutationMethod.getMutationAlgorithm(m.getMutationMethod(), m);
 
-        while(true/*condicion*/) {
-            selected.addAll(selectionAlgorithm1.select(currentGeneration));
-            selected.addAll(selectionAlgorithm2.select(currentGeneration));
+        ReplacementAlgorithm replacementAlgorithm = ReplacementMethod.getReplacementAlgorithm(replacementMethod);
 
-            List<Character> newGen = Crossing.randomCross(selected, crossAlgorithm, crossingProb);
+        LinkedList<Character> selectedParents = new LinkedList<>();
 
-            Mutation.mutate(newGen, mutationAlgorithm, m.getMutationProb());
+        while(true) {
+            selectedParents.addAll(selectionAlgorithmA.select(currentGeneration));
+            selectedParents.addAll(selectionAlgorithmB.select(currentGeneration));
 
-            replacementAlgorithm1.newGeneration(newGen, currentGeneration, selectionAlgorithmReplacement1);
-            replacementAlgorithm2.newGeneration(newGen, currentGeneration, selectionAlgorithmReplacement2);
+            List<Character> children = Crossing.randomCross(selectedParents, crossAlgorithm, crossingProb);
+
+            selectedParents.clear();
+
+            Mutation.mutate(children, mutationAlgorithm, m.getMutationProb());
+
+            List<Character> newGen = replacementAlgorithm.newGeneration(children, currentGeneration,
+                    selectionAlgorithmReplacementA,
+                    selectionAlgorithmReplacementB);
+
+            currentGeneration = newGen;
         }
+
     }
 }

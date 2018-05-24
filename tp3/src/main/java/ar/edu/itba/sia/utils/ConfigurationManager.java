@@ -13,6 +13,7 @@ public class ConfigurationManager {
 
     public static final double HEIGHT_START = 1.3;
     public static final double HEIGHT_END = 2.0;
+
     private final Parser parser;
 
     public ConfigurationManager(final Parser parser) {
@@ -38,25 +39,28 @@ public class ConfigurationManager {
     public List<Character> getInitialGeneration() {
         return parser.getInitialGeneration();
     }
+
     public int getPopulationCant() {
         return parser.getPopulationCant();
     }
 
-    public SelectionMethod getFirstSelectionMethod() {
-        return parser.getFirstSelectionMethod();
+    public SelectionMethod getSelectionMethodA() {
+        return parser.getSelectionMethodA();
     }
 
-    public SelectionMethod getSecondSelectionMethod() {
-        return parser.getSecondSelectionMethod();
+    public SelectionMethod getSelectionMethodB() {
+        return parser.getSelectionMethodB();
     }
 
     public CrossingMethod getCrossMethod() { return parser.getCrossingMethod(); }
 
     public MutationMethod getMutationMethod() { return parser.getMutationMethod(); }
 
-    public ReplacementMethod getFirstReplacementMethod() { return  parser.getFirstReplacementMethod(); }
+    public ReplacementMethod getReplacementMethod() { return  parser.getReplacementMethod(); }
 
-    public ReplacementMethod getSecondReplacementMethod() { return parser.getSecondReplacementMethod(); }
+    public SelectionMethod getReplacementSelectionMethodA() { return parser.getReplacementSelectionMethodA(); }
+
+    public SelectionMethod getReplacementSelectionMethodB() { return parser.getReplacementSelectionMethodB(); }
 
     public double getExponentialFactor() {
         return parser.getExponentialFactor();
@@ -77,6 +81,12 @@ public class ConfigurationManager {
     public double getMutationProb() {
         return parser.getMutationProb();
     }
+
+    public double getGenerationsMax() { return parser.getGenerationsMax(); }
+
+    public double getFitnessOpt() { return parser.getFitnessOpt(); }
+
+    public double getEpsilon() { return parser.getEpsilon(); }
 
     public List<Armor> getArmors() {
         return parser.getArmors();

@@ -11,8 +11,10 @@ import java.util.List;
 public class First implements ReplacementAlgorithm{
 
     @Override
-    public void newGeneration(List<Character> newGen, List<Character> oldGeneration,
-                              SelectionAlgorithm selectionAlgorithm) {
+    public List<Character> newGeneration(List<Character> children, List<Character> currentGeneration,
+                              SelectionAlgorithm firstSelectionAlgorithm,
+                              SelectionAlgorithm secondSelectionAlgorithm) {
+        return children;
         }
 }
 

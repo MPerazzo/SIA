@@ -1,10 +1,6 @@
 package ar.edu.itba.sia.utils;
 
 import ar.edu.itba.sia.model.character.Character;
-import ar.edu.itba.sia.model.character.archer.*;
-import ar.edu.itba.sia.model.character.assassin.*;
-import ar.edu.itba.sia.model.character.defender.*;
-import ar.edu.itba.sia.model.character.warrior.*;
 
 import ar.edu.itba.sia.model.equipment.*;
 import ar.edu.itba.sia.utils.equipmentParsers.*;
