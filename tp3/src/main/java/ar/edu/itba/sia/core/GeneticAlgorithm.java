@@ -11,7 +11,6 @@ import ar.edu.itba.sia.utils.enums.MutationMethod;
 import ar.edu.itba.sia.utils.enums.ReplacementMethod;
 import ar.edu.itba.sia.utils.enums.SelectionMethod;
 
-import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,8 +22,8 @@ public class GeneticAlgorithm {
     private final int generationsMax;
     private final double fitnessOpt;
     private final double epsilon;
-    private double averageFitness;
-    private double maxFitness;
+    private double averageFitness = 0;
+    private double maxFitness = 0;
 
     public GeneticAlgorithm(Parser p){
         this.m = new ConfigurationManager(p);
@@ -52,7 +51,12 @@ public class GeneticAlgorithm {
         double crossingProb = m.getCrossingProb();
 
         int generationCount = 0;
-        while(generationCount < generationsMax) {
+        double prevAverageFitness;
+        double prevMaxFitness;
+
+        do {
+            prevAverageFitness = averageFitness;
+            prevMaxFitness = maxFitness;
 
             LinkedList<Character> children = (LinkedList) Crossing.randomCross(currentGeneration, crossAlgorithm, crossingProb);
 
@@ -61,7 +65,10 @@ public class GeneticAlgorithm {
             currentGeneration = children;
 
             calculateMetrics(currentGeneration);
-        }
+
+            generationCount++;
+
+        } while(checkGeneration(prevAverageFitness, prevMaxFitness, generationCount));
     }
 
     private void geneticAlgorithmOthers() {
@@ -111,7 +118,13 @@ public class GeneticAlgorithm {
         LinkedList<Character> selectedParents = new LinkedList<>();
 
         int generationCount = 0;
-        while (generationCount < generationsMax) {
+        double prevAverageFitness;
+        double prevMaxFitness;
+
+        do {
+            prevAverageFitness = averageFitness;
+            prevMaxFitness = maxFitness;
+
             selectedParents.addAll(selectionAlgorithmA.select(currentGeneration));
             selectedParents.addAll(selectionAlgorithmB.select(currentGeneration));
 
@@ -128,11 +141,39 @@ public class GeneticAlgorithm {
             currentGeneration = newGen;
 
             calculateMetrics(currentGeneration);
-        }
+
+            generationCount++;
+
+        } while (checkGeneration(prevAverageFitness, prevMaxFitness, generationCount));
 
     }
-        private void calculateMetrics(List<Character> currentGeneration) {
-            averageFitness = currentGeneration.stream().collect(Collectors.averagingDouble(c -> c.getFitness()));
-            maxFitness = currentGeneration.stream().map(c -> c.getFitness()).reduce(Double::max).get();
+
+    private void calculateMetrics(List<Character> currentGeneration) {
+        averageFitness = currentGeneration.stream().collect(Collectors.averagingDouble(c -> c.getFitness()));
+        maxFitness = currentGeneration.stream().map(c -> c.getFitness()).reduce(Double::max).get();
+    }
+
+    private boolean checkGeneration(double prevAverageFitness, double prevMaxFitness, int currentGenerationCount) {
+        if (averageFitness < prevAverageFitness) {
+            System.out.println("Structure failure");
+            return false;
+        }
+
+        if (maxFitness < prevMaxFitness) {
+            System.out.println("Content failure");
+            return false;
+        }
+
+        if (Math.abs(maxFitness - fitnessOpt) < epsilon) {
+            System.out.println("Optimum reached");
+            return false;
+        }
+
+        if (currentGenerationCount == generationsMax) {
+            System.out.println("Max iterations reached");
+            return false;
+        }
+
+        return true;
     }
 }
