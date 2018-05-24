@@ -82,12 +82,6 @@ public class ConfigurationManager {
         return parser.getMutationProb();
     }
 
-    public double getGenerationsMax() { return parser.getGenerationsMax(); }
-
-    public double getFitnessOpt() { return parser.getFitnessOpt(); }
-
-    public double getEpsilon() { return parser.getEpsilon(); }
-
     public List<Armor> getArmors() {
         return parser.getArmors();
     }

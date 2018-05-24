@@ -11,15 +11,26 @@ import ar.edu.itba.sia.utils.enums.MutationMethod;
 import ar.edu.itba.sia.utils.enums.ReplacementMethod;
 import ar.edu.itba.sia.utils.enums.SelectionMethod;
 
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class GeneticAlgorithm {
 
     private final ConfigurationManager m;
 
+    private final int generationsMax;
+    private final double fitnessOpt;
+    private final double epsilon;
+    private double averageFitness;
+    private double maxFitness;
+
     public GeneticAlgorithm(Parser p){
         this.m = new ConfigurationManager(p);
+        this.generationsMax = p.getGenerationsMax();
+        this.fitnessOpt = p.getFitnessOpt();
+        this.epsilon = p.getEpsilon();
     }
 
     public void geneticAlgorithm() {
@@ -40,13 +51,16 @@ public class GeneticAlgorithm {
 
         double crossingProb = m.getCrossingProb();
 
-        while(true) {
+        int generationCount = 0;
+        while(generationCount < generationsMax) {
 
             LinkedList<Character> children = (LinkedList) Crossing.randomCross(currentGeneration, crossAlgorithm, crossingProb);
 
             Mutation.mutate(children, mutationAlgorithm, m.getMutationProb());
 
             currentGeneration = children;
+
+            calculateMetrics(currentGeneration);
         }
     }
 
@@ -96,7 +110,8 @@ public class GeneticAlgorithm {
 
         LinkedList<Character> selectedParents = new LinkedList<>();
 
-        while(true) {
+        int generationCount = 0;
+        while (generationCount < generationsMax) {
             selectedParents.addAll(selectionAlgorithmA.select(currentGeneration));
             selectedParents.addAll(selectionAlgorithmB.select(currentGeneration));
 
@@ -111,7 +126,13 @@ public class GeneticAlgorithm {
                     selectionAlgorithmReplacementB);
 
             currentGeneration = newGen;
+
+            calculateMetrics(currentGeneration);
         }
 
+    }
+        private void calculateMetrics(List<Character> currentGeneration) {
+            averageFitness = currentGeneration.stream().collect(Collectors.averagingDouble(c -> c.getFitness()));
+            maxFitness = currentGeneration.stream().map(c -> c.getFitness()).reduce(Double::max).get();
     }
 }

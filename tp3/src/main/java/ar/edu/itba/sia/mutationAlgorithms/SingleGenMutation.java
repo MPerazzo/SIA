@@ -6,11 +6,11 @@ import ar.edu.itba.sia.interfaces.MutationAlgorithm;
 import ar.edu.itba.sia.model.character.Character;
 import ar.edu.itba.sia.utils.ConfigurationManager;
 
-public class GenMutation implements MutationAlgorithm {
+public class SingleGenMutation implements MutationAlgorithm {
 
 	private final ConfigurationManager m;
 
-	public GenMutation (ConfigurationManager m) {
+	public SingleGenMutation(ConfigurationManager m) {
 		this.m = m;
 	}
 

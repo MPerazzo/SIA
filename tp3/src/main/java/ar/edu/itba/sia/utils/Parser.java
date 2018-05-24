@@ -2,10 +2,7 @@ package ar.edu.itba.sia.utils;
 
 import ar.edu.itba.sia.model.character.Character;
 import ar.edu.itba.sia.model.equipment.*;
-import ar.edu.itba.sia.utils.enums.CrossingMethod;
-import ar.edu.itba.sia.utils.enums.MutationMethod;
-import ar.edu.itba.sia.utils.enums.ReplacementMethod;
-import ar.edu.itba.sia.utils.enums.SelectionMethod;
+import ar.edu.itba.sia.utils.enums.*;
 
 import javax.management.AttributeNotFoundException;
 import java.io.BufferedReader;
@@ -16,7 +13,7 @@ import java.util.List;
 public class Parser {
 
     private static final String SELECTION_METHOD_A = "SELECTION_METHOD_A", SELECTION_METHOD_B = "SELECTION_METHOD_B",
-            CROSSING_METHOD = "CROSSING_METHOD", MUTATION_METHOD = "MUTATION_METHOD", REPLACEMENT_METHOD = "REPLACEMENT_METHOD",
+            CROSSING_METHOD = "CROSSING_METHOD", MUTATION_METHOD = "MUTATION_METHOD", MUTATION_TYPE = "MUTATION_TYPE", REPLACEMENT_METHOD = "REPLACEMENT_METHOD",
             REPLACEMENT_SELECTION_METHOD_A = "REPLACEMENT_SELECTION_METHOD_A", REPLACEMENT_SELECTION_METHOD_B = "REPLACEMENT_SELECTION_METHOD_B";
 
     private static final String SELECTION_PERCENT = "SELECTION_PERCENT", REPLACEMENT_PERCENT = "REPLACEMENT_PERCENT",
@@ -37,6 +34,7 @@ public class Parser {
     private SelectionMethod selectionMethodB;
     private CrossingMethod crossingMethod;
     private MutationMethod mutationMethod;
+    private MutationType mutationType;
     private ReplacementMethod replacementMethod;
     private SelectionMethod replacementSelectionMethodA;
     private SelectionMethod replacementSelectionMethodB;
@@ -93,6 +91,8 @@ public class Parser {
                 case MUTATION_METHOD:
                     this.mutationMethod = MutationMethod.getMutationMethod(args[1]);
                     break;
+                case MUTATION_TYPE:
+                    this.mutationType = MutationType.getMutationType(args[1]);
                 case REPLACEMENT_METHOD:
                     this.replacementMethod = ReplacementMethod.getReplacementMethod(args[1]);
                     break;
@@ -169,6 +169,8 @@ public class Parser {
     public MutationMethod getMutationMethod() {
         return mutationMethod;
     }
+
+    public MutationType getMutationType() { return mutationType; }
 
     public SelectionMethod getSelectionMethodA() {
         return selectionMethodA;
