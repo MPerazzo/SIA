@@ -93,6 +93,7 @@ public class Parser {
                     break;
                 case MUTATION_TYPE:
                     this.mutationType = MutationType.getMutationType(args[1]);
+                    break;
                 case REPLACEMENT_METHOD:
                     this.replacementMethod = ReplacementMethod.getReplacementMethod(args[1]);
                     break;
