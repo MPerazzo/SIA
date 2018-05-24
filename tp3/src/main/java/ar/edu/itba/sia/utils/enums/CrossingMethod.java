@@ -24,11 +24,12 @@ public enum CrossingMethod {
     }
 
     public static CrossAlgorithm getCrossingAlgorithm(final CrossingMethod method) {
-        if (method.equals(ONE_POINT.toString())) {
+
+        if (method.equals(ONE_POINT)) {
             return new SinglePointCross();
-        } else if (method.equals(TWO_POINT.toString())) {
+        } else if (method.equals(TWO_POINT)) {
             return new TwoPointCross();
-        } else if (method.equals(UNIFORM.toString())) {
+        } else if (method.equals(UNIFORM)) {
             return new UniformCross();
         } else
             return new AnularCross();
