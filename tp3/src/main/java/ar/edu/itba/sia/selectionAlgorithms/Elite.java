@@ -20,9 +20,9 @@ public class Elite implements SelectionAlgorithm {
 
         characters.sort((c1, c2) -> {
             if (c1.getFitness() > c2.getFitness())
-                return 1;
-            else if (c1.getFitness() < c2.getFitness())
                 return -1;
+            else if (c1.getFitness() < c2.getFitness())
+                return 1;
             else
                 return 0;
         });
