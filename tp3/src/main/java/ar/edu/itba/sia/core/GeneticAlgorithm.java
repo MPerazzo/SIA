@@ -53,6 +53,8 @@ public class GeneticAlgorithm {
 
         bestAvgFitness = averageFitness;
         bestMaxFitness = maxFitness;
+
+        showMetrics(1);
     }
 
     public void geneticAlgorithm() {
@@ -79,7 +81,7 @@ public class GeneticAlgorithm {
 
         double crossingProb = m.getCrossingProb();
 
-        int generationCount = 1;
+        int generationCount = 2;
 
         do {
             LinkedList<Character> children = (LinkedList) Crossing.randomCross(currentGeneration, crossAlgorithm, crossingProb);
@@ -88,7 +90,9 @@ public class GeneticAlgorithm {
 
             currentGeneration = children;
 
-            calculateMetrics(currentGeneration, generationCount);
+            calculateMetrics(currentGeneration);
+
+            showMetrics(generationCount);
 
         } while(checkGenerationA(generationCount++));
     }
@@ -139,7 +143,7 @@ public class GeneticAlgorithm {
 
         LinkedList<Character> selectedParents = new LinkedList<>();
 
-        int generationCount = 1;
+        int generationCount = 2;
         double prevAverageFitness;
         double prevMaxFitness;
 
@@ -162,13 +166,15 @@ public class GeneticAlgorithm {
 
             currentGeneration = newGen;
 
-            calculateMetrics(currentGeneration, generationCount);
+            calculateMetrics(currentGeneration);
+
+            showMetrics(generationCount);
 
         } while (checkGenerationB(prevAverageFitness, prevMaxFitness, generationCount++));
 
     }
 
-    private void calculateMetrics(List<Character> currentGeneration, int generationCount) {
+    private void calculateMetrics(List<Character> currentGeneration) {
         averageFitness = currentGeneration.stream().collect(Collectors.averagingDouble(c -> c.getFitness()));
 
         Character currentGenBestIndividual = currentGeneration.stream().max((c1, c2) -> {
@@ -181,10 +187,6 @@ public class GeneticAlgorithm {
         }).get();
 
         maxFitness = currentGenBestIndividual.getFitness();
-
-        System.out.println("Generation: " + generationCount);
-        System.out.println("Max Fitness: " + maxFitness);
-        System.out.println("Average Fitness: " + averageFitness);
 
         if (maxFitness > bestMaxFitness) {
             bestIndividual = currentGenBestIndividual;
@@ -239,5 +241,11 @@ public class GeneticAlgorithm {
             return false;
         }
         return true;
+    }
+
+    private void showMetrics(int generationCount) {
+        System.out.println("Generation: " + generationCount);
+        System.out.println("Max Fitness: " + maxFitness);
+        System.out.println("Average Fitness: " + averageFitness);
     }
 }
