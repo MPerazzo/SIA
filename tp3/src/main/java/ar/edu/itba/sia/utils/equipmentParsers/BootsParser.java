@@ -22,6 +22,10 @@ public class BootsParser extends EquipmentParser {
         HSSFSheet sheet = workbook.getSheetAt(0);
 
         Iterator rows = sheet.rowIterator();
+
+        //header row (ignored)
+        rows.next();
+
         while (rows.hasNext()) {
             HSSFRow row = (HSSFRow) rows.next();
 
