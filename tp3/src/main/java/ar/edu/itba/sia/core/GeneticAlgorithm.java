@@ -66,9 +66,7 @@ public class GeneticAlgorithm {
 
             calculateMetrics(currentGeneration, generationCount);
 
-            generationCount++;
-
-        } while(checkGeneration(prevAverageFitness, prevMaxFitness, generationCount));
+        } while(checkGeneration(prevAverageFitness, prevMaxFitness, generationCount++));
     }
 
     private void geneticAlgorithmOthers() {
@@ -142,9 +140,7 @@ public class GeneticAlgorithm {
 
             calculateMetrics(currentGeneration, generationCount);
 
-            generationCount++;
-
-        } while (checkGeneration(prevAverageFitness, prevMaxFitness, generationCount));
+        } while (checkGeneration(prevAverageFitness, prevMaxFitness, generationCount++));
 
     }
 
@@ -158,6 +154,7 @@ public class GeneticAlgorithm {
     }
 
     private boolean checkGeneration(double prevAverageFitness, double prevMaxFitness, int currentGenerationCount) {
+
         if (averageFitness < prevAverageFitness) {
             System.out.println("Structure failure");
             return false;
