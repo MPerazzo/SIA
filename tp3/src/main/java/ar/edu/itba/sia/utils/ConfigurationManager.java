@@ -1,11 +1,11 @@
 package ar.edu.itba.sia.utils;
 
+import ar.edu.itba.sia.interfaces.MutationProbCalculator;
+import ar.edu.itba.sia.model.MutationNoUniformProb;
+import ar.edu.itba.sia.model.MutationUniformProb;
 import ar.edu.itba.sia.model.character.Character;
 import ar.edu.itba.sia.model.equipment.*;
-import ar.edu.itba.sia.utils.enums.CrossingMethod;
-import ar.edu.itba.sia.utils.enums.MutationMethod;
-import ar.edu.itba.sia.utils.enums.ReplacementMethod;
-import ar.edu.itba.sia.utils.enums.SelectionMethod;
+import ar.edu.itba.sia.utils.enums.*;
 
 import java.util.List;
 
@@ -16,8 +16,16 @@ public class ConfigurationManager {
 
     private final Parser parser;
 
+    private final MutationProbCalculator mutationProbCalculator;
+
     public ConfigurationManager(final Parser parser) {
+
         this.parser = parser;
+
+        if (parser.getMutationType().equals(MutationType.UNIFORM))
+            mutationProbCalculator = new MutationUniformProb(parser.getMutationProb());
+        else
+            mutationProbCalculator = new MutationNoUniformProb(parser.getMutationProb());
     }
 
     public int getSelectionCant() {
@@ -79,7 +87,7 @@ public class ConfigurationManager {
     }
 
     public double getMutationProb() {
-        return parser.getMutationProb();
+        return mutationProbCalculator.getProb();
     }
 
     public List<Armor> getArmors() {
