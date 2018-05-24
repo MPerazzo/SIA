@@ -22,14 +22,37 @@ public class GeneticAlgorithm {
     private final int generationsMax;
     private final double fitnessOpt;
     private final double epsilon;
-    private double averageFitness = 0;
-    private double maxFitness = 0;
+    private double averageFitness;
+    private double maxFitness;
+
+    private List<Character> bestGen;
+    private Character bestIndividual;
+    private double bestMaxFitness;
+    private double bestAvgFitness;
 
     public GeneticAlgorithm(Parser p){
         this.m = new ConfigurationManager(p);
         this.generationsMax = p.getGenerationsMax();
         this.fitnessOpt = p.getFitnessOpt();
         this.epsilon = p.getEpsilon();
+
+        bestGen = p.getInitialGeneration();
+
+        averageFitness = bestGen.stream().collect(Collectors.averagingDouble(c -> c.getFitness()));
+
+        bestIndividual = bestGen.stream().max((c1, c2) -> {
+            if (c1.getFitness() > c2.getFitness())
+                return 1;
+            else if (c1.getFitness() < c2.getFitness())
+                return -1;
+            else
+                return 0;
+        }).get();
+
+        maxFitness = bestIndividual.getFitness();
+
+        bestAvgFitness = averageFitness;
+        bestMaxFitness = maxFitness;
     }
 
     public void geneticAlgorithm() {
@@ -38,6 +61,12 @@ public class GeneticAlgorithm {
         }
         else
             geneticAlgorithmOthers();
+
+        System.out.println("\n");
+        System.out.println("Best generation average is: " + bestAvgFitness);
+        System.out.println("Best individual performance is: " + bestMaxFitness);
+        System.out.print("\n");
+        System.out.println("Best individual is: \n" + bestIndividual);
     }
 
     private void geneticAlgorithmFirst() {
@@ -51,13 +80,8 @@ public class GeneticAlgorithm {
         double crossingProb = m.getCrossingProb();
 
         int generationCount = 1;
-        double prevAverageFitness;
-        double prevMaxFitness;
 
         do {
-            prevAverageFitness = averageFitness;
-            prevMaxFitness = maxFitness;
-
             LinkedList<Character> children = (LinkedList) Crossing.randomCross(currentGeneration, crossAlgorithm, crossingProb);
 
             Mutation.mutate(children, mutationAlgorithm, m.getMutationProb());
@@ -66,7 +90,7 @@ public class GeneticAlgorithm {
 
             calculateMetrics(currentGeneration, generationCount);
 
-        } while(checkGeneration(prevAverageFitness, prevMaxFitness, generationCount++));
+        } while(checkGenerationA(generationCount++));
     }
 
     private void geneticAlgorithmOthers() {
@@ -140,41 +164,80 @@ public class GeneticAlgorithm {
 
             calculateMetrics(currentGeneration, generationCount);
 
-        } while (checkGeneration(prevAverageFitness, prevMaxFitness, generationCount++));
+        } while (checkGenerationB(prevAverageFitness, prevMaxFitness, generationCount++));
 
     }
 
     private void calculateMetrics(List<Character> currentGeneration, int generationCount) {
         averageFitness = currentGeneration.stream().collect(Collectors.averagingDouble(c -> c.getFitness()));
-        maxFitness = currentGeneration.stream().map(c -> c.getFitness()).reduce(Double::max).get();
+
+        Character currentGenBestIndividual = currentGeneration.stream().max((c1, c2) -> {
+            if (c1.getFitness() > c2.getFitness())
+                return 1;
+            else if (c1.getFitness() < c2.getFitness())
+                return -1;
+            else
+                return 0;
+        }).get();
+
+        maxFitness = currentGenBestIndividual.getFitness();
 
         System.out.println("Generation: " + generationCount);
         System.out.println("Max Fitness: " + maxFitness);
         System.out.println("Average Fitness: " + averageFitness);
+
+        if (maxFitness > bestMaxFitness) {
+            bestIndividual = currentGenBestIndividual;
+            bestMaxFitness = maxFitness;
+        }
+
+        if (averageFitness > bestAvgFitness) {
+            bestGen = currentGeneration;
+            bestAvgFitness = averageFitness;
+        }
     }
 
-    private boolean checkGeneration(double prevAverageFitness, double prevMaxFitness, int currentGenerationCount) {
-
-        if (averageFitness < prevAverageFitness) {
-            System.out.println("Structure failure");
-            return false;
-        }
-
-        if (maxFitness < prevMaxFitness) {
-            System.out.println("Content failure");
-            return false;
-        }
+    private boolean checkGenerationA(int currentGenerationCount) {
 
         if (Math.abs(maxFitness - fitnessOpt) < epsilon) {
-            System.out.println("Optimum reached");
+            System.out.print("\n");
+            System.out.print("Optimum reached");
             return false;
         }
 
         if (currentGenerationCount == generationsMax) {
-            System.out.println("Max iterations reached");
+            System.out.print("\n");
+            System.out.print("Max iterations reached");
+            return false;
+        }
+        return true;
+    }
+
+    private boolean checkGenerationB(double prevAverageFitness, double prevMaxFitness, int currentGenerationCount) {
+
+        if (averageFitness < prevAverageFitness) {
+            System.out.print("\n");
+            System.out.print("Structure failure");
             return false;
         }
 
+        if (maxFitness < prevMaxFitness) {
+            System.out.print("\n");
+            System.out.print("Content failure");
+            return false;
+        }
+
+        if (Math.abs(maxFitness - fitnessOpt) < epsilon) {
+            System.out.print("\n");
+            System.out.print("Optimum reached");
+            return false;
+        }
+
+        if (currentGenerationCount == generationsMax) {
+            System.out.print("\n");
+            System.out.print("Max iterations reached");
+            return false;
+        }
         return true;
     }
 }

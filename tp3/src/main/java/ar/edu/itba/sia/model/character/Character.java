@@ -23,6 +23,9 @@ public abstract class Character {
     private double health;
     private double resistance;
 
+    private double attack;
+    private double defense;
+
     private double strengthMod;
     private double agilityMod;
     private double dexterityMod;
@@ -171,8 +174,8 @@ public abstract class Character {
 
     private void calculateFitness() {
 
-        double attack = (agilityMod + dexterityMod) * strengthMod * attackMod;
-        double defense = (resistanceMod + dexterityMod) * healthMod * defMod;
+        attack = (agilityMod + dexterityMod) * strengthMod * attackMod;
+        defense = (resistanceMod + dexterityMod) * healthMod * defMod;
 
         fitness = this.attackFactor() * attack + this.defenseFactor() * defense;
     }
@@ -189,6 +192,21 @@ public abstract class Character {
     private void calculateHeightMod() {
         attackMod = Modifier.attackMod(height);
         defMod = Modifier.defenseMod(height);
+    }
+
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("Height: " + height + "\n");
+        builder.append("Strength: " + strengthMod + "\n");
+        builder.append("Agility: " + agilityMod + "\n");
+        builder.append("Dexterity: " + dexterityMod + "\n");
+        builder.append("Health: " + healthMod + "\n");
+        builder.append("Resistance: " + resistanceMod + "\n");
+        builder.append("Attack: " + attack + "\n");
+        builder.append("Defense: " + defense + "\n");
+        builder.append("Fitness: " + fitness + "\n");
+
+        return builder.toString();
     }
 
     public abstract Character newSon(double height, List<Equipment> equipment);
