@@ -7,7 +7,7 @@ import ar.edu.itba.sia.utils.ConfigurationManager;
 import javax.management.AttributeNotFoundException;
 
 public enum SelectionMethod {
-    ELITE, ROULETTE, UNIVERSAL, BOLTZMAN_ROULETTE, TOURNAMENT_DETERINISTIC,
+    ELITE, ROULETTE, UNIVERSAL, BOLTZMANN_ROULETTE, TOURNAMENT_DETERMINISTIC,
     TOURNAMENT_PROBABILISTIC, RANKING;
 
     public static SelectionMethod getSelectionMethod(final String method) throws AttributeNotFoundException {
@@ -17,10 +17,10 @@ public enum SelectionMethod {
             return ROULETTE;
         } else if(method.equals(UNIVERSAL.toString())) {
             return UNIVERSAL;
-        } else if(method.equals(BOLTZMAN_ROULETTE.toString())) {
-            return BOLTZMAN_ROULETTE;
-        } else if(method.equals(TOURNAMENT_DETERINISTIC.toString())) {
-            return TOURNAMENT_DETERINISTIC;
+        } else if(method.equals(BOLTZMANN_ROULETTE.toString())) {
+            return BOLTZMANN_ROULETTE;
+        } else if(method.equals(TOURNAMENT_DETERMINISTIC.toString())) {
+            return TOURNAMENT_DETERMINISTIC;
         } else if(method.equals(TOURNAMENT_PROBABILISTIC.toString())) {
             return TOURNAMENT_PROBABILISTIC;
         } else if(method.equals(RANKING)) {
@@ -37,9 +37,9 @@ public enum SelectionMethod {
             return new Roulette(selectionCount);
         } else if(method.equals(UNIVERSAL)) {
             return new Universal(selectionCount);
-        } else if(method.equals(BOLTZMAN_ROULETTE)) {
+        } else if(method.equals(BOLTZMANN_ROULETTE)) {
             return new Boltzmann(selectionCount, m.getTemp(), m.getExponentialFactor());
-        } else if(method.equals(TOURNAMENT_DETERINISTIC)) {
+        } else if(method.equals(TOURNAMENT_DETERMINISTIC)) {
             return new TournamentDeterministic(selectionCount, m.getTournamentCantCompetitors());
         } else if(method.equals(TOURNAMENT_PROBABILISTIC)) {
             return new TournamentProbabilistic(selectionCount, m.getTournamentProb());
