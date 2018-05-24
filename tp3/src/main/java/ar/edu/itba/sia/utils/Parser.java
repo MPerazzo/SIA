@@ -153,10 +153,13 @@ public class Parser {
                     break;
                 case GLOVES_FILE:
                     glovesFile = args[1];
+                    break;
                 case HELMET_FILE:
                     helmetFile = args[1];
+                    break;
                 case WEAPON_FILE:
                     weaponFile = args[1];
+                    break;
             }
         }
         populationGenerator = new PopulationGenerator(populationCant, characterType, armorFile, bootsFile, glovesFile,
