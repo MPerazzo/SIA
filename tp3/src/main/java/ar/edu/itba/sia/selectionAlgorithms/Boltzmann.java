@@ -37,7 +37,7 @@ public class Boltzmann implements SelectionAlgorithm {
             totalExpVal += Math.exp(c.getFitness() / t);
 
         double prevCharacterAccum = 0;
-        for (int i = 0, j=0 ; i < selectionCant && j < accumToMatch.length ;) {
+        for (int i = 0, j=0 ; j < accumToMatch.length ;) {
             Character currentCharacter = characters.get(i);
             double currentCharacterAccum = prevCharacterAccum +
                     (Math.exp(currentCharacter.getFitness() / t) / totalExpVal);

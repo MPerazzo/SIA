@@ -14,7 +14,7 @@ public class Crossing {
     public static List<Character> randomCross(LinkedList<Character> selected, CrossAlgorithm crossAlgorithm,
                                               double crossProbability) {
 
-        List<Character> newGen = new LinkedList<>();
+        List<Character> children = new LinkedList<>();
 
         Collections.shuffle(selected);
 
@@ -28,17 +28,17 @@ public class Crossing {
             double random = Math.random();
 
             if (random < crossProbability)
-                crossAlgorithm.cross(newGen, c1, c2);
+                crossAlgorithm.cross(children, c1, c2);
             else {
-                newGen.add(c1);
-                newGen.add(c2);
+                children.add(c1);
+                children.add(c2);
             }
 
             i += 2;
         }
         if (!selected.isEmpty()) {
-            newGen.add(selected.pop());
+            children.add(selected.pop());
         }
-        return newGen;
+        return children;
     }
 }
