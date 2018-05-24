@@ -50,7 +50,7 @@ public class GeneticAlgorithm {
 
         double crossingProb = m.getCrossingProb();
 
-        int generationCount = 0;
+        int generationCount = 1;
         double prevAverageFitness;
         double prevMaxFitness;
 
@@ -64,7 +64,7 @@ public class GeneticAlgorithm {
 
             currentGeneration = children;
 
-            calculateMetrics(currentGeneration);
+            calculateMetrics(currentGeneration, generationCount);
 
             generationCount++;
 
@@ -117,7 +117,7 @@ public class GeneticAlgorithm {
 
         LinkedList<Character> selectedParents = new LinkedList<>();
 
-        int generationCount = 0;
+        int generationCount = 1;
         double prevAverageFitness;
         double prevMaxFitness;
 
@@ -140,7 +140,7 @@ public class GeneticAlgorithm {
 
             currentGeneration = newGen;
 
-            calculateMetrics(currentGeneration);
+            calculateMetrics(currentGeneration, generationCount);
 
             generationCount++;
 
@@ -148,10 +148,11 @@ public class GeneticAlgorithm {
 
     }
 
-    private void calculateMetrics(List<Character> currentGeneration) {
+    private void calculateMetrics(List<Character> currentGeneration, int generationCount) {
         averageFitness = currentGeneration.stream().collect(Collectors.averagingDouble(c -> c.getFitness()));
         maxFitness = currentGeneration.stream().map(c -> c.getFitness()).reduce(Double::max).get();
 
+        System.out.println("Generation: " + generationCount);
         System.out.println("Max Fitness: " + maxFitness);
         System.out.println("Average Fitness: " + averageFitness);
     }
