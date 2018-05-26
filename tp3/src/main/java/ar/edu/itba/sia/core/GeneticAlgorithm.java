@@ -30,6 +30,9 @@ public class GeneticAlgorithm {
     private double bestMaxFitness;
     private double bestAvgFitness;
 
+    private int bestMaxFitnessGenNumber;
+    private int bestAvgFitnessGenNumber;
+
     public GeneticAlgorithm(Parser p){
         this.m = new ConfigurationManager(p);
         this.generationsMax = p.getGenerationsMax();
@@ -54,7 +57,10 @@ public class GeneticAlgorithm {
         bestAvgFitness = averageFitness;
         bestMaxFitness = maxFitness;
 
-        showMetrics(1);
+        bestAvgFitnessGenNumber =1;
+        bestMaxFitnessGenNumber = 1;
+
+        showIterativeMetrics(1);
     }
 
     public void geneticAlgorithm() {
@@ -64,11 +70,7 @@ public class GeneticAlgorithm {
         else
             geneticAlgorithmOthers();
 
-        System.out.println("\n");
-        System.out.println("Best generation average is: " + bestAvgFitness);
-        System.out.println("Best individual performance is: " + bestMaxFitness);
-        System.out.print("\n");
-        System.out.println("Best individual is: \n" + bestIndividual);
+        showFinalMetrics();
     }
 
     private void geneticAlgorithmFirst() {
@@ -90,9 +92,9 @@ public class GeneticAlgorithm {
 
             currentGeneration = children;
 
-            calculateMetrics(currentGeneration);
+            calculateMetrics(currentGeneration, generationCount);
 
-            showMetrics(generationCount);
+            showIterativeMetrics(generationCount);
 
         } while(checkGenerationA(generationCount++));
     }
@@ -166,15 +168,15 @@ public class GeneticAlgorithm {
 
             currentGeneration = newGen;
 
-            calculateMetrics(currentGeneration);
+            calculateMetrics(currentGeneration, generationCount);
 
-            showMetrics(generationCount);
+            showIterativeMetrics(generationCount);
 
         } while (checkGenerationB(prevAverageFitness, prevMaxFitness, generationCount++));
 
     }
 
-    private void calculateMetrics(List<Character> currentGeneration) {
+    private void calculateMetrics(List<Character> currentGeneration, int generationCount) {
         averageFitness = currentGeneration.stream().collect(Collectors.averagingDouble(c -> c.getFitness()));
 
         Character currentGenBestIndividual = currentGeneration.stream().max((c1, c2) -> {
@@ -191,11 +193,13 @@ public class GeneticAlgorithm {
         if (maxFitness > bestMaxFitness) {
             bestIndividual = currentGenBestIndividual;
             bestMaxFitness = maxFitness;
+            bestMaxFitnessGenNumber = generationCount;
         }
 
         if (averageFitness > bestAvgFitness) {
             bestGen = currentGeneration;
             bestAvgFitness = averageFitness;
+            bestAvgFitnessGenNumber = generationCount;
         }
     }
 
@@ -203,13 +207,13 @@ public class GeneticAlgorithm {
 
         if (Math.abs(maxFitness - fitnessOpt) < epsilon) {
             System.out.print("\n");
-            System.out.print("Optimum reached");
+            System.out.print("[Optimum reached]");
             return false;
         }
 
         if (currentGenerationCount == generationsMax) {
             System.out.print("\n");
-            System.out.print("Max iterations reached");
+            System.out.print("[Max iterations reached]");
             return false;
         }
         return true;
@@ -219,33 +223,41 @@ public class GeneticAlgorithm {
 
         if (averageFitness < prevAverageFitness) {
             System.out.print("\n");
-            System.out.print("Structure failure");
+            System.out.print("[Structure drop detected (Average Fitness)]");
             return false;
         }
 
         if (maxFitness < prevMaxFitness) {
             System.out.print("\n");
-            System.out.print("Content failure");
+            System.out.print("[Content drop detected (Max fitness)]");
             return false;
         }
 
         if (Math.abs(maxFitness - fitnessOpt) < epsilon) {
             System.out.print("\n");
-            System.out.print("Optimum reached");
+            System.out.print("[Optimum reached]");
             return false;
         }
 
         if (currentGenerationCount == generationsMax) {
             System.out.print("\n");
-            System.out.print("Max iterations reached");
+            System.out.print("[Max iterations reached]");
             return false;
         }
         return true;
     }
 
-    private void showMetrics(int generationCount) {
+    private void showIterativeMetrics(int generationCount) {
         System.out.println("Generation: " + generationCount);
         System.out.println("Max Fitness: " + maxFitness);
         System.out.println("Average Fitness: " + averageFitness);
+    }
+
+    private void showFinalMetrics() {
+        System.out.println("\n");
+        System.out.println("Best generation average is: " + bestAvgFitness + " which was found in generation number " + bestAvgFitnessGenNumber);
+        System.out.println("Best individual performance is: " + bestMaxFitness + " which was found in generation number " + bestMaxFitnessGenNumber);
+        System.out.print("\n");
+        System.out.println("Best individual is: \n" + bestIndividual);
     }
 }

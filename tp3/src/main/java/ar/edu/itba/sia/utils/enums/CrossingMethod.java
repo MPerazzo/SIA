@@ -1,6 +1,6 @@
 package ar.edu.itba.sia.utils.enums;
 
-import ar.edu.itba.sia.crossAlgorithms.AnularCross;
+import ar.edu.itba.sia.crossAlgorithms.AnnularCross;
 import ar.edu.itba.sia.crossAlgorithms.SinglePointCross;
 import ar.edu.itba.sia.crossAlgorithms.TwoPointCross;
 import ar.edu.itba.sia.crossAlgorithms.UniformCross;
@@ -32,6 +32,6 @@ public enum CrossingMethod {
         } else if (method.equals(UNIFORM)) {
             return new UniformCross();
         } else
-            return new AnularCross();
+            return new AnnularCross();
     }
 }
