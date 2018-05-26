@@ -67,9 +67,9 @@ public class GeneticAlgorithm {
         maxFitness = bestIndividual.getFitness();
 
         Character worstIndividual = bestGen.stream().min((c1,c2)-> {
-            if(c1.getFitness() < c2.getFitness())
+            if(c1.getFitness() > c2.getFitness())
                 return 1;
-            else if(c1.getFitness() > c2.getFitness())
+            else if(c1.getFitness() < c2.getFitness())
                 return -1;
             else
                 return 0;
@@ -240,10 +240,10 @@ public class GeneticAlgorithm {
 
         this.graphics.getBestFitnessSeries().add(generationCount,maxFitness);
 
-        Character currentGenWorsIndividual = currentGeneration.stream().max((c1, c2) -> {
-            if (c1.getFitness() < c2.getFitness())
+        Character currentGenWorsIndividual = currentGeneration.stream().min((c1, c2) -> {
+            if (c1.getFitness() > c2.getFitness())
                 return 1;
-            else if (c1.getFitness() > c2.getFitness())
+            else if (c1.getFitness() < c2.getFitness())
                 return -1;
             else
                 return 0;

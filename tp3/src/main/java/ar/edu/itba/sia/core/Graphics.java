@@ -15,9 +15,11 @@ import java.awt.*;
 public class Graphics extends JPanel {
 
     public static final String FITNESS_AVERAGE_TITLE = "Fitness Promedio",
-                    BEST_FITNESS_TITLE = "Maximo Fitness", WORST_FITNESS_TITLE = "Peor Fitness",
+                    BEST_FITNESS_TITLE = "Mejor Fitness", WORST_FITNESS_TITLE = "Peor Fitness",
                     GRAPHICS_TITLE = "Gráfico de Fitness",X_TITLE = "Generación",
                     Y_TITLE = "Fitness";
+
+    private static final int WIDTH = 1300, HEIGHT = 700;
     private XYSeries fitnessAverageSeries;
     private XYSeries bestFitnessSeries;
     private XYSeries worstFitnessSeries;
@@ -51,7 +53,11 @@ public class Graphics extends JPanel {
         plot.addRangeMarker(new Marker() {
         });
 
-        this.chartPanel = new ChartPanel(chart);
+        this.chartPanel = new ChartPanel(chart) {
+            public Dimension getPreferredSize() {
+                return new Dimension(Graphics.WIDTH, Graphics.HEIGHT);
+            }
+        };
 
         add(chartPanel);
     }
