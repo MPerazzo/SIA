@@ -7,15 +7,15 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 
 public class ArmorParser extends EquipmentParser {
 
     public static List<Armor> parse(final String fileName) throws IOException {
 
-        List<Armor> armors = new LinkedList<>();
+        List<Armor> armors = new ArrayList<>();
 
         FileInputStream fileReader = new FileInputStream(fileName);
         HSSFWorkbook workbook = new HSSFWorkbook(fileReader);
