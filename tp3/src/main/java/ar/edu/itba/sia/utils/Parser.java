@@ -21,7 +21,8 @@ public class Parser {
             TOURNAMENT_CANT_COMPETITORS = "TOURNAMENT_CANT_COMPETITORS", TOURNAMENT_PROB = "TOURNAMENT_PROB",
             EXPONENTIAL_FACTOR = "EXPONENTIAL_FACTOR", CHARACTER_TYPE = "CHARACTER_TYPE";
 
-    private static final String GENERATIONS = "GENERATIONS", FITNESS_OPT = "FITNESS_OPT", EPSILON = "EPSILON";
+    private static final String GENERATIONS = "GENERATIONS", FITNESS_OPT = "FITNESS_OPT", EPSILON = "EPSILON",
+            CONTENT_FLAG = "CONTENT_FLAG", STRUCTURE_FLAG = "STRUCTURE_FLAG", OPT_FLAG = "OPT_FLAG";
 
     private static final String ARMOR_FILE = "ARMOR_FILE", BOOTS_FILE = "BOOTS_FILE", GLOVES_FILE = "GLOVES_FILE",
             HELMET_FILE = "HELMET_FILE", WEAPON_FILE = "WEAPON_FILE";
@@ -52,6 +53,10 @@ public class Parser {
     private int generationsMax;
     private double fitnessOpt;
     private double epsilon;
+    private int contentFlag;
+    private int structureFlag;
+    private int optFlag;
+
 
     public Parser(final String filename) {
         try {
@@ -135,6 +140,15 @@ public class Parser {
                     break;
                 case CHARACTER_TYPE:
                     this.characterType = CharacterType.getCharacterType(args[1]);
+                    break;
+                case CONTENT_FLAG:
+                    this.contentFlag = Integer.parseInt(args[1]);
+                    break;
+                case STRUCTURE_FLAG:
+                    this.structureFlag = Integer.parseInt(args[1]);
+                    break;
+                case OPT_FLAG:
+                    this.optFlag = Integer.parseInt(args[1]);
                     break;
                 case GENERATIONS:
                     this.generationsMax = Integer.parseInt(args[1]);
@@ -237,6 +251,12 @@ public class Parser {
     public double getFitnessOpt() { return fitnessOpt; }
 
     public double getEpsilon() { return epsilon; }
+
+    public int getContentFlag() { return contentFlag; }
+
+    public int getStructureFlag() { return structureFlag; }
+
+    public int getOptFlag() { return optFlag; }
 
     public List<Character> getInitialGeneration() { return populationGenerator.getInitialGeneration(); }
 

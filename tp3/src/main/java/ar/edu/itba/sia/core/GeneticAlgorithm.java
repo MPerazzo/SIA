@@ -33,11 +33,19 @@ public class GeneticAlgorithm {
     private int bestMaxFitnessGenNumber;
     private int bestAvgFitnessGenNumber;
 
+    private final int contentFlag;
+    private final int structureFlag;
+    private final int optFlag;
+
     public GeneticAlgorithm(Parser p){
         this.m = new ConfigurationManager(p);
         this.generationsMax = p.getGenerationsMax();
         this.fitnessOpt = p.getFitnessOpt();
         this.epsilon = p.getEpsilon();
+
+        this.contentFlag = p.getContentFlag();
+        this.structureFlag = p.getStructureFlag();
+        this.optFlag = p.getOptFlag();
 
         bestGen = p.getInitialGeneration();
 
@@ -84,8 +92,13 @@ public class GeneticAlgorithm {
         double crossingProb = m.getCrossingProb();
 
         int generationCount = 2;
+        double prevAverageFitness;
+        double prevMaxFitness;
 
         do {
+            prevAverageFitness = averageFitness;
+            prevMaxFitness = maxFitness;
+
             LinkedList<Character> children = (LinkedList) Crossing.randomCross(currentGeneration, crossAlgorithm, crossingProb);
 
             Mutation.mutate(children, mutationAlgorithm, m.getMutationProb());
@@ -96,7 +109,7 @@ public class GeneticAlgorithm {
 
             showIterativeMetrics(generationCount);
 
-        } while(checkGenerationA(generationCount++));
+        } while(checkGeneration(prevAverageFitness, prevMaxFitness, generationCount++));
     }
 
     private void geneticAlgorithmOthers() {
@@ -172,7 +185,7 @@ public class GeneticAlgorithm {
 
             showIterativeMetrics(generationCount);
 
-        } while (checkGenerationB(prevAverageFitness, prevMaxFitness, generationCount++));
+        } while (checkGeneration(prevAverageFitness, prevMaxFitness, generationCount++));
 
     }
 
@@ -203,37 +216,21 @@ public class GeneticAlgorithm {
         }
     }
 
-    private boolean checkGenerationA(int currentGenerationCount) {
+    private boolean checkGeneration(double prevAverageFitness, double prevMaxFitness, int currentGenerationCount) {
 
-        if (Math.abs(maxFitness - fitnessOpt) < epsilon) {
-            System.out.print("\n");
-            System.out.print("[Optimum reached]");
-            return false;
-        }
-
-        if (currentGenerationCount == generationsMax) {
-            System.out.print("\n");
-            System.out.print("[Max iterations reached]");
-            return false;
-        }
-        return true;
-    }
-
-    private boolean checkGenerationB(double prevAverageFitness, double prevMaxFitness, int currentGenerationCount) {
-
-        if (averageFitness + epsilon < prevAverageFitness) {
+        if (averageFitness + epsilon < prevAverageFitness && structureFlag == 1) {
             System.out.print("\n");
             System.out.print("[Structure drop detected (Average Fitness)]");
             return false;
         }
 
-        if (maxFitness + epsilon < prevMaxFitness) {
+        if (maxFitness + epsilon < prevMaxFitness && contentFlag == 1) {
             System.out.print("\n");
             System.out.print("[Content drop detected (Max fitness)]");
             return false;
         }
 
-        if (Math.abs(maxFitness - fitnessOpt) < epsilon) {
+        if (Math.abs(maxFitness - fitnessOpt) < epsilon && optFlag == 1) {
             System.out.print("\n");
             System.out.print("[Optimum reached]");
             return false;
