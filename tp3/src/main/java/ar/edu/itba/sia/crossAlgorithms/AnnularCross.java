@@ -15,7 +15,7 @@ public class AnnularCross implements CrossAlgorithm {
 		int equipmentQuantity = character1.getEquipmentQuantity();
 
 		int crossPoint = ThreadLocalRandom.current().nextInt(0, equipmentQuantity);
-		int segment = ThreadLocalRandom.current().nextInt(0, (equipmentQuantity/2)+1);
+		int segment = ThreadLocalRandom.current().nextInt(1, (equipmentQuantity/2)+1);
 
 		List<Equipment> equipmentFather1 = character1.getEquipment();
 		List<Equipment> equipmentFather2 = character2.getEquipment();
@@ -29,23 +29,23 @@ public class AnnularCross implements CrossAlgorithm {
 		}
 
 		int i = crossPoint;
-		for ( ; i < equipmentQuantity - 1 && i - crossPoint < segment; i++) {
+		for ( ; i < equipmentQuantity && i - crossPoint <= segment; i++) {
 			equipmentSon1.add(equipmentFather2.get(i));
 			equipmentSon2.add(equipmentFather1.get(i));
 		}
 
-		int segmentUses = i - crossPoint;
+		int segmentUses = i - crossPoint - 1;
 
 		if (segmentUses == segment) {
-				for (int j = i; j < equipmentQuantity - 1; j++) {
-				equipmentSon1.add(equipmentFather1.get(i));
-				equipmentSon2.add(equipmentFather2.get(i));
+				for (int j = i; j < equipmentQuantity ; j++) {
+				equipmentSon1.add(equipmentFather1.get(j));
+				equipmentSon2.add(equipmentFather2.get(j));
 			}
 		}
 		else {
 			for (int j = 0 ; j < segment - segmentUses ; j++) {
-				equipmentSon1.add(equipmentFather2.get(i));
-				equipmentSon2.add(equipmentFather1.get(i));
+				equipmentSon1.set(j, equipmentFather2.get(j));
+				equipmentSon2.set(j, equipmentFather1.get(j));
 			}
 		}
 
