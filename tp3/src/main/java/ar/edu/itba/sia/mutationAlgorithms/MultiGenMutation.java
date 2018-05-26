@@ -27,22 +27,27 @@ public class MultiGenMutation implements MutationAlgorithm {
 
 	private void mutateIndex(int muteIndex, Character character) {
 
-		int random = ThreadLocalRandom.current().nextInt(0, m.getArmors().size());
+		int random;
 
 		switch (muteIndex) {
 			case Character.ARMOR_SLOT:
+				random = ThreadLocalRandom.current().nextInt(0, m.getArmors().size());
 				character.setArmor(m.getArmors().get(random));
 				break;
 			case Character.BOOTS_SLOT:
+				random = ThreadLocalRandom.current().nextInt(0, m.getBoots().size());
 				character.setBoots(m.getBoots().get(random));
 				break;
 			case Character.GLOVES_SLOT:
+				random = ThreadLocalRandom.current().nextInt(0, m.getGloves().size());
 				character.setGloves(m.getGloves().get(random));
 				break;
 			case Character.HELMET_SLOT:
+				random = ThreadLocalRandom.current().nextInt(0, m.getHelmets().size());
 				character.setHelmet(m.getHelmets().get(random));
 				break;
 			case Character.WEAPON_SLOT:
+				random = ThreadLocalRandom.current().nextInt(0, m.getWeapons().size());
 				character.setWeapon(m.getWeapons().get(random));
 				break;
 			case Character.HEIGHT_SLOT:
