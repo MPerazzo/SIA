@@ -11,6 +11,8 @@ import ar.edu.itba.sia.utils.enums.MutationMethod;
 import ar.edu.itba.sia.utils.enums.ReplacementMethod;
 import ar.edu.itba.sia.utils.enums.SelectionMethod;
 
+import javax.swing.*;
+import java.awt.*;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,6 +26,7 @@ public class GeneticAlgorithm {
     private final double epsilon;
     private double averageFitness;
     private double maxFitness;
+    private double minFitness;
 
     private List<Character> bestGen;
     private Character bestIndividual;
@@ -32,6 +35,8 @@ public class GeneticAlgorithm {
 
     private int bestMaxFitnessGenNumber;
     private int bestAvgFitnessGenNumber;
+
+    private Graphics graphics;
 
     public GeneticAlgorithm(Parser p){
         this.m = new ConfigurationManager(p);
@@ -54,16 +59,45 @@ public class GeneticAlgorithm {
 
         maxFitness = bestIndividual.getFitness();
 
+        Character worstIndividual = bestGen.stream().min((c1,c2)-> {
+            if(c1.getFitness() < c2.getFitness())
+                return 1;
+            else if(c1.getFitness() > c2.getFitness())
+                return -1;
+            else
+                return 0;
+        }).get();
+        minFitness = worstIndividual.getFitness();
+
         bestAvgFitness = averageFitness;
         bestMaxFitness = maxFitness;
 
         bestAvgFitnessGenNumber =1;
         bestMaxFitnessGenNumber = 1;
 
+        initGraphics();
+
+
+        graphics.getFitnessAverageSeries().add(0,averageFitness);
+        graphics.getBestFitnessSeries().add(0,maxFitness);
+        graphics.getWorstFitnessSeries().add(0,minFitness);
+
         showIterativeMetrics(1);
     }
 
+    private void initGraphics() {
+        JFrame frame = new JFrame(Graphics.GRAPHICS_TITLE);
+
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        this.graphics = new Graphics();
+        frame.getContentPane().add(this.graphics, BorderLayout.CENTER);
+        frame.pack();
+        frame.setVisible(true);
+    }
+
     public void geneticAlgorithm() {
+
         if (m.getReplacementMethod().equals(ReplacementMethod.FIRST)) {
             geneticAlgorithmFirst();
         }
@@ -179,6 +213,8 @@ public class GeneticAlgorithm {
     private void calculateMetrics(List<Character> currentGeneration, int generationCount) {
         averageFitness = currentGeneration.stream().collect(Collectors.averagingDouble(c -> c.getFitness()));
 
+        this.graphics.getFitnessAverageSeries().add(generationCount,averageFitness);
+
         Character currentGenBestIndividual = currentGeneration.stream().max((c1, c2) -> {
             if (c1.getFitness() > c2.getFitness())
                 return 1;
@@ -189,6 +225,20 @@ public class GeneticAlgorithm {
         }).get();
 
         maxFitness = currentGenBestIndividual.getFitness();
+
+        this.graphics.getBestFitnessSeries().add(generationCount,maxFitness);
+
+        Character currentGenWorsIndividual = currentGeneration.stream().max((c1, c2) -> {
+            if (c1.getFitness() < c2.getFitness())
+                return 1;
+            else if (c1.getFitness() > c2.getFitness())
+                return -1;
+            else
+                return 0;
+        }).get();
+
+        minFitness = currentGenWorsIndividual.getFitness();
+        this.graphics.getWorstFitnessSeries().add(generationCount, minFitness);
 
         if (maxFitness > bestMaxFitness) {
             bestIndividual = currentGenBestIndividual;
