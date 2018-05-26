@@ -221,13 +221,13 @@ public class GeneticAlgorithm {
 
     private boolean checkGenerationB(double prevAverageFitness, double prevMaxFitness, int currentGenerationCount) {
 
-        if (averageFitness < prevAverageFitness) {
+        if (averageFitness + epsilon < prevAverageFitness) {
             System.out.print("\n");
             System.out.print("[Structure drop detected (Average Fitness)]");
             return false;
         }
 
-        if (maxFitness < prevMaxFitness) {
+        if (maxFitness + epsilon < prevMaxFitness) {
             System.out.print("\n");
             System.out.print("[Content drop detected (Max fitness)]");
             return false;

@@ -22,8 +22,8 @@ public class TournamentDeterministic implements SelectionAlgorithm {
 
         List<Character> optimalCharacters = new LinkedList<>();
 
-        int k = selectionCant;
-        while (k-- != 0) {
+        int k = 0;
+        while (k < selectionCant) {
 
             List<Character> selected = new LinkedList<>();
             for (int i = 0; i < competitors; i++) {
@@ -40,6 +40,7 @@ public class TournamentDeterministic implements SelectionAlgorithm {
                     return 0;
             });
             optimalCharacters.add(selected.get(selected.size() - 1));
+            k++;
         }
         return optimalCharacters;
     }

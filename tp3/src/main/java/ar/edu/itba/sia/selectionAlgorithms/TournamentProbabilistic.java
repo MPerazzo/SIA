@@ -21,8 +21,8 @@ public class TournamentProbabilistic implements SelectionAlgorithm {
 
         List<Character> selected = new LinkedList<>();
 
-        int k = selectionCant;
-        while (k-- != 0) {
+        int k = 0;
+        while (k < selectionCant) {
             int random1 = ThreadLocalRandom.current().nextInt(0, characters.size());
             int random2 = ThreadLocalRandom.current().nextInt(0, characters.size());
 
@@ -44,6 +44,8 @@ public class TournamentProbabilistic implements SelectionAlgorithm {
                 selected.add(characters.get(1));
             else
                 selected.add(characters.get(0));
+
+            k++;
         }
         return selected;
     }

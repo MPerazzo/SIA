@@ -5,6 +5,7 @@ import ar.edu.itba.sia.model.character.Character;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Boltzmann implements SelectionAlgorithm {
 
@@ -38,20 +39,27 @@ public class Boltzmann implements SelectionAlgorithm {
 
         double prevCharacterAccum = 0;
         for (int i = 0, j=0 ; j < accumToMatch.length ;) {
-            Character currentCharacter = characters.get(i);
-            double currentCharacterAccum = prevCharacterAccum +
-                    (Math.exp(currentCharacter.getFitness() / t) / totalExpVal);
-            double currentAccumToMatch = accumToMatch[j];
-
-            if (prevCharacterAccum < currentAccumToMatch && currentAccumToMatch < currentCharacterAccum) {
-                selected.add(currentCharacter);
+            if (i == characters.size()) {
+                selected.add(characters.get(ThreadLocalRandom.current().nextInt(0, characters.size())));
                 j++;
                 i = 0;
                 prevCharacterAccum = 0;
             }
             else {
-                prevCharacterAccum = currentCharacterAccum;
-                i++;
+                Character currentCharacter = characters.get(i);
+                double currentCharacterAccum = prevCharacterAccum +
+                        (Math.exp(currentCharacter.getFitness() / t) / totalExpVal);
+                double currentAccumToMatch = accumToMatch[j];
+
+                if (prevCharacterAccum < currentAccumToMatch && currentAccumToMatch < currentCharacterAccum) {
+                    selected.add(currentCharacter);
+                    j++;
+                    i = 0;
+                    prevCharacterAccum = 0;
+                } else {
+                    prevCharacterAccum = currentCharacterAccum;
+                    i++;
+                }
             }
         }
         long runningTimeEnd = System.currentTimeMillis();
