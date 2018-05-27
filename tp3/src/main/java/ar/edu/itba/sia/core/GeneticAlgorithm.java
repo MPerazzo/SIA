@@ -79,7 +79,7 @@ public class GeneticAlgorithm {
         bestAvgFitness = averageFitness;
         bestMaxFitness = maxFitness;
 
-        bestAvgFitnessGenNumber =1;
+        bestAvgFitnessGenNumber = 1;
         bestMaxFitnessGenNumber = 1;
 
         initGraphics();
@@ -225,7 +225,7 @@ public class GeneticAlgorithm {
     private void calculateMetrics(List<Character> currentGeneration, int generationCount) {
         averageFitness = currentGeneration.stream().collect(Collectors.averagingDouble(c -> c.getFitness()));
 
-        this.graphics.getFitnessAverageSeries().add(generationCount,averageFitness);
+        this.graphics.getFitnessAverageSeries().add(generationCount, averageFitness);
 
         Character currentGenBestIndividual = currentGeneration.stream().max((c1, c2) -> {
             if (c1.getFitness() > c2.getFitness())
@@ -238,9 +238,9 @@ public class GeneticAlgorithm {
 
         maxFitness = currentGenBestIndividual.getFitness();
 
-        this.graphics.getBestFitnessSeries().add(generationCount,maxFitness);
+        this.graphics.getBestFitnessSeries().add(generationCount, maxFitness);
 
-        Character currentGenWorsIndividual = currentGeneration.stream().min((c1, c2) -> {
+        Character currentGenWorstIndividual = currentGeneration.stream().min((c1, c2) -> {
             if (c1.getFitness() > c2.getFitness())
                 return 1;
             else if (c1.getFitness() < c2.getFitness())
@@ -249,7 +249,7 @@ public class GeneticAlgorithm {
                 return 0;
         }).get();
 
-        minFitness = currentGenWorsIndividual.getFitness();
+        minFitness = currentGenWorstIndividual.getFitness();
         this.graphics.getWorstFitnessSeries().add(generationCount, minFitness);
 
         if (maxFitness > bestMaxFitness) {
