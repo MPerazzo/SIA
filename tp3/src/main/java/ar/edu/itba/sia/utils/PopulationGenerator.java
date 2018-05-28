@@ -35,6 +35,8 @@ public class PopulationGenerator {
                                List<Boots> boots, List<Gloves> gloves, List<Helmet> helmets, List<Weapon> weapons,
                                RandomSeeded r) {
 
+        this.initialGeneration = new LinkedList<>();
+
         this.armors = armors;
         this.boots = boots;
         this.gloves = gloves;

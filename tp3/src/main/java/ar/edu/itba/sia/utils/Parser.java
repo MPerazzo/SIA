@@ -73,8 +73,8 @@ public class Parser {
     }
 
     public Parser(String fileName, List<Armor> armors, List<Boots> boots, List<Gloves> gloves, List<Helmet> helmets,
-                  List<Weapon> weapons) {
-
+                  List<Weapon> weapons) throws IOException, AttributeNotFoundException {
+        parseRaid(fileName, armors, boots, gloves, helmets, weapons);
 
     }
 

@@ -109,7 +109,7 @@ public class GeneticAlgorithm {
         frame.setVisible(true);
     }
 
-    public void geneticAlgorithm() {
+    public Void geneticAlgorithm() {
 
         if (m.getReplacementMethod().equals(ReplacementMethod.FIRST)) {
             geneticAlgorithmFirst();
@@ -118,6 +118,8 @@ public class GeneticAlgorithm {
             geneticAlgorithmOthers();
 
         showFinalMetrics();
+
+        return null;
     }
 
     private void geneticAlgorithmFirst() {
