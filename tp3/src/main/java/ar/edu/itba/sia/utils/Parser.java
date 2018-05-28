@@ -1,5 +1,6 @@
 package ar.edu.itba.sia.utils;
 
+import ar.edu.itba.sia.core.RandomSeeded;
 import ar.edu.itba.sia.model.character.Character;
 import ar.edu.itba.sia.model.equipment.*;
 import ar.edu.itba.sia.utils.enums.*;
@@ -21,7 +22,7 @@ public class Parser {
             TOURNAMENT_CANT_COMPETITORS = "TOURNAMENT_CANT_COMPETITORS", TOURNAMENT_PROB = "TOURNAMENT_PROB",
             EXPONENTIAL_FACTOR = "EXPONENTIAL_FACTOR", CHARACTER_TYPE = "CHARACTER_TYPE";
 
-    private static final String GENERATIONS = "GENERATIONS", FITNESS_OPT = "FITNESS_OPT", EPSILON = "EPSILON",
+    private static final String RANDOM = "RANDOM", GENERATIONS = "GENERATIONS", FITNESS_OPT = "FITNESS_OPT", EPSILON = "EPSILON",
             CONTENT_FLAG = "CONTENT_FLAG", STRUCTURE_FLAG = "STRUCTURE_FLAG", OPT_FLAG = "OPT_FLAG";
 
     private static final String ARMOR_FILE = "ARMOR_FILE", BOOTS_FILE = "BOOTS_FILE", GLOVES_FILE = "GLOVES_FILE",
@@ -40,6 +41,7 @@ public class Parser {
     private SelectionMethod replacementSelectionMethodA;
     private SelectionMethod replacementSelectionMethodB;
     private CharacterType characterType;
+    private RandomSeeded randomSeeded;
     private double selectionPercent;
     private double replacementPercent;
     private double mutationProb;
@@ -141,6 +143,9 @@ public class Parser {
                 case CHARACTER_TYPE:
                     this.characterType = CharacterType.getCharacterType(args[1]);
                     break;
+                case RANDOM:
+                    this.randomSeeded = new RandomSeeded(Long.parseLong(args[1]));
+                    break;
                 case CONTENT_FLAG:
                     this.contentFlag = Integer.parseInt(args[1]);
                     break;
@@ -177,7 +182,7 @@ public class Parser {
             }
         }
         populationGenerator = new PopulationGenerator(populationCant, characterType, armorFile, bootsFile, glovesFile,
-                helmetFile, weaponFile);
+                helmetFile, weaponFile, randomSeeded);
     }
 
     public CrossingMethod getCrossingMethod() {
@@ -207,6 +212,8 @@ public class Parser {
     public SelectionMethod getReplacementSelectionMethodB() { return replacementSelectionMethodB; }
 
     public CharacterType getCharacterType() { return this.characterType; }
+
+    public RandomSeeded getRandomSeeded() { return randomSeeded; }
 
     public double getSelectionPercent() {
         return selectionPercent;

@@ -1,5 +1,6 @@
 package ar.edu.itba.sia.selectionAlgorithms;
 
+import ar.edu.itba.sia.core.RandomSeeded;
 import ar.edu.itba.sia.interfaces.SelectionAlgorithm;
 import ar.edu.itba.sia.model.character.Character;
 
@@ -13,7 +14,10 @@ public class TournamentDeterministic implements SelectionAlgorithm {
 
     private int competitors;
 
-    public TournamentDeterministic(int selectionCant, int competitors) {
+    private final RandomSeeded r;
+
+    public TournamentDeterministic(int selectionCant, int competitors, RandomSeeded r) {
+        this.r = r;
         this.selectionCant = selectionCant;
         this.competitors = competitors;
     }
@@ -27,7 +31,7 @@ public class TournamentDeterministic implements SelectionAlgorithm {
 
             List<Character> selected = new LinkedList<>();
             for (int i = 0; i < competitors; i++) {
-                int random = ThreadLocalRandom.current().nextInt(0, characters.size());
+                int random = r.nextInt(0, characters.size());
                 selected.add(characters.get(random));
             }
 

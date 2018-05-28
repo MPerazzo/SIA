@@ -1,5 +1,6 @@
 package ar.edu.itba.sia.selectionAlgorithms;
 
+import ar.edu.itba.sia.core.RandomSeeded;
 import ar.edu.itba.sia.interfaces.SelectionAlgorithm;
 import ar.edu.itba.sia.model.character.Character;
 
@@ -11,10 +12,12 @@ public class TournamentProbabilistic implements SelectionAlgorithm {
 
     private final int selectionCant;
     private final double p;
+    private final RandomSeeded r;
 
-    public TournamentProbabilistic(final int selectionCant, final double p) {
+    public TournamentProbabilistic(final int selectionCant, final double p, RandomSeeded r) {
         this.selectionCant = selectionCant;
         this.p = p;
+        this.r = r;
     }
 
     public List<Character> select (List<Character> characters) {
@@ -23,8 +26,8 @@ public class TournamentProbabilistic implements SelectionAlgorithm {
 
         int k = 0;
         while (k < selectionCant) {
-            int random1 = ThreadLocalRandom.current().nextInt(0, characters.size());
-            int random2 = ThreadLocalRandom.current().nextInt(0, characters.size());
+            int random1 = r.nextInt(0, characters.size());
+            int random2 = r.nextInt(0, characters.size());
 
             List<Character> duo = new LinkedList<>();
             duo.add(characters.get(random1));
@@ -38,7 +41,7 @@ public class TournamentProbabilistic implements SelectionAlgorithm {
                     return 0;
             });
 
-            double random = Math.random();
+            double random = r.nextDouble();
 
             if (random < p)
                 selected.add(characters.get(1));

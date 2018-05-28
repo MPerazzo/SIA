@@ -34,17 +34,17 @@ public enum SelectionMethod {
         if(method.equals(ELITE)) {
             return new Elite(selectionCount);
         } else if(method.equals(ROULETTE)) {
-            return new Roulette(selectionCount);
+            return new Roulette(selectionCount, m.getRandomSeeded());
         } else if(method.equals(UNIVERSAL)) {
-            return new Universal(selectionCount);
+            return new Universal(selectionCount, m.getRandomSeeded());
         } else if(method.equals(BOLTZMANN_ROULETTE)) {
-            return new Boltzmann(selectionCount, m.getTemp(), m.getExponentialFactor());
+            return new Boltzmann(selectionCount, m.getTemp(), m.getExponentialFactor(), m.getRandomSeeded());
         } else if(method.equals(TOURNAMENT_DETERMINISTIC)) {
-            return new TournamentDeterministic(selectionCount, m.getTournamentCantCompetitors());
+            return new TournamentDeterministic(selectionCount, m.getTournamentCantCompetitors(), m.getRandomSeeded());
         } else if(method.equals(TOURNAMENT_PROBABILISTIC)) {
-            return new TournamentProbabilistic(selectionCount, m.getTournamentProb());
+            return new TournamentProbabilistic(selectionCount, m.getTournamentProb(), m.getRandomSeeded());
         } else if(method.equals(RANKING)) {
-            return new Ranking(selectionCount);
+            return new Ranking(selectionCount, m.getRandomSeeded());
         }
         return null;
     }

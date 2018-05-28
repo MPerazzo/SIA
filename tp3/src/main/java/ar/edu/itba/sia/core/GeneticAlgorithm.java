@@ -118,7 +118,7 @@ public class GeneticAlgorithm {
 
         LinkedList<Character> currentGeneration = (LinkedList) m.getInitialGeneration();
 
-        CrossAlgorithm crossAlgorithm = CrossingMethod.getCrossingAlgorithm(m.getCrossMethod());
+        CrossAlgorithm crossAlgorithm = CrossingMethod.getCrossingAlgorithm(m.getCrossMethod(), m.getRandomSeeded());
 
         MutationAlgorithm mutationAlgorithm = MutationMethod.getMutationAlgorithm(m.getMutationMethod(), m);
 
@@ -128,13 +128,16 @@ public class GeneticAlgorithm {
         double prevAverageFitness;
         double prevMaxFitness;
 
+        RandomSeeded r = m.getRandomSeeded();
+
         do {
             prevAverageFitness = averageFitness;
             prevMaxFitness = maxFitness;
 
-            LinkedList<Character> children = (LinkedList) Crossing.randomCross(currentGeneration, crossAlgorithm, crossingProb);
+            LinkedList<Character> children = (LinkedList) Crossing.randomCross(currentGeneration, crossAlgorithm, crossingProb
+                    , r);
 
-            Mutation.mutate(children, mutationAlgorithm, m.getMutationProb());
+            Mutation.mutate(children, mutationAlgorithm, m.getMutationProb(), r);
 
             currentGeneration = children;
 
@@ -181,7 +184,7 @@ public class GeneticAlgorithm {
         SelectionAlgorithm selectionAlgorithmReplacementB = SelectionMethod.
                 getSelectionAlgorithm(m.getReplacementSelectionMethodB(), replacementCantB, m);
 
-        CrossAlgorithm crossAlgorithm = CrossingMethod.getCrossingAlgorithm(m.getCrossMethod());
+        CrossAlgorithm crossAlgorithm = CrossingMethod.getCrossingAlgorithm(m.getCrossMethod(), m.getRandomSeeded());
 
         double crossingProb = m.getCrossingProb();
 
@@ -195,6 +198,8 @@ public class GeneticAlgorithm {
         double prevAverageFitness;
         double prevMaxFitness;
 
+        RandomSeeded r = m.getRandomSeeded();
+
         do {
             prevAverageFitness = averageFitness;
             prevMaxFitness = maxFitness;
@@ -202,17 +207,15 @@ public class GeneticAlgorithm {
             selectedParents.addAll(selectionAlgorithmA.select(currentGeneration));
             selectedParents.addAll(selectionAlgorithmB.select(currentGeneration));
 
-            List<Character> children = Crossing.randomCross(selectedParents, crossAlgorithm, crossingProb);
+            List<Character> children = Crossing.randomCross(selectedParents, crossAlgorithm, crossingProb, r);
 
             selectedParents.clear();
 
-            Mutation.mutate(children, mutationAlgorithm, m.getMutationProb());
+            Mutation.mutate(children, mutationAlgorithm, m.getMutationProb(), r);
 
-            List<Character> newGen = replacementAlgorithm.newGeneration(children, currentGeneration,
+            currentGeneration = replacementAlgorithm.newGeneration(children, currentGeneration,
                     selectionAlgorithmReplacementA,
                     selectionAlgorithmReplacementB);
-
-            currentGeneration = newGen;
 
             calculateMetrics(currentGeneration, generationCount);
 

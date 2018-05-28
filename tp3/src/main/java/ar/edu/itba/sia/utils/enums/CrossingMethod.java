@@ -1,10 +1,12 @@
 package ar.edu.itba.sia.utils.enums;
 
+import ar.edu.itba.sia.core.RandomSeeded;
 import ar.edu.itba.sia.crossAlgorithms.AnnularCross;
 import ar.edu.itba.sia.crossAlgorithms.SinglePointCross;
 import ar.edu.itba.sia.crossAlgorithms.TwoPointCross;
 import ar.edu.itba.sia.crossAlgorithms.UniformCross;
 import ar.edu.itba.sia.interfaces.CrossAlgorithm;
+import ar.edu.itba.sia.utils.ConfigurationManager;
 
 import javax.management.AttributeNotFoundException;
 
@@ -23,15 +25,15 @@ public enum CrossingMethod {
         } else throw new AttributeNotFoundException("crossing method doesn\'t exist");
     }
 
-    public static CrossAlgorithm getCrossingAlgorithm(final CrossingMethod method) {
+    public static CrossAlgorithm getCrossingAlgorithm(final CrossingMethod method, RandomSeeded r) {
 
         if (method.equals(ONE_POINT)) {
-            return new SinglePointCross();
+            return new SinglePointCross(r);
         } else if (method.equals(TWO_POINT)) {
-            return new TwoPointCross();
+            return new TwoPointCross(r);
         } else if (method.equals(UNIFORM)) {
-            return new UniformCross();
+            return new UniformCross(r);
         } else
-            return new AnnularCross();
+            return new AnnularCross(r);
     }
 }

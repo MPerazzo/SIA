@@ -1,5 +1,6 @@
 package ar.edu.itba.sia.utils;
 
+import ar.edu.itba.sia.core.RandomSeeded;
 import ar.edu.itba.sia.model.character.Character;
 
 import ar.edu.itba.sia.model.equipment.*;
@@ -22,16 +23,18 @@ public class PopulationGenerator {
 
     public PopulationGenerator(final int population, final CharacterType type, final String armorFile,
                                final String bootsFile, final String glovesFile,
-                               final String helmetFile, final String weaponFile) throws IOException {
+                               final String helmetFile, final String weaponFile,
+                               RandomSeeded r) throws IOException {
 
         this.initialGeneration = new LinkedList<>();
 
-        generate(population, type, armorFile, bootsFile, glovesFile, helmetFile, weaponFile);
+        generate(population, type, armorFile, bootsFile, glovesFile, helmetFile, weaponFile, r);
     }
 
     private void generate(final int population, CharacterType type, final String armorFile,
                                            final String bootsFile, final String glovesFile,
-                                           final String helmetFile, final String weaponFile) throws IOException {
+                                           final String helmetFile, final String weaponFile,
+                                            final RandomSeeded r) throws IOException {
 
         this.armors = ArmorParser.parse(armorFile);
         this.boots = BootsParser.parse(bootsFile);
@@ -88,12 +91,12 @@ public class PopulationGenerator {
 
         int cant = 0;
         while (cant < population) {
-            int armorIndex = ThreadLocalRandom.current().nextInt(0, armorsSize);
-            int bootsIndex = ThreadLocalRandom.current().nextInt(0, bootsSize);
-            int glovesIndex = ThreadLocalRandom.current().nextInt(0, glovesSize);
-            int helmetIndex = ThreadLocalRandom.current().nextInt(0, helmetsSize);
-            int weaponIndex = ThreadLocalRandom.current().nextInt(0, weaponsSize);
-            double height = ThreadLocalRandom.current().nextDouble(ConfigurationManager.HEIGHT_START, ConfigurationManager.HEIGHT_END);
+            int armorIndex = r.nextInt(0, armorsSize);
+            int bootsIndex = r.nextInt(0, bootsSize);
+            int glovesIndex = r.nextInt(0, glovesSize);
+            int helmetIndex = r.nextInt(0, helmetsSize);
+            int weaponIndex = r.nextInt(0, weaponsSize);
+            double height = r.nextDouble(ConfigurationManager.HEIGHT_START, ConfigurationManager.HEIGHT_END);
 
             initialGeneration.add(instantiator.Instantiate(height, armors.get(armorIndex), boots.get(bootsIndex),
                     gloves.get(glovesIndex), helmets.get(helmetIndex), weapons.get(weaponIndex)));

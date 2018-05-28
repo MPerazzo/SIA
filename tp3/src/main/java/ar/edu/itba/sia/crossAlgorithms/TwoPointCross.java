@@ -2,20 +2,26 @@ package ar.edu.itba.sia.crossAlgorithms;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
+import ar.edu.itba.sia.core.RandomSeeded;
 import ar.edu.itba.sia.interfaces.CrossAlgorithm;
 import ar.edu.itba.sia.model.character.Character;
 import ar.edu.itba.sia.model.equipment.Equipment;
 
 public class TwoPointCross implements CrossAlgorithm {
 
+	public RandomSeeded r;
+
+	public TwoPointCross(RandomSeeded r) {
+		this.r = r;
+	}
+
 	@Override
 	public void cross(List<Character> newGen, Character character1, Character character2) {
 		int equipmentQuantity = character1.getEquipmentQuantity();
 
-		int crossPoint1=ThreadLocalRandom.current().nextInt(0, equipmentQuantity - 1);
-		int crossPoint2=ThreadLocalRandom.current().nextInt(crossPoint1 + 1, equipmentQuantity);
+		int crossPoint1 = r.nextInt(0, equipmentQuantity - 1);
+		int crossPoint2 = r.nextInt(crossPoint1 + 1, equipmentQuantity);
 
 		List<Equipment> equipmentFather1 = character1.getEquipment();
 		List<Equipment> equipmentFather2 = character2.getEquipment();

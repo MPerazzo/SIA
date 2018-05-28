@@ -3,6 +3,7 @@ package ar.edu.itba.sia.crossAlgorithms;
 import java.util.LinkedList;
 import java.util.List;
 
+import ar.edu.itba.sia.core.RandomSeeded;
 import ar.edu.itba.sia.interfaces.CrossAlgorithm;
 import ar.edu.itba.sia.model.character.Character;
 import ar.edu.itba.sia.model.equipment.Equipment;
@@ -10,6 +11,12 @@ import ar.edu.itba.sia.model.equipment.Equipment;
 public class UniformCross implements CrossAlgorithm {
 
 	private static final double p = 0.5;
+
+	public RandomSeeded r;
+
+	public UniformCross(RandomSeeded r) {
+		this.r = r;
+	}
 
 	@Override
 	public void cross(List<Character> newGen, Character character1, Character character2) {
@@ -24,7 +31,7 @@ public class UniformCross implements CrossAlgorithm {
 		List<Equipment> equipmentSon2 = new LinkedList<>();
 
 		for (int i=0 ; i < equipmentQuantity ; i++) {
-			probabilities[i] = Math.random();
+			probabilities[i] = r.nextDouble();
 		}
 
 		for (int i=0 ; i < equipmentQuantity ; i++) {

@@ -1,5 +1,6 @@
 package ar.edu.itba.sia.utils;
 
+import ar.edu.itba.sia.core.RandomSeeded;
 import ar.edu.itba.sia.interfaces.MutationProbCalculator;
 import ar.edu.itba.sia.model.MutationNoUniformProb;
 import ar.edu.itba.sia.model.MutationUniformProb;
@@ -89,6 +90,8 @@ public class ConfigurationManager {
     public double getMutationProb() {
         return mutationProbCalculator.getProb();
     }
+
+    public RandomSeeded getRandomSeeded() { return parser.getRandomSeeded(); }
 
     public List<Armor> getArmors() {
         return parser.getArmors();

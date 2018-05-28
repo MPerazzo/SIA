@@ -12,11 +12,11 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Crossing {
 
     public static List<Character> randomCross(LinkedList<Character> selected, CrossAlgorithm crossAlgorithm,
-                                              double crossProbability) {
+                                              double crossProbability, RandomSeeded r) {
 
         List<Character> children = new LinkedList<>();
 
-        Collections.shuffle(selected);
+        Collections.shuffle(selected, r.getRandom());
 
         int size = selected.size();
 
@@ -25,7 +25,7 @@ public class Crossing {
             Character c1 = selected.pop();
             Character c2 = selected.pop();
 
-            double random = Math.random();
+            double random = r.nextDouble();
 
             if (random < crossProbability)
                 crossAlgorithm.cross(children, c1, c2);

@@ -1,17 +1,21 @@
 package ar.edu.itba.sia.selectionAlgorithms;
 
+import ar.edu.itba.sia.core.RandomSeeded;
 import ar.edu.itba.sia.interfaces.SelectionAlgorithm;
 import ar.edu.itba.sia.model.character.Character;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Ranking implements SelectionAlgorithm {
 
     private int selectionCount;
+    private final RandomSeeded r;
 
-    public Ranking(int selectionCant) {
+    public Ranking(int selectionCant, RandomSeeded r) {
         selectionCount = selectionCant;
+        this.r = r;
     }
 
     public List<Character> select(List<Character> characters) {
@@ -20,7 +24,7 @@ public class Ranking implements SelectionAlgorithm {
         double accumToMatch[] = new double[selectionCount];
 
         for (int i = 0 ; i < selectionCount; i++) {
-            double random = Math.random();
+            double random = r.nextDouble();
             accumToMatch[i] = random;
         }
 

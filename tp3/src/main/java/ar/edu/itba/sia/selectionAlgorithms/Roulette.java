@@ -1,17 +1,21 @@
 package ar.edu.itba.sia.selectionAlgorithms;
 
+import ar.edu.itba.sia.core.RandomSeeded;
 import ar.edu.itba.sia.interfaces.SelectionAlgorithm;
 import ar.edu.itba.sia.model.character.Character;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Roulette implements SelectionAlgorithm {
 
     private int selectionCant;
+    private final RandomSeeded r;
 
-    public Roulette(int selectionCant) {
+    public Roulette(int selectionCant, RandomSeeded r) {
         this.selectionCant = selectionCant;
+        this.r = r;
     }
 
     public List<Character> select(List<Character> characters) {
@@ -20,7 +24,7 @@ public class Roulette implements SelectionAlgorithm {
         double accumToMatch[] = new double[selectionCant];
 
         for (int i = 0 ; i < selectionCant; i++) {
-            double random = Math.random();
+            double random = r.nextDouble();
             accumToMatch[i] = random;
         }
 
