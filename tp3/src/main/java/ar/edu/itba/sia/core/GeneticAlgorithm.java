@@ -210,7 +210,7 @@ public class GeneticAlgorithm {
             List<Character> children = Crossing.randomCross(selectedParents, crossAlgorithm, crossingProb, r);
 
             selectedParents.clear();
-
+            
             Mutation.mutate(children, mutationAlgorithm, m.getMutationProb(), r);
 
             currentGeneration = replacementAlgorithm.newGeneration(children, currentGeneration,
@@ -255,14 +255,19 @@ public class GeneticAlgorithm {
         minFitness = currentGenWorstIndividual.getFitness();
         this.graphics.getWorstFitnessSeries().add(generationCount, minFitness);
 
-        if (maxFitness > bestMaxFitness) {
-            bestIndividual = currentGenBestIndividual;
+        if (maxFitness > bestMaxFitness && generationCount >= 1039) {
+            bestIndividual = currentGenBestIndividual.newSon(currentGenBestIndividual.getHeight(),
+                    currentGenBestIndividual.getEquipment());
             bestMaxFitness = maxFitness;
             bestMaxFitnessGenNumber = generationCount;
         }
 
         if (averageFitness > bestAvgFitness) {
-            bestGen = currentGeneration;
+            bestGen.clear();
+
+            for (Character c : currentGeneration)
+                bestGen.add(c.newSon(c.getHeight(), c.getEquipment()));
+
             bestAvgFitness = averageFitness;
             bestAvgFitnessGenNumber = generationCount;
         }

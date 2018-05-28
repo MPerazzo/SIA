@@ -14,8 +14,12 @@ public class MutationNoUniformProb implements MutationProbCalculator {
 
     @Override
     public double getProb() {
-        if (probability < 1)
+        if (probability < 1) {
             probability += PROB_INCREASE;
+
+            if (probability > 1)
+                probability = 1;
+        }
 
         return probability;
     }
