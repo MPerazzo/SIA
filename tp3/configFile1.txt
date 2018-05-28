@@ -26,8 +26,3 @@ GEN_TOLERANCE 5
 CONTENT_FLAG 0
 STRUCTURE_FLAG 0
 OPT_FLAG 0
-ARMOR_FILE fulldata/pecheras.xls
-BOOTS_FILE fulldata/botas.xls
-GLOVES_FILE fulldata/guantes.xls
-HELMET_FILE fulldata/cascos.xls
-WEAPON_FILE fulldata/armas.xls
