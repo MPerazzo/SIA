@@ -37,7 +37,7 @@ public class Ranking implements SelectionAlgorithm {
                 return 0;
         });
 
-        int totalFitness = 0;
+        double totalFitness = 0;
         for (int i = 0 ; i < characters.size() ; i++)
             totalFitness += (i + 1);
 

@@ -23,7 +23,7 @@ public enum SelectionMethod {
             return TOURNAMENT_DETERMINISTIC;
         } else if(method.equals(TOURNAMENT_PROBABILISTIC.toString())) {
             return TOURNAMENT_PROBABILISTIC;
-        } else if(method.equals(RANKING)) {
+        } else if(method.equals(RANKING.toString())) {
             return RANKING;
         } else throw new AttributeNotFoundException("selection method doesn\'t exist");
     }
