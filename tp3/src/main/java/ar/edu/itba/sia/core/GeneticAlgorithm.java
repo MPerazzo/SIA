@@ -36,6 +36,9 @@ public class GeneticAlgorithm {
     private int bestMaxFitnessGenNumber;
     private int bestAvgFitnessGenNumber;
 
+    private final double generationCheck;
+    private final double generationTolerance;
+
     private Graphics graphics;
     private final int contentFlag;
     private final int structureFlag;
@@ -46,6 +49,9 @@ public class GeneticAlgorithm {
         this.generationsMax = p.getGenerationsMax();
         this.fitnessOpt = p.getFitnessOpt();
         this.epsilon = p.getEpsilon();
+
+        this.generationCheck = p.getGenerationCheck();
+        this.generationTolerance = p.getGenerationTolerance();
 
         this.contentFlag = p.getContentFlag();
         this.structureFlag = p.getStructureFlag();
@@ -210,7 +216,7 @@ public class GeneticAlgorithm {
             List<Character> children = Crossing.randomCross(selectedParents, crossAlgorithm, crossingProb, r);
 
             selectedParents.clear();
-            
+
             Mutation.mutate(children, mutationAlgorithm, m.getMutationProb(), r);
 
             currentGeneration = replacementAlgorithm.newGeneration(children, currentGeneration,
@@ -275,7 +281,7 @@ public class GeneticAlgorithm {
 
     private boolean checkGeneration(double prevAverageFitness, double prevMaxFitness, int currentGenerationCount) {
 
-        if (averageFitness + epsilon < prevAverageFitness && structureFlag == 1) {
+        if (averageFitness + epsilon < prevAverageFitness  && structureFlag == 1) {
             System.out.print("\n");
             System.out.print("[Structure drop detected (Average Fitness)]");
             return false;

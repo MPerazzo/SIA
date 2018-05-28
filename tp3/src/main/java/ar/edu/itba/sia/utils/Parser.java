@@ -22,8 +22,8 @@ public class Parser {
             TOURNAMENT_CANT_COMPETITORS = "TOURNAMENT_CANT_COMPETITORS", TOURNAMENT_PROB = "TOURNAMENT_PROB",
             EXPONENTIAL_FACTOR = "EXPONENTIAL_FACTOR", CHARACTER_TYPE = "CHARACTER_TYPE";
 
-    private static final String RANDOM = "RANDOM", GENERATIONS = "GENERATIONS", FITNESS_OPT = "FITNESS_OPT", EPSILON = "EPSILON",
-            CONTENT_FLAG = "CONTENT_FLAG", STRUCTURE_FLAG = "STRUCTURE_FLAG", OPT_FLAG = "OPT_FLAG";
+    private static final String RANDOM = "RANDOM", GENERATIONS = "GENERATIONS", FITNESS_OPT = "FITNESS_OPT", EPSILON = "EPSILON", GENERATION_CHECK = "GENERATION_CHECK",
+            GENERATION_TOLERANCE = "GENERATION_TOLERANCE", CONTENT_FLAG = "CONTENT_FLAG", STRUCTURE_FLAG = "STRUCTURE_FLAG", OPT_FLAG = "OPT_FLAG";
 
     private static final String ARMOR_FILE = "ARMOR_FILE", BOOTS_FILE = "BOOTS_FILE", GLOVES_FILE = "GLOVES_FILE",
             HELMET_FILE = "HELMET_FILE", WEAPON_FILE = "WEAPON_FILE";
@@ -55,6 +55,8 @@ public class Parser {
     private int generationsMax;
     private double fitnessOpt;
     private double epsilon;
+    private int generationCheck;
+    private int generationTolerance;
     private int contentFlag;
     private int structureFlag;
     private int optFlag;
@@ -68,6 +70,12 @@ public class Parser {
         } catch (AttributeNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    public Parser(String fileName, List<Armor> armors, List<Boots> boots, List<Gloves> gloves, List<Helmet> helmets,
+                  List<Weapon> weapons) {
+
+
     }
 
     private void parse(final String filename) throws IOException, AttributeNotFoundException {
@@ -143,6 +151,12 @@ public class Parser {
                 case CHARACTER_TYPE:
                     this.characterType = CharacterType.getCharacterType(args[1]);
                     break;
+                case GENERATION_CHECK:
+                    this.generationCheck = Integer.parseInt(args[1]);
+                    break;
+                case GENERATION_TOLERANCE:
+                    this.generationTolerance = Integer.parseInt(args[1]);
+                    break;
                 case RANDOM:
                     this.randomSeeded = new RandomSeeded(Long.parseLong(args[1]));
                     break;
@@ -184,6 +198,108 @@ public class Parser {
         populationGenerator = new PopulationGenerator(populationCant, characterType, armorFile, bootsFile, glovesFile,
                 helmetFile, weaponFile, randomSeeded);
     }
+
+    private void parseRaid(final String filename, List<Armor> armors, List<Boots> boots, List<Gloves> gloves, List<Helmet> helmets,
+                           List<Weapon> weapons) throws IOException, AttributeNotFoundException {
+        FileReader fileReader = new FileReader(filename);
+        BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+        String line;
+
+        while((line = bufferedReader.readLine()) != null) {
+            String args[] = line.split(VALUE_SEPARATOR);
+
+            switch (args[0]) {
+                case SELECTION_METHOD_A:
+                    this.selectionMethodA = SelectionMethod.getSelectionMethod(args[1]);
+                    break;
+                case SELECTION_METHOD_B:
+                    this.selectionMethodB = SelectionMethod.getSelectionMethod(args[1]);
+                    break;
+                case CROSSING_METHOD:
+                    this.crossingMethod = CrossingMethod.getCrossingMethod(args[1]);
+                    break;
+                case MUTATION_METHOD:
+                    this.mutationMethod = MutationMethod.getMutationMethod(args[1]);
+                    break;
+                case MUTATION_TYPE:
+                    this.mutationType = MutationType.getMutationType(args[1]);
+                    break;
+                case REPLACEMENT_METHOD:
+                    this.replacementMethod = ReplacementMethod.getReplacementMethod(args[1]);
+                    break;
+                case REPLACEMENT_SELECTION_METHOD_A:
+                    this.replacementSelectionMethodA = SelectionMethod.getSelectionMethod(args[1]);
+                    break;
+                case REPLACEMENT_SELECTION_METHOD_B:
+                    this.replacementSelectionMethodB = SelectionMethod.getSelectionMethod(args[1]);
+                    break;
+                case SELECTION_PERCENT:
+                    this.selectionPercent = Double.parseDouble(args[1]);
+                    break;
+                case REPLACEMENT_PERCENT:
+                    this.replacementPercent = Double.parseDouble(args[1]);
+                    break;
+                case MUTATION_PROB:
+                    this.mutationProb = Double.parseDouble(args[1]);
+                    break;
+                case CROSSING_PROB:
+                    this.crossingProb = Double.parseDouble(args[1]);
+                    break;
+                case POPULATION_CANT:
+                    this.populationCant = Integer.parseInt(args[1]);
+                    break;
+                case SELECTION_CANT:
+                    this.selectionCant = Integer.parseInt(args[1]);
+                    break;
+                case TEMP:
+                    this.temp = Double.parseDouble(args[1]);
+                    break;
+                case EXPONENTIAL_FACTOR:
+                    this.exponentialFactor = Double.parseDouble(args[1]);
+                    break;
+                case TOURNAMENT_CANT_COMPETITORS:
+                    this.tournamentCantCompetitors = Integer.parseInt(args[1]);
+                    break;
+                case TOURNAMENT_PROB:
+                    this.tournamentProb = Double.parseDouble(args[1]);
+                    break;
+                case CHARACTER_TYPE:
+                    this.characterType = CharacterType.getCharacterType(args[1]);
+                    break;
+                case GENERATION_CHECK:
+                    this.generationCheck = Integer.parseInt(args[1]);
+                    break;
+                case GENERATION_TOLERANCE:
+                    this.generationTolerance = Integer.parseInt(args[1]);
+                    break;
+                case RANDOM:
+                    this.randomSeeded = new RandomSeeded(Long.parseLong(args[1]));
+                    break;
+                case CONTENT_FLAG:
+                    this.contentFlag = Integer.parseInt(args[1]);
+                    break;
+                case STRUCTURE_FLAG:
+                    this.structureFlag = Integer.parseInt(args[1]);
+                    break;
+                case OPT_FLAG:
+                    this.optFlag = Integer.parseInt(args[1]);
+                    break;
+                case GENERATIONS:
+                    this.generationsMax = Integer.parseInt(args[1]);
+                    break;
+                case FITNESS_OPT:
+                    this.fitnessOpt = Double.parseDouble(args[1]);
+                    break;
+                case EPSILON:
+                    this.epsilon = Double.parseDouble(args[1]);
+                    break;
+            }
+        }
+        populationGenerator = new PopulationGenerator(populationCant, characterType, armors, boots, gloves, helmets,
+                weapons, randomSeeded);
+    }
+
 
     public CrossingMethod getCrossingMethod() {
         return crossingMethod;
@@ -258,6 +374,10 @@ public class Parser {
     public double getFitnessOpt() { return fitnessOpt; }
 
     public double getEpsilon() { return epsilon; }
+
+    public int getGenerationCheck() { return generationCheck; }
+
+    public int getGenerationTolerance() { return generationTolerance; }
 
     public int getContentFlag() { return contentFlag; }
 
