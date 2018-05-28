@@ -262,6 +262,7 @@ public class GeneticAlgorithm {
         }).get();
 
         minFitness = currentGenWorstIndividual.getFitness();
+
         this.graphics.getWorstFitnessSeries().add(generationCount, minFitness);
 
         if (maxFitness > bestMaxFitness) {

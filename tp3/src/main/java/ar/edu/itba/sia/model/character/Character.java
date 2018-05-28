@@ -40,7 +40,7 @@ public abstract class Character {
     private List<Equipment> equipment = new LinkedList<>();
 
 
-    public Character (final double height, final Armor armor, final Boots boots, final Gloves gloves,
+    public Character(final double height, final Armor armor, final Boots boots, final Gloves gloves,
                       final Helmet helmet, final Weapon weapon) {
         this.height = height;
 
@@ -63,6 +63,12 @@ public abstract class Character {
     }
 
     private void calculateAttributes() {
+
+        strength = 0;
+        agility = 0;
+        dexterity = 0;
+        health = 0;
+        resistance = 0;
 
         for (Equipment e : equipment) {
             strength += e.getStrength();
@@ -156,20 +162,20 @@ public abstract class Character {
 
     private void addStats(Equipment e) {
 
-        strength += e.getStrength() * strengthFactor();
-        agility += e.getAgility() * agilityFactor();
-        dexterity += e.getDexterity() * dexterityFactor();
-        resistance += e.getResistance() * resistanceFactor();
-        health += e.getHealth() * healthFactor();
+        strength += e.getStrength();
+        agility += e.getAgility();
+        dexterity += e.getDexterity();
+        resistance += e.getResistance();
+        health += e.getHealth();
     }
 
     private void substractStats(Equipment e) {
 
-        strength -= e.getStrength() * strengthFactor();
-        agility -= e.getAgility() * agilityFactor();
-        dexterity -= e.getDexterity() * dexterityFactor();
-        resistance -= e.getResistance() * resistanceFactor();
-        health -= e.getHealth() * healthFactor();
+        strength -= e.getStrength();
+        agility -= e.getAgility();
+        dexterity -= e.getDexterity();
+        resistance -= e.getResistance();
+        health -= e.getHealth();
     }
 
     private void calculateFitness() {
