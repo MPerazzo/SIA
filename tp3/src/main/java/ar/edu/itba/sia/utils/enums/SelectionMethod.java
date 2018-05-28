@@ -7,8 +7,8 @@ import ar.edu.itba.sia.utils.ConfigurationManager;
 import javax.management.AttributeNotFoundException;
 
 public enum SelectionMethod {
-    ELITE, ROULETTE, UNIVERSAL, BOLTZMANN_ROULETTE, TOURNAMENT_DETERMINISTIC,
-    TOURNAMENT_PROBABILISTIC, RANKING;
+    ELITE, ROULETTE, UNIVERSAL, BOLTZMANN_ROULETTE, TOURNAMENT_DET,
+    TOURNAMENT_PROB, RANKING;
 
     public static SelectionMethod getSelectionMethod(final String method) throws AttributeNotFoundException {
         if(method.equals(ELITE.toString())) {
@@ -19,10 +19,10 @@ public enum SelectionMethod {
             return UNIVERSAL;
         } else if(method.equals(BOLTZMANN_ROULETTE.toString())) {
             return BOLTZMANN_ROULETTE;
-        } else if(method.equals(TOURNAMENT_DETERMINISTIC.toString())) {
-            return TOURNAMENT_DETERMINISTIC;
-        } else if(method.equals(TOURNAMENT_PROBABILISTIC.toString())) {
-            return TOURNAMENT_PROBABILISTIC;
+        } else if(method.equals(TOURNAMENT_DET.toString())) {
+            return TOURNAMENT_DET;
+        } else if(method.equals(TOURNAMENT_PROB.toString())) {
+            return TOURNAMENT_PROB;
         } else if(method.equals(RANKING.toString())) {
             return RANKING;
         } else throw new AttributeNotFoundException("selection method doesn\'t exist");
@@ -39,9 +39,9 @@ public enum SelectionMethod {
             return new Universal(selectionCount, m.getRandomSeeded());
         } else if(method.equals(BOLTZMANN_ROULETTE)) {
             return new Boltzmann(selectionCount, m.getTemp(), m.getExponentialFactor(), m.getRandomSeeded());
-        } else if(method.equals(TOURNAMENT_DETERMINISTIC)) {
+        } else if(method.equals(TOURNAMENT_DET)) {
             return new TournamentDeterministic(selectionCount, m.getTournamentCantCompetitors(), m.getRandomSeeded());
-        } else if(method.equals(TOURNAMENT_PROBABILISTIC)) {
+        } else if(method.equals(TOURNAMENT_PROB)) {
             return new TournamentProbabilistic(selectionCount, m.getTournamentProb(), m.getRandomSeeded());
         } else if(method.equals(RANKING)) {
             return new Ranking(selectionCount, m.getRandomSeeded());
