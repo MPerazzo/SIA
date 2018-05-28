@@ -21,11 +21,11 @@ public abstract class Defender extends Character {
 
     @Override
     public double attackFactor() {
-        return 0.1;
+        return ATTACK_FACTOR;
     }
 
     @Override
     public double defenseFactor() {
-        return 0.9;
+        return DEFENSE_FACTOR;
     }
 }

@@ -114,36 +114,36 @@ public class Raid {
 
         candidatesWarriors.sort((c1, c2) -> {
             if (c1.getFitness() > c2.getFitness())
-                return 1;
-            else if (c1.getFitness() < c2.getFitness())
                 return -1;
+            else if (c1.getFitness() < c2.getFitness())
+                return 1;
             else
                 return 0;
         });
 
         candidatesArchers.sort((c1, c2) -> {
             if (c1.getFitness() > c2.getFitness())
-                return 1;
-            else if (c1.getFitness() < c2.getFitness())
                 return -1;
+            else if (c1.getFitness() < c2.getFitness())
+                return 1;
             else
                 return 0;
         });
 
         candidatesAssassins.sort((c1, c2) -> {
             if (c1.getFitness() > c2.getFitness())
-                return 1;
-            else if (c1.getFitness() < c2.getFitness())
                 return -1;
+            else if (c1.getFitness() < c2.getFitness())
+                return 1;
             else
                 return 0;
         });
 
         candidatesDefenders.sort((c1, c2) -> {
             if (c1.getFitness() > c2.getFitness())
-                return 1;
-            else if (c1.getFitness() < c2.getFitness())
                 return -1;
+            else if (c1.getFitness() < c2.getFitness())
+                return 1;
             else
                 return 0;
         });
@@ -243,25 +243,27 @@ public class Raid {
         double newBestGenPerformance = 0;
 
         for (Character c : bestGen)
-            bestGenPerformance += c.getFitness();
+            newBestGenPerformance += c.getFitness();
 
         newBestGenPerformance *= 1.20;
+
+        bestGen.sort((c1, c2) -> {
+            if (c1.getFitness() > c2.getFitness())
+                return -1;
+            else if (c1.getFitness() < c2.getFitness())
+                return 1;
+            else
+                return 0;
+        });
+
 
         if (bestGenPerformance > newBestGenPerformance)
             bestGen.set(bestGen.size() - 1, candidates.get(bestGen.size() - 1));
 
         selected.addAll(bestGen);
-        /*
-        new GeneticAlgorithm(new Parser("configFile1.txt", armors, boots, gloves,
-                helmets, weapons)).geneticAlgorithm();
-        new GeneticAlgorithm(new Parser("configFile2.txt", armors, boots, gloves,
-                helmets, weapons)).geneticAlgorithm();
-        new GeneticAlgorithm(new Parser("configFile3.txt", armors, boots, gloves,
-                helmets, weapons)).geneticAlgorithm();
-        new GeneticAlgorithm(new Parser("configFile4.txt", armors, boots, gloves,
-                helmets, weapons)).geneticAlgorithm();
-        new GeneticAlgorithm(new Parser("configFile5.txt", armors, boots, gloves,
-                helmets, weapons)).geneticAlgorithm();
-                */
+        for(Character c : bestGen) {
+            System.out.println(c.getFitness());
+        }
+        int a;
     }
 }

@@ -10,8 +10,8 @@ public class Warrior1 extends Warrior {
     private static final double STRENGTH_FACTOR = 1.1;
     private static final double AGILITY_FACTOR = 0.9;
     private static final double DEXTERITY_FACTOR = 0.8;
-    private static final double RESISTANCE_FACTOR = 0.8;
-    private static final double HEALTH_FACTOR = 0.8;
+    private static final double RESISTANCE_FACTOR = 1.0;
+    private static final double HEALTH_FACTOR = 0.9;
 
     public Warrior1(final double height, final List<Equipment> equipment) {
         super(height, equipment);

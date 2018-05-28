@@ -19,8 +19,8 @@ public class Main
 {
 
     public static void main( String[] args )  {
-        //GeneticAlgorithm g = new GeneticAlgorithm(new Parser("configFile.txt"));
-        //g.geneticAlgorithm();
+//        GeneticAlgorithm g = new GeneticAlgorithm(new Parser("configFile.txt"));
+//        g.geneticAlgorithm();
 
         try {
             Raid raid = new Raid("fulldata/pecheras.xls", "fulldata/botas.xls",
@@ -35,7 +35,5 @@ public class Main
         } catch (AttributeNotFoundException e) {
             e.printStackTrace();
         }
-
     }
-
 }
