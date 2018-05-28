@@ -4,13 +4,13 @@ import ar.edu.itba.sia.core.RandomSeeded;
 import ar.edu.itba.sia.model.character.Character;
 
 import ar.edu.itba.sia.model.equipment.*;
+import ar.edu.itba.sia.utils.enums.CharacterType;
 import ar.edu.itba.sia.utils.equipmentParsers.*;
 import ar.edu.itba.sia.utils.instantiate.*;
 
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class PopulationGenerator {
 
@@ -61,13 +61,13 @@ public class PopulationGenerator {
             case ARCHER3:
                 instantiator = new InstantiateArcher3();
                 break;
-            case ASSASIN1:
+            case ASSASSIN1:
                 instantiator = new InstantiateAssassin1();
                 break;
-            case ASSASIN2:
+            case ASSASSIN2:
                 instantiator = new InstantiateAssassin2();
                 break;
-            case ASSASIN3:
+            case ASSASSIN3:
                 instantiator = new InstantiateAssassin3();
                 break;
             case DEFENDER1:
@@ -134,13 +134,13 @@ public class PopulationGenerator {
             case ARCHER3:
                 instantiator = new InstantiateArcher3();
                 break;
-            case ASSASIN1:
+            case ASSASSIN1:
                 instantiator = new InstantiateAssassin1();
                 break;
-            case ASSASIN2:
+            case ASSASSIN2:
                 instantiator = new InstantiateAssassin2();
                 break;
-            case ASSASIN3:
+            case ASSASSIN3:
                 instantiator = new InstantiateAssassin3();
                 break;
             case DEFENDER1:

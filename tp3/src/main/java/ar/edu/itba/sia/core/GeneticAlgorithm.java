@@ -29,6 +29,7 @@ public class GeneticAlgorithm {
     private double minFitness;
 
     private List<Character> bestGen;
+    private Character prevBestIndividual;
     private Character bestIndividual;
     private double bestMaxFitness;
     private double bestAvgFitness;
@@ -263,7 +264,9 @@ public class GeneticAlgorithm {
         minFitness = currentGenWorstIndividual.getFitness();
         this.graphics.getWorstFitnessSeries().add(generationCount, minFitness);
 
-        if (maxFitness > bestMaxFitness && generationCount >= 1039) {
+        if (maxFitness > bestMaxFitness) {
+            prevBestIndividual = bestIndividual.newSon(bestIndividual.getHeight(),
+                    bestIndividual.getEquipment());
             bestIndividual = currentGenBestIndividual.newSon(currentGenBestIndividual.getHeight(),
                     currentGenBestIndividual.getEquipment());
             bestMaxFitness = maxFitness;
@@ -321,5 +324,12 @@ public class GeneticAlgorithm {
         System.out.println("Best individual performance is: " + bestMaxFitness + " which was found in generation number " + bestMaxFitnessGenNumber);
         System.out.print("\n");
         System.out.println("Best individual is: \n" + bestIndividual);
+    }
+
+    public List<Character> getBestIndividuals() {
+        List<Character> bestIndividuals = new LinkedList<>();
+        bestIndividuals.add(bestIndividual);
+        bestIndividuals.add(prevBestIndividual);
+        return bestIndividuals;
     }
 }
