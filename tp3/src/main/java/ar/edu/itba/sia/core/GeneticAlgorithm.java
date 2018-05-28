@@ -38,7 +38,10 @@ public class GeneticAlgorithm {
     private int bestAvgFitnessGenNumber;
 
     private final double generationCheck;
-    private final double generationTolerance;
+    private final double generationInc;
+
+    private double checkAvgFitness;
+    private double checkMaxFitness;
 
     private Graphics graphics;
     private final int contentFlag;
@@ -52,7 +55,7 @@ public class GeneticAlgorithm {
         this.epsilon = p.getEpsilon();
 
         this.generationCheck = p.getGenerationCheck();
-        this.generationTolerance = p.getGenerationTolerance();
+        this.generationInc = p.getGenerationInc();
 
         this.contentFlag = p.getContentFlag();
         this.structureFlag = p.getStructureFlag();
@@ -86,11 +89,13 @@ public class GeneticAlgorithm {
         bestAvgFitness = averageFitness;
         bestMaxFitness = maxFitness;
 
+        checkAvgFitness = averageFitness;
+        checkMaxFitness = maxFitness;
+
         bestAvgFitnessGenNumber = 1;
         bestMaxFitnessGenNumber = 1;
 
         initGraphics();
-
 
         graphics.getFitnessAverageSeries().add(0,averageFitness);
         graphics.getBestFitnessSeries().add(0,maxFitness);
@@ -285,18 +290,28 @@ public class GeneticAlgorithm {
         }
     }
 
-    private boolean checkGeneration(double prevAverageFitness, double prevMaxFitness, int currentGenerationCount) {
+    private boolean checkGeneration(double prevAverageFitness, double prevMaxFitness, int generationCount) {
 
-        if (averageFitness + epsilon < prevAverageFitness  && structureFlag == 1) {
-            System.out.print("\n");
-            System.out.print("[Structure drop detected (Average Fitness)]");
-            return false;
+        if (generationCount % generationCheck == 0 && structureFlag == 1) {
+
+            if (averageFitness <= checkAvgFitness * (1 + generationInc)) {
+                System.out.print("\n");
+                System.out.print("[Structure drop detected (Average Fitness)]");
+                return false;
+            }
+            else
+                checkAvgFitness = averageFitness;
         }
 
-        if (maxFitness + epsilon < prevMaxFitness && contentFlag == 1) {
-            System.out.print("\n");
-            System.out.print("[Content drop detected (Max fitness)]");
-            return false;
+        if (generationCount % generationCheck == 0 && contentFlag == 1) {
+
+            if (maxFitness <= checkMaxFitness * (1 + generationInc)) {
+                System.out.print("\n");
+                System.out.print("[Content drop detected (Max fitness)]");
+                return false;
+            }
+            else
+                checkMaxFitness = maxFitness;
         }
 
         if (Math.abs(maxFitness - fitnessOpt) < epsilon && optFlag == 1) {
@@ -305,7 +320,7 @@ public class GeneticAlgorithm {
             return false;
         }
 
-        if (currentGenerationCount == generationsMax) {
+        if (generationCount == generationsMax) {
             System.out.print("\n");
             System.out.print("[Max iterations reached]");
             return false;
