@@ -14,6 +14,14 @@ import java.util.concurrent.*;
 
 public class Raid {
 
+    private static final int SELECTION_CANT = 10;
+
+    private static final int DEFENDER_CLASS_NUMBER = 4;
+    private static final int CLASSES = 4;
+    private static final int INSTANCES_PER_CLASS = 3;
+
+    private static final double PERFORMANCE_MOD = 0.05;
+
     public Raid(Parser p) throws ExecutionException, InterruptedException {
 
         final List<Armor> armors = p.getArmors();
@@ -22,168 +30,85 @@ public class Raid {
         final List<Helmet> helmets = p.getHelmets();
         final List<Weapon> weapons = p.getWeapons();
 
+        String[] classes ={"Warrior", "Archer", "Assassin", "Defender"};
+        List<String> paths = new ArrayList<>();
+
+        for (String s : classes) {
+            for (int i = 1 ; i <= INSTANCES_PER_CLASS ; i++)
+                paths.add("raid/" + s + i + ".txt");
+        }
+
+        List<GeneticAlgorithm> geneticAlgorithms = new ArrayList<>();
+
+        for (String s : paths) {
+            geneticAlgorithms.add(new GeneticAlgorithm(new Parser(s, armors, boots, gloves,
+                    helmets, weapons)));
+        }
+
+        List<Future<List<Character>>> futures = new ArrayList<>();
+
         ExecutorService e = Executors.newCachedThreadPool();
 
-        GeneticAlgorithm g1 = new GeneticAlgorithm(new Parser("configFile1.txt", armors, boots, gloves,
-                helmets, weapons));
+        for (GeneticAlgorithm g : geneticAlgorithms) {
+            futures.add(e.submit(() -> g.geneticAlgorithm()));
+        }
 
-        GeneticAlgorithm g2 = new GeneticAlgorithm(new Parser("configFile2.txt", armors, boots, gloves,
-                helmets, weapons));
-
-        GeneticAlgorithm g3 = new GeneticAlgorithm(new Parser("configFile3.txt", armors, boots, gloves,
-                helmets, weapons));
-
-        GeneticAlgorithm g4 = new GeneticAlgorithm(new Parser("configFile4.txt", armors, boots, gloves,
-                helmets, weapons));
-
-        GeneticAlgorithm g5 = new GeneticAlgorithm(new Parser("configFile5.txt", armors, boots, gloves,
-                helmets, weapons));
-
-        GeneticAlgorithm g6 = new GeneticAlgorithm(new Parser("configFile6.txt", armors, boots, gloves,
-                helmets, weapons));
-
-        GeneticAlgorithm g7 = new GeneticAlgorithm(new Parser("configFile7.txt", armors, boots, gloves,
-                helmets, weapons));
-
-        GeneticAlgorithm g8 = new GeneticAlgorithm(new Parser("configFile8.txt", armors, boots, gloves,
-                helmets, weapons));
-
-        GeneticAlgorithm g9 = new GeneticAlgorithm(new Parser("configFile9.txt", armors, boots, gloves,
-                helmets, weapons));
-
-        GeneticAlgorithm g10 = new GeneticAlgorithm(new Parser("configFile10.txt", armors, boots, gloves,
-                helmets, weapons));
-
-        GeneticAlgorithm g11 = new GeneticAlgorithm(new Parser("configFile11.txt", armors, boots, gloves,
-                helmets, weapons));
-
-        GeneticAlgorithm g12 = new GeneticAlgorithm(new Parser("configFile12.txt", armors, boots, gloves,
-                helmets, weapons));
-
-        Future<List<Character>> f1 = e.submit(() -> g1.geneticAlgorithm());
-        Future<List<Character>> f2 = e.submit(() -> g2.geneticAlgorithm());
-        Future<List<Character>> f3 = e.submit(() -> g3.geneticAlgorithm());
-        Future<List<Character>> f4 = e.submit(() -> g4.geneticAlgorithm());
-        Future<List<Character>> f5 = e.submit(() -> g5.geneticAlgorithm());
-        Future<List<Character>> f6 = e.submit(() -> g6.geneticAlgorithm());
-        Future<List<Character>> f7 = e.submit(() -> g7.geneticAlgorithm());
-        Future<List<Character>> f8 = e.submit(() -> g8.geneticAlgorithm());
-        Future<List<Character>> f9 = e.submit(() -> g9.geneticAlgorithm());
-        Future<List<Character>> f10 = e.submit(() -> g10.geneticAlgorithm());
-        Future<List<Character>> f11 = e.submit(() -> g11.geneticAlgorithm());
-        Future<List<Character>> f12 = e.submit(() -> g12.geneticAlgorithm());
-
-
-        f1.get();
-        f2.get();
-        f3.get();
-        f4.get();
-        f5.get();
-        f6.get();
-        f7.get();
-        f8.get();
-        f9.get();
-        f10.get();
-        f11.get();
-        f12.get();
+        for (Future<List<Character>> f : futures)
+            f.get();
 
         e.shutdown();
 
-        List<Character> candidatesWarriors = new ArrayList<>();
-        List<Character> candidatesArchers = new ArrayList<>();
-        List<Character> candidatesAssassins = new ArrayList<>();
-        List<Character> candidatesDefenders = new ArrayList<>();
+        List<List<Character>> allCandidates = new ArrayList<>();
 
-        candidatesWarriors.addAll(g1.getBestIndividuals());
-        candidatesWarriors.addAll(g2.getBestIndividuals());
-        candidatesWarriors.addAll(g3.getBestIndividuals());
-        candidatesArchers.addAll(g4.getBestIndividuals());
-        candidatesArchers.addAll(g5.getBestIndividuals());
-        candidatesArchers.addAll(g6.getBestIndividuals());
-        candidatesAssassins.addAll(g7.getBestIndividuals());
-        candidatesAssassins.addAll(g8.getBestIndividuals());
-        candidatesAssassins.addAll(g9.getBestIndividuals());
-        candidatesDefenders.addAll(g10.getBestIndividuals());
-        candidatesDefenders.addAll(g11.getBestIndividuals());
-        candidatesDefenders.addAll(g12.getBestIndividuals());
+        for (int i = 0 ; i < CLASSES ; i++)
+            allCandidates.add(new ArrayList<>());
 
-        candidatesWarriors.sort((c1, c2) -> {
-            if (c1.getFitness() > c2.getFitness())
-                return -1;
-            else if (c1.getFitness() < c2.getFitness())
-                return 1;
+        int i = 0;
+        int j = 0;
+        for (GeneticAlgorithm g : geneticAlgorithms) {
+            if (i % INSTANCES_PER_CLASS == 0)
+                j++;
+            allCandidates.get(j).addAll(g.getBestIndividuals());
+            i++;
+        }
+
+        for (List<Character> l : allCandidates) {
+            l.sort((c1, c2) -> {
+                if (c1.getFitness() > c2.getFitness())
+                    return -1;
+                else if (c1.getFitness() < c2.getFitness())
+                    return 1;
+                else
+                    return 0;
+            });
+        }
+
+        List<Character> bestCandidates = new ArrayList<>();
+
+        Character bestDefender = null;
+        for (int k = 1 ; k <= CLASSES ; k++) {
+            List<Character> classCandidates = allCandidates.get(k);
+            Character bestClassCandidate = classCandidates.get(0);
+            Character secondBestClassCandidate = classCandidates.get(1);
+            bestCandidates.add(bestClassCandidate.newSon(bestClassCandidate.getHeight(),
+                    bestClassCandidate.getEquipment()));
+
+            if (k != DEFENDER_CLASS_NUMBER) {
+                bestCandidates.add(bestClassCandidate);
+                bestCandidates.add(secondBestClassCandidate);
+                bestCandidates.add(secondBestClassCandidate.newSon(secondBestClassCandidate.getHeight(),
+                        secondBestClassCandidate.getEquipment()));
+            }
             else
-                return 0;
-        });
-
-        candidatesArchers.sort((c1, c2) -> {
-            if (c1.getFitness() > c2.getFitness())
-                return -1;
-            else if (c1.getFitness() < c2.getFitness())
-                return 1;
-            else
-                return 0;
-        });
-
-        candidatesAssassins.sort((c1, c2) -> {
-            if (c1.getFitness() > c2.getFitness())
-                return -1;
-            else if (c1.getFitness() < c2.getFitness())
-                return 1;
-            else
-                return 0;
-        });
-
-        candidatesDefenders.sort((c1, c2) -> {
-            if (c1.getFitness() > c2.getFitness())
-                return -1;
-            else if (c1.getFitness() < c2.getFitness())
-                return 1;
-            else
-                return 0;
-        });
-
-        List<Character> bestWarriors = new ArrayList<>();
-        List<Character> bestArchers = new ArrayList<>();
-        List<Character> bestAssassins = new ArrayList<>();
-
-        Character bestWarrior = candidatesWarriors.get(0);
-        Character secondBestWarrior = candidatesWarriors.get(1);
-        bestWarriors.add(bestWarrior);
-        bestWarriors.add(bestWarrior.newSon(bestWarrior.getHeight(), bestWarrior.getEquipment()));
-        bestWarriors.add(secondBestWarrior);
-        bestWarriors.add(secondBestWarrior.newSon(secondBestWarrior.getHeight(), secondBestWarrior.getEquipment()));
-
-        Character bestArcher = candidatesArchers.get(0);
-        Character secondBestArcher = candidatesArchers.get(1);
-        bestArchers.add(bestArcher);
-        bestArchers.add(bestArcher.newSon(bestArcher.getHeight(), bestArcher.getEquipment()));
-        bestWarriors.add(secondBestArcher);
-        bestWarriors.add(secondBestArcher.newSon(secondBestArcher.getHeight(), secondBestArcher.getEquipment()));
-
-        Character bestAssassin = candidatesAssassins.get(0);
-        Character secondBestAssassin = candidatesAssassins.get(1);
-        bestAssassins.add(bestAssassin);
-        bestAssassins.add(bestAssassin.newSon(bestAssassin.getHeight(), bestAssassin.getEquipment()));
-        bestAssassins.add(secondBestAssassin);
-        bestAssassins.add(secondBestAssassin.newSon(secondBestAssassin.getHeight(), secondBestAssassin.getEquipment()));
-
-        Character bestDefender = candidatesDefenders.get(0);
-        Character bestDefenderCopy = bestDefender.newSon(bestDefender.getHeight(), bestDefender.getEquipment());
+                bestDefender = bestClassCandidate;
+        }
 
         List<Character> selected = new ArrayList<>();
+
         //agarras un defensor
         selected.add(bestDefender);
 
-        List<Character> candidates = new ArrayList<>();
-
-        candidates.addAll(bestArchers);
-        candidates.addAll(bestAssassins);
-        candidates.addAll(bestWarriors);
-        candidates.add(bestDefenderCopy);
-
-        //seleccionas 9
-        candidates.sort((c1, c2) -> {
+        bestCandidates.sort((c1, c2) -> {
             if (c1.getFitness() > c2.getFitness())
                 return -1;
             else if (c1.getFitness() < c2.getFitness())
@@ -192,19 +117,18 @@ public class Raid {
                 return 0;
         });
 
-        List<Character> bestGen = new ArrayList<>();
-
-        for (int i = 0 ; i < 9 ; i++)
-            bestGen.add(candidates.get(i));
+        for (int k = 0 ; k < SELECTION_CANT - 1; k++)
+            selected.add(bestCandidates.get(i));
 
         int classCount = 0;
         boolean warrior = false;
         boolean archer = false;
         boolean assassin = false;
         boolean defender = false;
-        for (Character c : bestGen) {
 
-            if (classCount == 4)
+        for (Character c : selected) {
+
+            if (classCount == CLASSES)
                 break;
 
             if (c instanceof Warrior && !warrior) {
@@ -227,35 +151,27 @@ public class Raid {
 
         double bestGenPerformance = 0;
 
-        for (Character c : bestGen)
+        for (Character c : selected)
             bestGenPerformance += c.getFitness();
 
-        bestGenPerformance *= 1.15;
+        bestGenPerformance *= (1 + 3 * PERFORMANCE_MOD);
 
-        if (classCount != 4)
-            bestGen.set(bestGen.size() - 1, candidates.get(bestGen.size()));
+        List<Character> selectedAllClasses = new ArrayList<>();
+        if (classCount != CLASSES) {
+            selectedAllClasses.addAll(selected);
+            selectedAllClasses.set(selected.size() - 1, bestCandidates.get(selected.size()));
 
-        double newBestGenPerformance = 0;
+            double newBestGenPerformance = 0;
 
-        for (Character c : bestGen)
-            newBestGenPerformance += c.getFitness();
+            for (Character c : selectedAllClasses)
+                newBestGenPerformance += c.getFitness();
 
-        newBestGenPerformance *= 1.20;
-
-        bestGen.sort((c1, c2) -> {
-            if (c1.getFitness() > c2.getFitness())
-                return -1;
-            else if (c1.getFitness() < c2.getFitness())
-                return 1;
-            else
-                return 0;
-        });
+            newBestGenPerformance *= (1 + CLASSES * PERFORMANCE_MOD);
 
 
-        if (bestGenPerformance > newBestGenPerformance)
-            bestGen.set(bestGen.size() - 1, candidates.get(bestGen.size() - 1));
-
-        selected.addAll(bestGen);
+            if (newBestGenPerformance > bestGenPerformance)
+                selected = selectedAllClasses;
+        }
 
         System.out.print("The best team is:\n\n\n");
         for(Character c : selected) {

@@ -157,7 +157,7 @@ public class Parser {
                     this.mutationProb = Double.parseDouble(args[1]);
                     break;
                 case MUTATION_PROB_DECREASE_PERCENT:
-                    this.mutationProbDecreasePercent = 1.0 - Double.parseDouble(args[1]);
+                    this.mutationProbDecreasePercent = Double.parseDouble(args[1]);
                     break;
                 case CROSSING_PROB:
                     this.crossingProb = Double.parseDouble(args[1]);
