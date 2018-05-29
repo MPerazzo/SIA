@@ -18,7 +18,7 @@ public class MutationNoUniformProb implements MutationProbCalculator {
     @Override
     public double getProb() {
         if (probability > MIN_PROB) {
-            probability *= decreasePercent;
+            probability *= (1 - decreasePercent);
 
             if (probability < MIN_PROB)
                 probability = MIN_PROB;
