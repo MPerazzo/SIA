@@ -2,6 +2,7 @@ package ar.edu.itba.sia.selectionAlgorithms;
 
 import ar.edu.itba.sia.core.RandomSeeded;
 import ar.edu.itba.sia.interfaces.SelectionAlgorithm;
+import ar.edu.itba.sia.model.CharacterComparator;
 import ar.edu.itba.sia.model.character.Character;
 
 import java.util.LinkedList;
@@ -32,14 +33,7 @@ public class TournamentProbabilistic implements SelectionAlgorithm {
             List<Character> duo = new LinkedList<>();
             duo.add(characters.get(random1));
             duo.add(characters.get(random2));
-            duo.sort((c1, c2) -> {
-                if (c1.getFitness() > c2.getFitness())
-                    return 1;
-                else if (c1.getFitness() < c2.getFitness())
-                    return -1;
-                else
-                    return 0;
-            });
+            duo.sort(CharacterComparator.getNaturalOrder());
 
             double random = r.nextDouble();
 

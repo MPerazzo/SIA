@@ -4,6 +4,7 @@ import ar.edu.itba.sia.interfaces.CrossAlgorithm;
 import ar.edu.itba.sia.interfaces.MutationAlgorithm;
 import ar.edu.itba.sia.interfaces.ReplacementAlgorithm;
 import ar.edu.itba.sia.interfaces.SelectionAlgorithm;
+import ar.edu.itba.sia.model.CharacterComparator;
 import ar.edu.itba.sia.model.character.Character;
 import ar.edu.itba.sia.utils.*;
 import ar.edu.itba.sia.utils.enums.CrossingMethod;
@@ -76,19 +77,11 @@ public class GeneticAlgorithm {
 
         averageFitness = bestGen.stream().collect(Collectors.averagingDouble(c -> c.getFitness()));
 
-        bestIndividual = bestGen.stream().max((c1, c2) -> {
-            if (c1.getFitness() > c2.getFitness())
-                return 1;
-            else if (c1.getFitness() < c2.getFitness())
-                return -1;
-            else
-                return 0;
-        }).get();
+        bestIndividual = bestGen.stream().max(CharacterComparator.getNaturalOrder()).get();
 
         maxFitness = bestIndividual.getFitness();
 
-        minFitness = bestGen.stream().mapToDouble(c -> c.getFitness()).
-                min().getAsDouble();
+        minFitness = bestGen.stream().mapToDouble(c -> c.getFitness()).min().getAsDouble();
 
         bestAvgFitness = averageFitness;
         bestMaxFitness = maxFitness;
@@ -243,14 +236,8 @@ public class GeneticAlgorithm {
     private void calculateMetrics(List<Character> currentGeneration, int generationCount) {
         averageFitness = currentGeneration.stream().collect(Collectors.averagingDouble(c -> c.getFitness()));
 
-        Character currentGenBestIndividual = currentGeneration.stream().max((c1, c2) -> {
-            if (c1.getFitness() > c2.getFitness())
-                return 1;
-            else if (c1.getFitness() < c2.getFitness())
-                return -1;
-            else
-                return 0;
-        }).get();
+        Character currentGenBestIndividual = currentGeneration.stream().max(CharacterComparator.getNaturalOrder()).
+                get();
 
         maxFitness = currentGenBestIndividual.getFitness();
 

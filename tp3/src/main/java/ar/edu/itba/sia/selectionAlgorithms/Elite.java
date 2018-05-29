@@ -1,6 +1,7 @@
 package ar.edu.itba.sia.selectionAlgorithms;
 
 import ar.edu.itba.sia.interfaces.SelectionAlgorithm;
+import ar.edu.itba.sia.model.CharacterComparator;
 import ar.edu.itba.sia.model.character.Character;
 
 import java.util.LinkedList;
@@ -18,14 +19,7 @@ public class Elite implements SelectionAlgorithm {
 
         List<Character> selected = new LinkedList<>();
 
-        characters.sort((c1, c2) -> {
-            if (c1.getFitness() > c2.getFitness())
-                return -1;
-            else if (c1.getFitness() < c2.getFitness())
-                return 1;
-            else
-                return 0;
-        });
+        characters.sort(CharacterComparator.getReverseOrder());
 
         for (int i = 0; i < selectionCant; i++)
             selected.add(characters.get(i));

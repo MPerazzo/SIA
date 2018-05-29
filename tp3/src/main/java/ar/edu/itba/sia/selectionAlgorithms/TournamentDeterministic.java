@@ -2,6 +2,7 @@ package ar.edu.itba.sia.selectionAlgorithms;
 
 import ar.edu.itba.sia.core.RandomSeeded;
 import ar.edu.itba.sia.interfaces.SelectionAlgorithm;
+import ar.edu.itba.sia.model.CharacterComparator;
 import ar.edu.itba.sia.model.character.Character;
 
 import java.util.LinkedList;
@@ -35,14 +36,7 @@ public class TournamentDeterministic implements SelectionAlgorithm {
                 selected.add(characters.get(random));
             }
 
-            selected.sort((c1, c2) -> {
-                if (c1.getFitness() > c2.getFitness())
-                    return 1;
-                else if (c1.getFitness() < c2.getFitness())
-                    return -1;
-                else
-                    return 0;
-            });
+            selected.sort(CharacterComparator.getNaturalOrder());
             optimalCharacters.add(selected.get(selected.size() - 1));
             k++;
         }

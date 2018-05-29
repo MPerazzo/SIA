@@ -1,5 +1,6 @@
 package ar.edu.itba.sia.core;
 
+import ar.edu.itba.sia.model.CharacterComparator;
 import ar.edu.itba.sia.model.character.Character;
 import ar.edu.itba.sia.model.character.archer.Archer;
 import ar.edu.itba.sia.model.character.assassin.Assassin;
@@ -73,16 +74,8 @@ public class Raid {
             n++;
         }
 
-        for (List<Character> l : allCandidates) {
-            l.sort((c1, c2) -> {
-                if (c1.getFitness() > c2.getFitness())
-                    return -1;
-                else if (c1.getFitness() < c2.getFitness())
-                    return 1;
-                else
-                    return 0;
-            });
-        }
+        for (List<Character> l : allCandidates)
+            l.sort(CharacterComparator.getReverseOrder());
 
         List<Character> bestCandidates = new ArrayList<>();
 
@@ -109,14 +102,7 @@ public class Raid {
         //agarras un defensor
         selected.add(bestDefender);
 
-        bestCandidates.sort((c1, c2) -> {
-            if (c1.getFitness() > c2.getFitness())
-                return -1;
-            else if (c1.getFitness() < c2.getFitness())
-                return 1;
-            else
-                return 0;
-        });
+        bestCandidates.sort(CharacterComparator.getReverseOrder());
 
         for (int k = 0 ; k < SELECTION_CANT - 1; k++)
             selected.add(bestCandidates.get(k));

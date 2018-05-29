@@ -62,9 +62,10 @@ public class Boltzmann implements SelectionAlgorithm {
 
         if (t > TEMP_LIMIT) {
             t = t0 * Math.exp(-counter++ * exponentialFactor);
+
+            if (t < TEMP_LIMIT)
+                t = TEMP_LIMIT;
         }
-        else
-            t = TEMP_LIMIT;
 
         return selected;
     }
