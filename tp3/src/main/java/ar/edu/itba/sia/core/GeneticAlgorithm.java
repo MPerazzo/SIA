@@ -87,15 +87,8 @@ public class GeneticAlgorithm {
 
         maxFitness = bestIndividual.getFitness();
 
-        Character worstIndividual = bestGen.stream().min((c1,c2)-> {
-            if(c1.getFitness() > c2.getFitness())
-                return 1;
-            else if(c1.getFitness() < c2.getFitness())
-                return -1;
-            else
-                return 0;
-        }).get();
-        minFitness = worstIndividual.getFitness();
+        minFitness = bestGen.stream().mapToDouble(c -> c.getFitness()).
+                min().getAsDouble();
 
         bestAvgFitness = averageFitness;
         bestMaxFitness = maxFitness;
