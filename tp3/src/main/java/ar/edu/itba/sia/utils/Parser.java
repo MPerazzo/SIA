@@ -23,7 +23,8 @@ public class Parser {
             EXPONENTIAL_FACTOR = "EXPONENTIAL_FACTOR", CHARACTER_TYPE = "CHARACTER_TYPE";
 
     private static final String RANDOM = "RANDOM", GENERATIONS = "GENERATIONS", FITNESS_OPT = "FITNESS_OPT", EPSILON = "EPSILON", GENERATION_CHECK = "GENERATION_CHECK",
-            GENERATION_INC = "GENERATION_INC", CONTENT_FLAG = "CONTENT_FLAG", STRUCTURE_FLAG = "STRUCTURE_FLAG", OPT_FLAG = "OPT_FLAG";
+            GENERATION_INC = "GENERATION_INC", CONTENT_FLAG = "CONTENT_FLAG", STRUCTURE_FLAG = "STRUCTURE_FLAG", OPT_FLAG = "OPT_FLAG",
+            MAX_TIME = "MAX_TIME", TIME_FLAG = "TIME_FLAG";
 
     private static final String ARMOR_FILE = "ARMOR_FILE", BOOTS_FILE = "BOOTS_FILE", GLOVES_FILE = "GLOVES_FILE",
             HELMET_FILE = "HELMET_FILE", WEAPON_FILE = "WEAPON_FILE";
@@ -60,6 +61,8 @@ public class Parser {
     private int contentFlag;
     private int structureFlag;
     private int optFlag;
+    private double maxTime;
+    private boolean timeFlag;
 
 
     public Parser(final String filename) {
@@ -193,6 +196,11 @@ public class Parser {
                 case WEAPON_FILE:
                     weaponFile = args[1];
                     break;
+                case MAX_TIME:
+                    this.maxTime = Double.parseDouble(args[1]);
+                    break;
+                case TIME_FLAG:
+                    this.timeFlag = Integer.parseInt(args[1]) == 1;
             }
         }
         populationGenerator = new PopulationGenerator(populationCant, characterType, armorFile, bootsFile, glovesFile,
@@ -294,6 +302,11 @@ public class Parser {
                 case EPSILON:
                     this.epsilon = Double.parseDouble(args[1]);
                     break;
+                case MAX_TIME:
+                    this.maxTime = Double.parseDouble(args[1]);
+                    break;
+                case TIME_FLAG:
+                    this.timeFlag = Integer.parseInt(args[1]) == 1;
             }
         }
         populationGenerator = new PopulationGenerator(populationCant, characterType, armors, boots, gloves, helmets,
@@ -384,6 +397,14 @@ public class Parser {
     public int getStructureFlag() { return structureFlag; }
 
     public int getOptFlag() { return optFlag; }
+
+    public double getMaxTime() {
+        return maxTime;
+    }
+
+    public boolean isTimeFlag() {
+        return timeFlag;
+    }
 
     public List<Character> getInitialGeneration() { return populationGenerator.getInitialGeneration(); }
 

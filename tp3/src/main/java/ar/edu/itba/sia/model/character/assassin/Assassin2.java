@@ -51,4 +51,9 @@ public class Assassin2 extends Assassin {
     protected double healthFactor() {
         return HEALTH_FACTOR;
     }
+
+    @Override
+    public String toString() {
+        return "Type: " + this.getClass().getSimpleName() + "\n" + super.toString();
+    }
 }

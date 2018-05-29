@@ -261,9 +261,10 @@ public class Raid {
             bestGen.set(bestGen.size() - 1, candidates.get(bestGen.size() - 1));
 
         selected.addAll(bestGen);
-        for(Character c : bestGen) {
-            System.out.println(c.getFitness());
+
+        System.out.print("The best team is:\n\n\n");
+        for(Character c : selected) {
+            System.out.println(c);
         }
-        int a;
     }
 }

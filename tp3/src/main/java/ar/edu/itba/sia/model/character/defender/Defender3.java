@@ -50,4 +50,9 @@ public class Defender3 extends Defender {
     protected double healthFactor() {
         return HEALTH_FACTOR;
     }
+
+    @Override
+    public String toString() {
+        return "Type: " + this.getClass().getSimpleName() + "\n" + super.toString();
+    }
 }

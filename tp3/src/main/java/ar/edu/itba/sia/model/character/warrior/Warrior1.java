@@ -51,4 +51,9 @@ public class Warrior1 extends Warrior {
     protected double healthFactor() {
         return HEALTH_FACTOR;
     }
+
+    @Override
+    public String toString() {
+        return "Type: " + this.getClass().getSimpleName() + "\n" + super.toString();
+    }
 }

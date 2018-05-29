@@ -40,6 +40,10 @@ public class GeneticAlgorithm {
     private final double generationCheck;
     private final double generationInc;
 
+    private double initialTime;
+    private double maxTime;
+    private boolean timeFlag;
+
     private double checkAvgFitness;
     private double checkMaxFitness;
 
@@ -53,6 +57,8 @@ public class GeneticAlgorithm {
         this.generationsMax = p.getGenerationsMax();
         this.fitnessOpt = p.getFitnessOpt();
         this.epsilon = p.getEpsilon();
+        this.maxTime = p.getMaxTime();
+        this.timeFlag = p.isTimeFlag();
 
         this.generationCheck = p.getGenerationCheck();
         this.generationInc = p.getGenerationInc();
@@ -144,6 +150,8 @@ public class GeneticAlgorithm {
 
         RandomSeeded r = m.getRandomSeeded();
 
+        initialTime = System.currentTimeMillis();
+
         do {
             prevAverageFitness = averageFitness;
             prevMaxFitness = maxFitness;
@@ -213,6 +221,8 @@ public class GeneticAlgorithm {
         double prevMaxFitness;
 
         RandomSeeded r = m.getRandomSeeded();
+
+        initialTime = System.currentTimeMillis();
 
         do {
             prevAverageFitness = averageFitness;
@@ -325,7 +335,14 @@ public class GeneticAlgorithm {
             System.out.print("[Max iterations reached]");
             return false;
         }
-        return true;
+
+        double currentTime = ((System.currentTimeMillis() - initialTime)/1000.0) % 60;
+
+        if(currentTime > maxTime && timeFlag) {
+            return false;
+        }
+
+            return true;
     }
 
     private void showIterativeMetrics(int generationCount) {

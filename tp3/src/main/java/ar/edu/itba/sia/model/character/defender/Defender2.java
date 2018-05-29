@@ -52,4 +52,9 @@ public class Defender2 extends Defender {
     protected double healthFactor() {
         return HEALTH_FACTOR;
     }
+
+    @Override
+    public String toString() {
+        return "Type: " + this.getClass().getSimpleName() + "\n" + super.toString();
+    }
 }
