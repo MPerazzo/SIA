@@ -38,7 +38,7 @@ public class Universal implements SelectionAlgorithm {
             double currentCharacterAccum = prevCharacterAccum + (currentCharacter.getFitness() / totalFitness);
             double currentAccumToMatch = accumToMatch[j];
 
-            if (prevCharacterAccum < currentAccumToMatch && currentAccumToMatch < currentCharacterAccum) {
+            if (prevCharacterAccum <= currentAccumToMatch && currentAccumToMatch <= currentCharacterAccum) {
                 selected.add(currentCharacter);
                 j++;
                 i = 0;

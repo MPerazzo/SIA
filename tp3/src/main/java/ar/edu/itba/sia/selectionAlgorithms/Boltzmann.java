@@ -9,6 +9,7 @@ import java.util.List;
 
 public class Boltzmann implements SelectionAlgorithm {
 
+    private static final double TEMP_LIMIT = 0.2;
     private final int selectionCant;
     private final double t0;
     private final double exponentialFactor;
@@ -55,7 +56,7 @@ public class Boltzmann implements SelectionAlgorithm {
                         (Math.exp(currentCharacter.getFitness() / t) / totalExpVal);
                 double currentAccumToMatch = accumToMatch[j];
 
-                if (prevCharacterAccum < currentAccumToMatch && currentAccumToMatch < currentCharacterAccum) {
+                if (prevCharacterAccum <= currentAccumToMatch && currentAccumToMatch <= currentCharacterAccum) {
                     selected.add(currentCharacter);
                     j++;
                     i = 0;
@@ -67,7 +68,9 @@ public class Boltzmann implements SelectionAlgorithm {
             }
         }
 
-        t = t0 * Math.exp(-counter * exponentialFactor);
+        if(t > TEMP_LIMIT) {
+            t = t0 * Math.exp(-counter * exponentialFactor);
+        }
         counter += 1;
         return selected;
     }

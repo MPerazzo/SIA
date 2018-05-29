@@ -44,9 +44,9 @@ public class TournamentProbabilistic implements SelectionAlgorithm {
             double random = r.nextDouble();
 
             if (random < p)
-                selected.add(characters.get(1));
+                selected.add(duo.get(1));
             else
-                selected.add(characters.get(0));
+                selected.add(duo.get(0));
 
             k++;
         }

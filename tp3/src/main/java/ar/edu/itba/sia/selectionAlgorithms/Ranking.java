@@ -37,9 +37,7 @@ public class Ranking implements SelectionAlgorithm {
                 return 0;
         });
 
-        double totalFitness = 0;
-        for (int i = 0 ; i < characters.size() ; i++)
-            totalFitness += (i + 1);
+        double totalFitness = characters.size()*(characters.size()+1)/2;
 
         double prevCharacterAccum = 0;
         for (int i = 0, j=0 ; j < accumToMatch.length ;) {
@@ -47,7 +45,7 @@ public class Ranking implements SelectionAlgorithm {
             double currentCharacterAccum = prevCharacterAccum + ((i + 1) / totalFitness);
             double currentAccumToMatch = accumToMatch[j];
 
-            if (prevCharacterAccum < currentAccumToMatch && currentAccumToMatch < currentCharacterAccum) {
+            if (prevCharacterAccum <= currentAccumToMatch && currentAccumToMatch <= currentCharacterAccum) {
                 selected.add(currentCharacter);
                 j++;
                 i = 0;
