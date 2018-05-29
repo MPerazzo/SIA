@@ -43,7 +43,7 @@ public class Raid {
 
         for (String s : paths) {
             geneticAlgorithms.add(new GeneticAlgorithm(new Parser(s, armors, boots, gloves,
-                    helmets, weapons)));
+                    helmets, weapons, p.getMaxTime())));
         }
 
         List<Future<List<Character>>> futures = new ArrayList<>();

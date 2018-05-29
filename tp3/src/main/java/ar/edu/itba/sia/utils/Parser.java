@@ -99,8 +99,11 @@ public class Parser {
     }
 
     public Parser(String fileName, List<Armor> armors, List<Boots> boots, List<Gloves> gloves, List<Helmet> helmets,
-                  List<Weapon> weapons) {
+                  List<Weapon> weapons, double maxTime) {
         try {
+
+            this.maxTime = maxTime;
+
             this.parse(fileName);
 
             populationGenerator = new PopulationGenerator(populationCant, characterType, armors, boots, gloves, helmets,
