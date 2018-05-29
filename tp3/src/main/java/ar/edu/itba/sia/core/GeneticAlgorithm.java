@@ -41,8 +41,7 @@ public class GeneticAlgorithm {
     private final double generationInc;
 
     private double initialTime;
-    private double maxTime;
-    private boolean timeFlag;
+    private double timeMax;
 
     private double checkAvgFitness;
     private double checkMaxFitness;
@@ -51,14 +50,18 @@ public class GeneticAlgorithm {
     private final int contentFlag;
     private final int structureFlag;
     private final int optFlag;
+    private final int timeFlag;
+    private final int iterationsFlag;
+    private final int graphicFlag;
+
 
     public GeneticAlgorithm(Parser p){
         this.m = new ConfigurationManager(p);
         this.generationsMax = p.getGenerationsMax();
         this.fitnessOpt = p.getFitnessOpt();
         this.epsilon = p.getEpsilon();
-        this.maxTime = p.getMaxTime();
-        this.timeFlag = p.isTimeFlag();
+        this.timeMax = p.getMaxTime();
+        this.timeFlag = p.getTimeFlag();
 
         this.generationCheck = p.getGenerationCheck();
         this.generationInc = p.getGenerationInc();
@@ -66,6 +69,8 @@ public class GeneticAlgorithm {
         this.contentFlag = p.getContentFlag();
         this.structureFlag = p.getStructureFlag();
         this.optFlag = p.getOptFlag();
+        this.iterationsFlag = p.getIterationsFlag();
+        this.graphicFlag = p.getGraphicFlag();
 
         bestGen = p.getInitialGeneration();
 
@@ -101,11 +106,14 @@ public class GeneticAlgorithm {
         bestAvgFitnessGenNumber = 1;
         bestMaxFitnessGenNumber = 1;
 
-        initGraphics(m);
 
-        graphics.getFitnessAverageSeries().add(0,averageFitness);
-        graphics.getBestFitnessSeries().add(0,maxFitness);
-        graphics.getWorstFitnessSeries().add(0,minFitness);
+        if (graphicFlag == 1) {
+            initGraphics(m);
+
+            graphics.getFitnessAverageSeries().add(0, averageFitness);
+            graphics.getBestFitnessSeries().add(0, maxFitness);
+            graphics.getWorstFitnessSeries().add(0, minFitness);
+        }
 
         showIterativeMetrics(1);
     }
@@ -145,17 +153,12 @@ public class GeneticAlgorithm {
         double crossingProb = m.getCrossingProb();
 
         int generationCount = 2;
-        double prevAverageFitness;
-        double prevMaxFitness;
 
         RandomSeeded r = m.getRandomSeeded();
 
         initialTime = System.currentTimeMillis();
 
         do {
-            prevAverageFitness = averageFitness;
-            prevMaxFitness = maxFitness;
-
             LinkedList<Character> children = (LinkedList) Crossing.randomCross(currentGeneration, crossAlgorithm, crossingProb
                     , r);
 
@@ -167,7 +170,7 @@ public class GeneticAlgorithm {
 
             showIterativeMetrics(generationCount);
 
-        } while(checkGeneration(prevAverageFitness, prevMaxFitness, generationCount++));
+        } while(checkGeneration(generationCount++));
     }
 
     private void geneticAlgorithmOthers() {
@@ -217,17 +220,12 @@ public class GeneticAlgorithm {
         LinkedList<Character> selectedParents = new LinkedList<>();
 
         int generationCount = 2;
-        double prevAverageFitness;
-        double prevMaxFitness;
 
         RandomSeeded r = m.getRandomSeeded();
 
         initialTime = System.currentTimeMillis();
 
         do {
-            prevAverageFitness = averageFitness;
-            prevMaxFitness = maxFitness;
-
             selectedParents.addAll(selectionAlgorithmA.select(currentGeneration));
             selectedParents.addAll(selectionAlgorithmB.select(currentGeneration));
 
@@ -245,14 +243,12 @@ public class GeneticAlgorithm {
 
             showIterativeMetrics(generationCount);
 
-        } while (checkGeneration(prevAverageFitness, prevMaxFitness, generationCount++));
+        } while (checkGeneration(generationCount++));
 
     }
 
     private void calculateMetrics(List<Character> currentGeneration, int generationCount) {
         averageFitness = currentGeneration.stream().collect(Collectors.averagingDouble(c -> c.getFitness()));
-
-        this.graphics.getFitnessAverageSeries().add(generationCount, averageFitness);
 
         Character currentGenBestIndividual = currentGeneration.stream().max((c1, c2) -> {
             if (c1.getFitness() > c2.getFitness())
@@ -265,20 +261,15 @@ public class GeneticAlgorithm {
 
         maxFitness = currentGenBestIndividual.getFitness();
 
-        this.graphics.getBestFitnessSeries().add(generationCount, maxFitness);
+        minFitness = currentGeneration.stream().mapToDouble(c -> c.getFitness()).
+                min().getAsDouble();
 
-        Character currentGenWorstIndividual = currentGeneration.stream().min((c1, c2) -> {
-            if (c1.getFitness() > c2.getFitness())
-                return 1;
-            else if (c1.getFitness() < c2.getFitness())
-                return -1;
-            else
-                return 0;
-        }).get();
 
-        minFitness = currentGenWorstIndividual.getFitness();
-
-        this.graphics.getWorstFitnessSeries().add(generationCount, minFitness);
+        if (graphicFlag == 1) {
+            this.graphics.getFitnessAverageSeries().add(generationCount, averageFitness);
+            this.graphics.getBestFitnessSeries().add(generationCount, maxFitness);
+            this.graphics.getWorstFitnessSeries().add(generationCount, minFitness);
+        }
 
         if (maxFitness > bestMaxFitness) {
             prevBestIndividual = bestIndividual.newSon(bestIndividual.getHeight(),
@@ -300,9 +291,9 @@ public class GeneticAlgorithm {
         }
     }
 
-    private boolean checkGeneration(double prevAverageFitness, double prevMaxFitness, int generationCount) {
+    private boolean checkGeneration(int generationCount) {
 
-        if (generationCount % generationCheck == 0 && structureFlag == 1) {
+        if (structureFlag == 1 && generationCount % generationCheck == 0) {
 
             if (averageFitness <= checkAvgFitness * (1 + generationInc)) {
                 System.out.print("\n");
@@ -313,7 +304,7 @@ public class GeneticAlgorithm {
                 checkAvgFitness = averageFitness;
         }
 
-        if (generationCount % generationCheck == 0 && contentFlag == 1) {
+        if (contentFlag == 1 && generationCount % generationCheck == 0) {
 
             if (maxFitness <= checkMaxFitness * (1 + generationInc)) {
                 System.out.print("\n");
@@ -324,21 +315,21 @@ public class GeneticAlgorithm {
                 checkMaxFitness = maxFitness;
         }
 
-        if (Math.abs(maxFitness - fitnessOpt) < epsilon && optFlag == 1) {
+        if (optFlag == 1 && Math.abs(maxFitness - fitnessOpt) < epsilon) {
             System.out.print("\n");
             System.out.print("[Optimum reached]");
             return false;
         }
 
-        if (generationCount == generationsMax) {
+        if (iterationsFlag == 1 && generationCount == generationsMax) {
             System.out.print("\n");
             System.out.print("[Max iterations reached]");
             return false;
         }
 
-        double currentTime = ((System.currentTimeMillis() - initialTime)/1000.0) % 60;
+        double currentTime = ((System.currentTimeMillis() - initialTime)/1000.0);
 
-        if(currentTime > maxTime && timeFlag) {
+        if(timeFlag == 1 && currentTime > timeMax) {
             return false;
         }
 
