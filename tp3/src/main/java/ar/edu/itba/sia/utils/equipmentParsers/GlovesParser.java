@@ -29,7 +29,7 @@ public class GlovesParser extends EquipmentParser {
         while (rows.hasNext()) {
             HSSFRow row = (HSSFRow) rows.next();
 
-            gloves.add(new Gloves(row.getCell(STRENGTH_POS).getNumericCellValue(), row.getCell(AGILITY_POS).getNumericCellValue(),
+            gloves.add(new Gloves((int)row.getCell(ID_POS).getNumericCellValue(), row.getCell(STRENGTH_POS).getNumericCellValue(), row.getCell(AGILITY_POS).getNumericCellValue(),
                     row.getCell(DEXTERITY_POS).getNumericCellValue(), row.getCell(HEALTH_POS).getNumericCellValue(),
                     row.getCell(RESISTANCE_POS).getNumericCellValue()));
         }

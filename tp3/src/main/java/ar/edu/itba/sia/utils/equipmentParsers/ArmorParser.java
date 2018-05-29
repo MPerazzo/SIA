@@ -29,7 +29,7 @@ public class ArmorParser extends EquipmentParser {
         while (rows.hasNext()) {
             HSSFRow row = (HSSFRow) rows.next();
 
-            armors.add(new Armor(row.getCell(STRENGTH_POS).getNumericCellValue(), row.getCell(AGILITY_POS).getNumericCellValue(),
+            armors.add(new Armor((int)row.getCell(ID_POS).getNumericCellValue(), row.getCell(STRENGTH_POS).getNumericCellValue(), row.getCell(AGILITY_POS).getNumericCellValue(),
                     row.getCell(DEXTERITY_POS).getNumericCellValue(), row.getCell(HEALTH_POS).getNumericCellValue(),
                     row.getCell(RESISTANCE_POS).getNumericCellValue()));
         }

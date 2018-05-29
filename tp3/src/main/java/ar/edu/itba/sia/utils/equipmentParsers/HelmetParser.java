@@ -29,7 +29,7 @@ public class HelmetParser extends EquipmentParser {
         while (rows.hasNext()) {
             HSSFRow row = (HSSFRow) rows.next();
 
-            helmets.add(new Helmet(row.getCell(STRENGTH_POS).getNumericCellValue(), row.getCell(AGILITY_POS).getNumericCellValue(),
+            helmets.add(new Helmet((int)row.getCell(ID_POS).getNumericCellValue(), row.getCell(STRENGTH_POS).getNumericCellValue(), row.getCell(AGILITY_POS).getNumericCellValue(),
                     row.getCell(DEXTERITY_POS).getNumericCellValue(), row.getCell(HEALTH_POS).getNumericCellValue(),
                     row.getCell(RESISTANCE_POS).getNumericCellValue()));
         }

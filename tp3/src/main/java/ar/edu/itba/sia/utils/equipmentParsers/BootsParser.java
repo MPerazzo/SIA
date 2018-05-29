@@ -29,7 +29,7 @@ public class BootsParser extends EquipmentParser {
         while (rows.hasNext()) {
             HSSFRow row = (HSSFRow) rows.next();
 
-            boots.add(new Boots(row.getCell(STRENGTH_POS).getNumericCellValue(), row.getCell(AGILITY_POS).getNumericCellValue(),
+            boots.add(new Boots((int)row.getCell(ID_POS).getNumericCellValue(), row.getCell(STRENGTH_POS).getNumericCellValue(), row.getCell(AGILITY_POS).getNumericCellValue(),
                     row.getCell(DEXTERITY_POS).getNumericCellValue(), row.getCell(HEALTH_POS).getNumericCellValue(),
                     row.getCell(RESISTANCE_POS).getNumericCellValue()));
         }

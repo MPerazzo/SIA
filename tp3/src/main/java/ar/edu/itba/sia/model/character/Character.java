@@ -211,6 +211,11 @@ public abstract class Character {
         builder.append("Attack: " + attack + "\n");
         builder.append("Defense: " + defense + "\n");
         builder.append("Fitness: " + fitness + "\n");
+        builder.append("ArmorId: " + equipment.get(ARMOR_SLOT).getId() + "\n");
+        builder.append("BootsId: " + equipment.get(BOOTS_SLOT).getId() + "\n");
+        builder.append("GlovesId: " + equipment.get(GLOVES_SLOT).getId() + "\n");
+        builder.append("HelmetId: " + equipment.get(HELMET_SLOT).getId() + "\n");
+        builder.append("WeaponId: " + equipment.get(WEAPON_SLOT).getId() + "\n");
 
         return builder.toString();
     }
