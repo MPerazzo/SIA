@@ -18,7 +18,8 @@ public class Parser {
             REPLACEMENT_SELECTION_METHOD_A = "REPLACEMENT_SELECTION_METHOD_A", REPLACEMENT_SELECTION_METHOD_B = "REPLACEMENT_SELECTION_METHOD_B";
 
     private static final String SELECTION_PERCENT = "SELECTION_PERCENT", REPLACEMENT_PERCENT = "REPLACEMENT_PERCENT",
-            MUTATION_PROB = "MUTATION_PROB", CROSSING_PROB = "CROSSING_PROB", POPULATION_CANT = "POPULATION_CANT", SELECTION_CANT = "SELECTION_CANT", TEMP = "TEMP",
+            MUTATION_PROB = "MUTATION_PROB", MUTATION_PROB_DECREASE_PERCENT = "MUTATION_PROB_DECREASE_PERCENT", CROSSING_PROB = "CROSSING_PROB",
+            POPULATION_CANT = "POPULATION_CANT", SELECTION_CANT = "SELECTION_CANT", TEMP = "TEMP",
             TOURNAMENT_CANT_COMPETITORS = "TOURNAMENT_CANT_COMPETITORS", TOURNAMENT_PROB = "TOURNAMENT_PROB",
             EXPONENTIAL_FACTOR = "EXPONENTIAL_FACTOR", CHARACTER_TYPE = "CHARACTER_TYPE";
 
@@ -48,6 +49,7 @@ public class Parser {
     private double replacementPercent;
 
     private double mutationProb;
+    private double mutationProbDecreasePercent;
     private double crossingProb;
 
     private int populationCant;
@@ -154,6 +156,9 @@ public class Parser {
                 case MUTATION_PROB:
                     this.mutationProb = Double.parseDouble(args[1]);
                     break;
+                case MUTATION_PROB_DECREASE_PERCENT:
+                    this.mutationProbDecreasePercent = 1.0 - Double.parseDouble(args[1]);
+                    break;
                 case CROSSING_PROB:
                     this.crossingProb = Double.parseDouble(args[1]);
                     break;
@@ -236,6 +241,7 @@ public class Parser {
                     this.timeFlag = Integer.parseInt(args[1]);
             }
         }
+
     }
 
     public CrossingMethod getCrossingMethod() {
@@ -278,6 +284,10 @@ public class Parser {
 
     public double getMutationProb() {
         return mutationProb;
+    }
+
+    public double getMutationProbDecreasePercent() {
+        return mutationProbDecreasePercent;
     }
 
     public double getCrossingProb() {
