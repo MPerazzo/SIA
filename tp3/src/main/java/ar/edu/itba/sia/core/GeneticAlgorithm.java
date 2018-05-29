@@ -95,7 +95,7 @@ public class GeneticAlgorithm {
         bestAvgFitnessGenNumber = 1;
         bestMaxFitnessGenNumber = 1;
 
-        initGraphics();
+        initGraphics(m);
 
         graphics.getFitnessAverageSeries().add(0,averageFitness);
         graphics.getBestFitnessSeries().add(0,maxFitness);
@@ -104,12 +104,12 @@ public class GeneticAlgorithm {
         showIterativeMetrics(1);
     }
 
-    private void initGraphics() {
-        JFrame frame = new JFrame(Graphics.GRAPHICS_TITLE);
+    private void initGraphics(ConfigurationManager m) {
+        JFrame frame = new JFrame(Graphics.GRAPHICS_TITLE + " - " + m.getCharacterType().toString());
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        this.graphics = new Graphics();
+        this.graphics = new Graphics(m.getCharacterType().toString());
         frame.getContentPane().add(this.graphics, BorderLayout.CENTER);
         frame.pack();
         frame.setVisible(true);

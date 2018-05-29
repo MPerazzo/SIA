@@ -28,7 +28,7 @@ public class Graphics extends JPanel {
     private XYPlot plot;
     private JPanel chartPanel;
 
-    public Graphics() {
+    public Graphics(String characterType) {
         super();
         this.fitnessAverageSeries = new XYSeries(FITNESS_AVERAGE_TITLE);
         this.bestFitnessSeries = new XYSeries(BEST_FITNESS_TITLE);
@@ -40,7 +40,7 @@ public class Graphics extends JPanel {
         dataset.addSeries(worstFitnessSeries);
 
         this.chart = ChartFactory.createXYLineChart(
-                GRAPHICS_TITLE,
+                GRAPHICS_TITLE + " - " + characterType,
                 X_TITLE,
                 Y_TITLE,
                 dataset,

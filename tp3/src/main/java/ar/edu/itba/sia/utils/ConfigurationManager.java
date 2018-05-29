@@ -71,6 +71,8 @@ public class ConfigurationManager {
 
     public SelectionMethod getReplacementSelectionMethodB() { return parser.getReplacementSelectionMethodB(); }
 
+    public CharacterType getCharacterType() { return parser.getCharacterType();}
+
     public double getExponentialFactor() {
         return parser.getExponentialFactor();
     }
