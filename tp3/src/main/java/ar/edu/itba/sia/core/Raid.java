@@ -63,18 +63,15 @@ public class Raid {
         for (int i = 0 ; i < CLASSES ; i++)
             allCandidates.add(new ArrayList<>());
 
-        allCandidates.get(0).addAll(geneticAlgorithms.get(0).getBestIndividuals());
-        allCandidates.get(0).addAll(geneticAlgorithms.get(1).getBestIndividuals());
-        allCandidates.get(0).addAll(geneticAlgorithms.get(2).getBestIndividuals());
-        allCandidates.get(1).addAll(geneticAlgorithms.get(3).getBestIndividuals());
-        allCandidates.get(1).addAll(geneticAlgorithms.get(4).getBestIndividuals());
-        allCandidates.get(1).addAll(geneticAlgorithms.get(5).getBestIndividuals());
-        allCandidates.get(2).addAll(geneticAlgorithms.get(6).getBestIndividuals());
-        allCandidates.get(2).addAll(geneticAlgorithms.get(7).getBestIndividuals());
-        allCandidates.get(2).addAll(geneticAlgorithms.get(8).getBestIndividuals());
-        allCandidates.get(3).addAll(geneticAlgorithms.get(9).getBestIndividuals());
-        allCandidates.get(3).addAll(geneticAlgorithms.get(10).getBestIndividuals());
-        allCandidates.get(3).addAll(geneticAlgorithms.get(11).getBestIndividuals());
+        int n = 0;
+        int m = 0;
+        for (GeneticAlgorithm g : geneticAlgorithms) {
+            if (n % INSTANCES_PER_CLASS == 0 && n!= 0)
+                m++;
+
+            allCandidates.get(m).addAll(g.getBestIndividuals());
+            n++;
+        }
 
         for (List<Character> l : allCandidates) {
             l.sort((c1, c2) -> {
