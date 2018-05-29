@@ -210,6 +210,12 @@ public class Parser {
                 case RAID_FLAG:
                     this.raidFlag = Integer.parseInt(args[1]);
                     break;
+                case TIME:
+                    this.maxTime = Double.parseDouble(args[1]);
+                    break;
+                case TIME_FLAG:
+                    this.timeFlag = Integer.parseInt(args[1]);
+                    break;
                 case GENERATIONS:
                     this.generationsMax = Integer.parseInt(args[1]);
                     break;
@@ -234,11 +240,6 @@ public class Parser {
                 case WEAPON_FILE:
                     weaponFile = args[1];
                     break;
-                case TIME:
-                    this.maxTime = Double.parseDouble(args[1]);
-                    break;
-                case TIME_FLAG:
-                    this.timeFlag = Integer.parseInt(args[1]);
             }
         }
 
