@@ -63,14 +63,18 @@ public class Raid {
         for (int i = 0 ; i < CLASSES ; i++)
             allCandidates.add(new ArrayList<>());
 
-        int i = 0;
-        int j = 0;
-        for (GeneticAlgorithm g : geneticAlgorithms) {
-            if (i % INSTANCES_PER_CLASS == 0)
-                j++;
-            allCandidates.get(j).addAll(g.getBestIndividuals());
-            i++;
-        }
+        allCandidates.get(0).addAll(geneticAlgorithms.get(0).getBestIndividuals());
+        allCandidates.get(0).addAll(geneticAlgorithms.get(1).getBestIndividuals());
+        allCandidates.get(0).addAll(geneticAlgorithms.get(2).getBestIndividuals());
+        allCandidates.get(1).addAll(geneticAlgorithms.get(3).getBestIndividuals());
+        allCandidates.get(1).addAll(geneticAlgorithms.get(4).getBestIndividuals());
+        allCandidates.get(1).addAll(geneticAlgorithms.get(5).getBestIndividuals());
+        allCandidates.get(2).addAll(geneticAlgorithms.get(6).getBestIndividuals());
+        allCandidates.get(2).addAll(geneticAlgorithms.get(7).getBestIndividuals());
+        allCandidates.get(2).addAll(geneticAlgorithms.get(8).getBestIndividuals());
+        allCandidates.get(3).addAll(geneticAlgorithms.get(9).getBestIndividuals());
+        allCandidates.get(3).addAll(geneticAlgorithms.get(10).getBestIndividuals());
+        allCandidates.get(3).addAll(geneticAlgorithms.get(11).getBestIndividuals());
 
         for (List<Character> l : allCandidates) {
             l.sort((c1, c2) -> {
@@ -87,7 +91,7 @@ public class Raid {
 
         Character bestDefender = null;
         for (int k = 1 ; k <= CLASSES ; k++) {
-            List<Character> classCandidates = allCandidates.get(k);
+            List<Character> classCandidates = allCandidates.get(k-1);
             Character bestClassCandidate = classCandidates.get(0);
             Character secondBestClassCandidate = classCandidates.get(1);
             bestCandidates.add(bestClassCandidate.newSon(bestClassCandidate.getHeight(),
@@ -118,7 +122,7 @@ public class Raid {
         });
 
         for (int k = 0 ; k < SELECTION_CANT - 1; k++)
-            selected.add(bestCandidates.get(i));
+            selected.add(bestCandidates.get(k));
 
         int classCount = 0;
         boolean warrior = false;
@@ -173,7 +177,7 @@ public class Raid {
                 selected = selectedAllClasses;
         }
 
-        System.out.print("The best team is:\n\n\n");
+        System.out.print("The best team is:\n\n");
         for(Character c : selected) {
             System.out.println(c);
         }
