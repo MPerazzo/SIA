@@ -23,7 +23,7 @@ public class Parser {
             EXPONENTIAL_FACTOR = "EXPONENTIAL_FACTOR", CHARACTER_TYPE = "CHARACTER_TYPE";
 
     private static final String RANDOM = "RANDOM", GENERATIONS = "GENERATIONS", FITNESS_OPT = "FITNESS_OPT", EPSILON = "EPSILON", GENERATION_CHECK = "GENERATION_CHECK",
-            GENERATION_TOLERANCE = "GENERATION_TOLERANCE", CONTENT_FLAG = "CONTENT_FLAG", STRUCTURE_FLAG = "STRUCTURE_FLAG", OPT_FLAG = "OPT_FLAG";
+            GENERATION_INC = "GENERATION_INC", CONTENT_FLAG = "CONTENT_FLAG", STRUCTURE_FLAG = "STRUCTURE_FLAG", OPT_FLAG = "OPT_FLAG";
 
     private static final String ARMOR_FILE = "ARMOR_FILE", BOOTS_FILE = "BOOTS_FILE", GLOVES_FILE = "GLOVES_FILE",
             HELMET_FILE = "HELMET_FILE", WEAPON_FILE = "WEAPON_FILE";
@@ -56,7 +56,7 @@ public class Parser {
     private double fitnessOpt;
     private double epsilon;
     private int generationCheck;
-    private int generationTolerance;
+    private double generationInc;
     private int contentFlag;
     private int structureFlag;
     private int optFlag;
@@ -154,8 +154,8 @@ public class Parser {
                 case GENERATION_CHECK:
                     this.generationCheck = Integer.parseInt(args[1]);
                     break;
-                case GENERATION_TOLERANCE:
-                    this.generationTolerance = Integer.parseInt(args[1]);
+                case GENERATION_INC:
+                    this.generationInc = Double.parseDouble(args[1])/100;
                     break;
                 case RANDOM:
                     this.randomSeeded = new RandomSeeded(Long.parseLong(args[1]));
@@ -270,8 +270,8 @@ public class Parser {
                 case GENERATION_CHECK:
                     this.generationCheck = Integer.parseInt(args[1]);
                     break;
-                case GENERATION_TOLERANCE:
-                    this.generationTolerance = Integer.parseInt(args[1]);
+                case GENERATION_INC:
+                    this.generationInc = Double.parseDouble(args[1])/100;
                     break;
                 case RANDOM:
                     this.randomSeeded = new RandomSeeded(Long.parseLong(args[1]));
@@ -377,7 +377,7 @@ public class Parser {
 
     public int getGenerationCheck() { return generationCheck; }
 
-    public int getGenerationTolerance() { return generationTolerance; }
+    public double getGenerationInc() { return generationInc; }
 
     public int getContentFlag() { return contentFlag; }
 
