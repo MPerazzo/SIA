@@ -9,7 +9,7 @@ import java.util.List;
 
 public class Boltzmann implements SelectionAlgorithm {
 
-    private static final double TEMP_LIMIT = 0.2;
+    private static final double TEMP_LIMIT = 0.04;
     private final int selectionCant;
     private final double t0;
     private final double exponentialFactor;
@@ -44,34 +44,28 @@ public class Boltzmann implements SelectionAlgorithm {
 
         double prevCharacterAccum = 0;
         for (int i = 0, j=0 ; j < accumToMatch.length ;) {
-            if (i == characters.size()) {
-                selected.add(characters.get(r.nextInt(0, characters.size())));
+            Character currentCharacter = characters.get(i);
+            double currentCharacterAccum = prevCharacterAccum +
+                    (Math.exp(currentCharacter.getFitness() / t) / totalExpVal);
+            double currentAccumToMatch = accumToMatch[j];
+
+            if (prevCharacterAccum <= currentAccumToMatch && currentAccumToMatch <= currentCharacterAccum) {
+                selected.add(currentCharacter);
                 j++;
                 i = 0;
                 prevCharacterAccum = 0;
-            }
-            else {
-                Character currentCharacter = characters.get(i);
-                double currentCharacterAccum = prevCharacterAccum +
-                        (Math.exp(currentCharacter.getFitness() / t) / totalExpVal);
-                double currentAccumToMatch = accumToMatch[j];
-
-                if (prevCharacterAccum <= currentAccumToMatch && currentAccumToMatch <= currentCharacterAccum) {
-                    selected.add(currentCharacter);
-                    j++;
-                    i = 0;
-                    prevCharacterAccum = 0;
-                } else {
-                    prevCharacterAccum = currentCharacterAccum;
-                    i++;
-                }
+            } else {
+                prevCharacterAccum = currentCharacterAccum;
+                i++;
             }
         }
 
-        if(t > TEMP_LIMIT) {
-            t = t0 * Math.exp(-counter * exponentialFactor);
+        if (t > TEMP_LIMIT) {
+            t = t0 * Math.exp(-counter++ * exponentialFactor);
         }
-        counter += 1;
+        else
+            t = TEMP_LIMIT;
+
         return selected;
     }
 }
