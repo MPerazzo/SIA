@@ -7,25 +7,20 @@ import ar.edu.itba.sia.model.character.defender.Defender;
 import ar.edu.itba.sia.model.character.warrior.Warrior;
 import ar.edu.itba.sia.model.equipment.*;
 import ar.edu.itba.sia.utils.Parser;
-import ar.edu.itba.sia.utils.equipmentParsers.*;
 
-import javax.management.AttributeNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
 
 public class Raid {
 
-    public Raid(String armorFile, String bootsFile, String glovesFile, String helmetFile,
-                     String weaponFile) throws IOException, ExecutionException, InterruptedException, AttributeNotFoundException {
+    public Raid(Parser p) throws ExecutionException, InterruptedException {
 
-        final List<Armor> armors = ArmorParser.parse(armorFile);
-        final List<Boots> boots = BootsParser.parse(bootsFile);
-        final List<Gloves> gloves = GlovesParser.parse(glovesFile);
-        final List<Helmet> helmets = HelmetParser.parse(helmetFile);
-        final List<Weapon> weapons = WeaponParser.parse(weaponFile);
-
+        final List<Armor> armors = p.getArmors();
+        final List<Boots> boots = p.getBoots();
+        final List<Gloves> gloves = p.getGloves();
+        final List<Helmet> helmets = p.getHelmets();
+        final List<Weapon> weapons = p.getWeapons();
 
         ExecutorService e = Executors.newCachedThreadPool();
 

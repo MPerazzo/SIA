@@ -25,7 +25,7 @@ public class Parser {
 
     private static final String RANDOM = "RANDOM", GENERATIONS = "GENERATIONS", FITNESS_OPT = "FITNESS_OPT", EPSILON = "EPSILON", GENERATION_CHECK = "GENERATION_CHECK",
             GENERATION_INC = "GENERATION_INC", CONTENT_FLAG = "CONTENT_FLAG", STRUCTURE_FLAG = "STRUCTURE_FLAG", OPT_FLAG = "OPT_FLAG", ITERATIONS_FLAG = "ITERATIONS_FLAG",
-            TIME = "TIME", TIME_FLAG = "TIME_FLAG", GRAPHIC_FLAG = "GRAPHIC_FLAG";
+            TIME = "TIME", TIME_FLAG = "TIME_FLAG", GRAPHIC_FLAG = "GRAPHIC_FLAG", RAID_FLAG = "RAID_FLAG";
 
     private static final String ARMOR_FILE = "ARMOR_FILE", BOOTS_FILE = "BOOTS_FILE", GLOVES_FILE = "GLOVES_FILE",
             HELMET_FILE = "HELMET_FILE", WEAPON_FILE = "WEAPON_FILE";
@@ -44,34 +44,53 @@ public class Parser {
     private SelectionMethod replacementSelectionMethodB;
     private CharacterType characterType;
     private RandomSeeded randomSeeded;
+
     private double selectionPercent;
     private double replacementPercent;
+
     private double mutationProb;
     private double mutationProbDecreasePercent;
     private double crossingProb;
+
     private int populationCant;
     private int selectionCant;
+
     private double temp;
     private double exponentialFactor;
+
     private int tournamentCantCompetitors;
     private double tournamentProb;
+
     private int generationsMax;
     private double fitnessOpt;
     private double epsilon;
     private int generationCheck;
     private double generationInc;
+
     private int contentFlag;
     private int structureFlag;
     private int optFlag;
     private int iterationsFlag;
     private int timeFlag;
     private int graphicFlag;
+    private int raidFlag;
+
     private double maxTime;
 
+    private String armorFile;
+    private String bootsFile;
+    private String glovesFile;
+    private String helmetFile;
+    private String weaponFile;
 
-    public Parser(final String filename) {
+
+    public Parser(final String fileName) {
         try {
-            this.parse(filename);
+            this.parse(fileName);
+
+            populationGenerator = new PopulationGenerator(populationCant, characterType, armorFile, bootsFile, glovesFile,
+                    helmetFile, weaponFile, randomSeeded);
+
         } catch (IOException e) {
             e.printStackTrace();
         } catch (AttributeNotFoundException e) {
@@ -80,9 +99,18 @@ public class Parser {
     }
 
     public Parser(String fileName, List<Armor> armors, List<Boots> boots, List<Gloves> gloves, List<Helmet> helmets,
-                  List<Weapon> weapons) throws IOException, AttributeNotFoundException {
-        parseRaid(fileName, armors, boots, gloves, helmets, weapons);
+                  List<Weapon> weapons) {
+        try {
+            this.parse(fileName);
 
+            populationGenerator = new PopulationGenerator(populationCant, characterType, armors, boots, gloves, helmets,
+                    weapons, randomSeeded);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (AttributeNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     private void parse(final String filename) throws IOException, AttributeNotFoundException {
@@ -90,12 +118,6 @@ public class Parser {
         BufferedReader bufferedReader = new BufferedReader(fileReader);
 
         String line;
-
-        String armorFile = null;
-        String bootsFile = null;
-        String glovesFile = null;
-        String helmetFile = null;
-        String weaponFile = null;
 
         while((line = bufferedReader.readLine()) != null) {
             String args[] = line.split(VALUE_SEPARATOR);
@@ -184,6 +206,9 @@ public class Parser {
                     break;
                 case OPT_FLAG:
                     this.optFlag = Integer.parseInt(args[1]);
+                    break;
+                case RAID_FLAG:
+                    this.raidFlag = Integer.parseInt(args[1]);
                     break;
                 case GENERATIONS:
                     this.generationsMax = Integer.parseInt(args[1]);
@@ -216,125 +241,8 @@ public class Parser {
                     this.timeFlag = Integer.parseInt(args[1]);
             }
         }
-        populationGenerator = new PopulationGenerator(populationCant, characterType, armorFile, bootsFile, glovesFile,
-                helmetFile, weaponFile, randomSeeded);
+
     }
-
-    private void parseRaid(final String filename, List<Armor> armors, List<Boots> boots, List<Gloves> gloves, List<Helmet> helmets,
-                           List<Weapon> weapons) throws IOException, AttributeNotFoundException {
-        FileReader fileReader = new FileReader(filename);
-        BufferedReader bufferedReader = new BufferedReader(fileReader);
-
-        String line;
-
-        while((line = bufferedReader.readLine()) != null) {
-            String args[] = line.split(VALUE_SEPARATOR);
-
-            switch (args[0]) {
-                case SELECTION_METHOD_A:
-                    this.selectionMethodA = SelectionMethod.getSelectionMethod(args[1]);
-                    break;
-                case SELECTION_METHOD_B:
-                    this.selectionMethodB = SelectionMethod.getSelectionMethod(args[1]);
-                    break;
-                case CROSSING_METHOD:
-                    this.crossingMethod = CrossingMethod.getCrossingMethod(args[1]);
-                    break;
-                case MUTATION_METHOD:
-                    this.mutationMethod = MutationMethod.getMutationMethod(args[1]);
-                    break;
-                case MUTATION_TYPE:
-                    this.mutationType = MutationType.getMutationType(args[1]);
-                    break;
-                case REPLACEMENT_METHOD:
-                    this.replacementMethod = ReplacementMethod.getReplacementMethod(args[1]);
-                    break;
-                case REPLACEMENT_SELECTION_METHOD_A:
-                    this.replacementSelectionMethodA = SelectionMethod.getSelectionMethod(args[1]);
-                    break;
-                case REPLACEMENT_SELECTION_METHOD_B:
-                    this.replacementSelectionMethodB = SelectionMethod.getSelectionMethod(args[1]);
-                    break;
-                case SELECTION_PERCENT:
-                    this.selectionPercent = Double.parseDouble(args[1]);
-                    break;
-                case REPLACEMENT_PERCENT:
-                    this.replacementPercent = Double.parseDouble(args[1]);
-                    break;
-                case MUTATION_PROB:
-                    this.mutationProb = Double.parseDouble(args[1]);
-                    break;
-                case MUTATION_PROB_DECREASE_PERCENT:
-                    this.mutationProbDecreasePercent = 1.0 - Double.parseDouble(args[1]);
-                    break;
-                case CROSSING_PROB:
-                    this.crossingProb = Double.parseDouble(args[1]);
-                    break;
-                case POPULATION_CANT:
-                    this.populationCant = Integer.parseInt(args[1]);
-                    break;
-                case SELECTION_CANT:
-                    this.selectionCant = Integer.parseInt(args[1]);
-                    break;
-                case TEMP:
-                    this.temp = Double.parseDouble(args[1]);
-                    break;
-                case EXPONENTIAL_FACTOR:
-                    this.exponentialFactor = Double.parseDouble(args[1]);
-                    break;
-                case TOURNAMENT_CANT_COMPETITORS:
-                    this.tournamentCantCompetitors = Integer.parseInt(args[1]);
-                    break;
-                case TOURNAMENT_PROB:
-                    this.tournamentProb = Double.parseDouble(args[1]);
-                    break;
-                case CHARACTER_TYPE:
-                    this.characterType = CharacterType.getCharacterType(args[1]);
-                    break;
-                case GENERATION_CHECK:
-                    this.generationCheck = Integer.parseInt(args[1]);
-                    break;
-                case GENERATION_INC:
-                    this.generationInc = Double.parseDouble(args[1])/100;
-                    break;
-                case RANDOM:
-                    this.randomSeeded = new RandomSeeded(Long.parseLong(args[1]));
-                    break;
-                case CONTENT_FLAG:
-                    this.contentFlag = Integer.parseInt(args[1]);
-                    break;
-                case STRUCTURE_FLAG:
-                    this.structureFlag = Integer.parseInt(args[1]);
-                    break;
-                case OPT_FLAG:
-                    this.optFlag = Integer.parseInt(args[1]);
-                    break;
-                case ITERATIONS_FLAG:
-                    this.iterationsFlag = Integer.parseInt(args[1]);
-                    break;
-                case GRAPHIC_FLAG:
-                    this.graphicFlag = Integer.parseInt(args[1]);
-                    break;
-                case GENERATIONS:
-                    this.generationsMax = Integer.parseInt(args[1]);
-                    break;
-                case FITNESS_OPT:
-                    this.fitnessOpt = Double.parseDouble(args[1]);
-                    break;
-                case EPSILON:
-                    this.epsilon = Double.parseDouble(args[1]);
-                    break;
-                case TIME:
-                    this.maxTime = Double.parseDouble(args[1]);
-                    break;
-                case TIME_FLAG:
-                    this.timeFlag = Integer.parseInt(args[1]);
-            }
-        }
-        populationGenerator = new PopulationGenerator(populationCant, characterType, armors, boots, gloves, helmets,
-                weapons, randomSeeded);
-    }
-
 
     public CrossingMethod getCrossingMethod() {
         return crossingMethod;
@@ -427,6 +335,8 @@ public class Parser {
     public int getOptFlag() { return optFlag; }
 
     public int getGraphicFlag() { return graphicFlag; }
+
+    public int getRaidFlag() { return raidFlag; }
 
     public double getMaxTime() {
         return maxTime;
