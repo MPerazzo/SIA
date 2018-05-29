@@ -4,21 +4,24 @@ import ar.edu.itba.sia.interfaces.MutationProbCalculator;
 
 public class MutationNoUniformProb implements MutationProbCalculator {
 
-    private final static double PROB_INCREASE = 0.02;
+    private final static double MIN_PROB = 0.1;
 
     private double probability;
+    private double decreasePercent;
 
-    public MutationNoUniformProb(double initialProb) {
+    public MutationNoUniformProb(double initialProb, double decreasePercent) {
         this.probability = initialProb;
+        this.decreasePercent = decreasePercent;
+
     }
 
     @Override
     public double getProb() {
-        if (probability < 1) {
-            probability += PROB_INCREASE;
+        if (probability > MIN_PROB) {
+            probability *= decreasePercent;
 
-            if (probability > 1)
-                probability = 1;
+            if (probability < MIN_PROB)
+                probability = MIN_PROB;
         }
 
         return probability;

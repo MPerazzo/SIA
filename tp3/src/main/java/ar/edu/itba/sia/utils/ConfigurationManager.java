@@ -26,7 +26,7 @@ public class ConfigurationManager {
         if (parser.getMutationType().equals(MutationType.UNIFORM))
             mutationProbCalculator = new MutationUniformProb(parser.getMutationProb());
         else
-            mutationProbCalculator = new MutationNoUniformProb(parser.getMutationProb());
+            mutationProbCalculator = new MutationNoUniformProb(parser.getMutationProb(), parser.getMutationProbDecreasePercent());
     }
 
     public int getSelectionCant() {
