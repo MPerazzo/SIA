@@ -60,18 +60,18 @@ public class Raid {
         GeneticAlgorithm g12 = new GeneticAlgorithm(new Parser("configFile12.txt", armors, boots, gloves,
                 helmets, weapons));
 
-        Future<Void> f1 = e.submit(() -> g1.geneticAlgorithm());
-        Future<Void> f2 = e.submit(() -> g2.geneticAlgorithm());
-        Future<Void> f3 = e.submit(() -> g3.geneticAlgorithm());
-        Future<Void> f4 = e.submit(() -> g4.geneticAlgorithm());
-        Future<Void> f5 = e.submit(() -> g5.geneticAlgorithm());
-        Future<Void> f6 = e.submit(() -> g6.geneticAlgorithm());
-        Future<Void> f7 = e.submit(() -> g7.geneticAlgorithm());
-        Future<Void> f8 = e.submit(() -> g8.geneticAlgorithm());
-        Future<Void> f9 = e.submit(() -> g9.geneticAlgorithm());
-        Future<Void> f10 = e.submit(() -> g10.geneticAlgorithm());
-        Future<Void> f11 = e.submit(() -> g11.geneticAlgorithm());
-        Future<Void> f12 = e.submit(() -> g12.geneticAlgorithm());
+        Future<List<Character>> f1 = e.submit(() -> g1.geneticAlgorithm());
+        Future<List<Character>> f2 = e.submit(() -> g2.geneticAlgorithm());
+        Future<List<Character>> f3 = e.submit(() -> g3.geneticAlgorithm());
+        Future<List<Character>> f4 = e.submit(() -> g4.geneticAlgorithm());
+        Future<List<Character>> f5 = e.submit(() -> g5.geneticAlgorithm());
+        Future<List<Character>> f6 = e.submit(() -> g6.geneticAlgorithm());
+        Future<List<Character>> f7 = e.submit(() -> g7.geneticAlgorithm());
+        Future<List<Character>> f8 = e.submit(() -> g8.geneticAlgorithm());
+        Future<List<Character>> f9 = e.submit(() -> g9.geneticAlgorithm());
+        Future<List<Character>> f10 = e.submit(() -> g10.geneticAlgorithm());
+        Future<List<Character>> f11 = e.submit(() -> g11.geneticAlgorithm());
+        Future<List<Character>> f12 = e.submit(() -> g12.geneticAlgorithm());
 
 
         f1.get();
