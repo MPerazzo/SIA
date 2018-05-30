@@ -295,7 +295,7 @@ public class GeneticAlgorithm {
                 checkMaxFitness = maxFitness;
         }
 
-        if (optFlag == 1 && Math.abs(maxFitness - fitnessOpt) < epsilon) {
+        if (optFlag == 1 && maxFitness + epsilon > fitnessOpt) {
             System.out.print("\n");
             System.out.print("[Optimum reached]");
             return false;
