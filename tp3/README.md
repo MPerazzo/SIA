@@ -158,6 +158,6 @@ El archivo debe contener 6 columnas de igual dimensión las cuales en la primera
 Mediante este parámetro cargamos los cascos para el algoritmo genético.  
 El archivo debe contener 6 columnas de igual dimensión las cuales en la primera se encuentra el id, en la segunda la fuerza, en la tercera la agilidad, en la cuarta la destreza, en la quinta la resistencia y en la sexta la vida.
 
-* WEAPON_FILE fulldata/armas.xls nombreArchivo.xls  
+* WEAPON_FILE nombreArchivo.xls  
 Mediante este parámetro cargamos las armas para el algoritmo genético.  
 El archivo debe contener 6 columnas de igual dimensión las cuales en la primera se encuentra el id, en la segunda la fuerza, en la tercera la agilidad, en la cuarta la destreza, en la quinta la resistencia y en la sexta la vida.
