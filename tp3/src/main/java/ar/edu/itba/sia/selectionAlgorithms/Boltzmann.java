@@ -9,7 +9,7 @@ import java.util.List;
 
 public class Boltzmann implements SelectionAlgorithm {
 
-    private static final double TEMP_LIMIT = 0.04;
+    private static final double TEMP_LIMIT = 0.2;
     private final int selectionCant;
     private final double t0;
     private final double exponentialFactor;
