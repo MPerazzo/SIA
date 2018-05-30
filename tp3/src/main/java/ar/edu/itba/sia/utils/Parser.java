@@ -24,7 +24,7 @@ public class Parser {
             EXPONENTIAL_FACTOR = "EXPONENTIAL_FACTOR", CHARACTER_TYPE = "CHARACTER_TYPE";
 
     private static final String RANDOM = "RANDOM", GENERATIONS = "GENERATIONS", FITNESS_OPT = "FITNESS_OPT", EPSILON = "EPSILON", GENERATION_CHECK = "GENERATION_CHECK",
-            GENERATION_INC = "GENERATION_INC", CONTENT_FLAG = "CONTENT_FLAG", STRUCTURE_FLAG = "STRUCTURE_FLAG", OPT_FLAG = "OPT_FLAG", ITERATIONS_FLAG = "ITERATIONS_FLAG",
+            GENERATION_INCREMENT_PERCENT = "GENERATION_INCREMENT_PERCENT", CONTENT_FLAG = "CONTENT_FLAG", STRUCTURE_FLAG = "STRUCTURE_FLAG", OPT_FLAG = "OPT_FLAG", ITERATIONS_FLAG = "ITERATIONS_FLAG",
             TIME = "TIME", TIME_FLAG = "TIME_FLAG", GRAPHIC_FLAG = "GRAPHIC_FLAG", RAID_FLAG = "RAID_FLAG";
 
     private static final String ARMOR_FILE = "ARMOR_FILE", BOOTS_FILE = "BOOTS_FILE", GLOVES_FILE = "GLOVES_FILE",
@@ -160,7 +160,7 @@ public class Parser {
                     this.mutationProb = Double.parseDouble(args[1]);
                     break;
                 case MUTATION_PROB_DECREASE_PERCENT:
-                    this.mutationProbDecreasePercent = Double.parseDouble(args[1]);
+                    this.mutationProbDecreasePercent = Double.parseDouble(args[1])/100;
                     break;
                 case CROSSING_PROB:
                     this.crossingProb = Double.parseDouble(args[1]);
@@ -189,7 +189,7 @@ public class Parser {
                 case GENERATION_CHECK:
                     this.generationCheck = Integer.parseInt(args[1]);
                     break;
-                case GENERATION_INC:
+                case GENERATION_INCREMENT_PERCENT:
                     this.generationInc = Double.parseDouble(args[1])/100;
                     break;
                 case RANDOM:
